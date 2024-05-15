@@ -1,0 +1,124 @@
+    #fb-template {
+        display: none;
+    }
+    /* .icon-radio-group{
+  margin-top: 48%;
+} */
+
+    .pull-right {
+        top: 55px !important;
+    }
+
+    .cb-wrap {
+        top: 55px !important;
+    }
+
+    .form-rendered .build-wrap {
+        display: none;
+    }
+
+    .render-wrap {
+        display: none;
+    }
+
+    .clear-all {
+        display: none !important;
+    }
+
+    .icon-date {
+        display: none !important;
+    }
+
+    .icon-autocomplete {
+        display: none !important;
+    }
+
+    .form-wrap.form-builder .frmb-control li span {
+        display: flex !important;
+    }
+
+    .form-wrap.form-builder .frmb-control li {
+        display: flex;
+        align-items: center;
+    }
+    /*.icon-button{
+  display: none !important;
+}*/
+    /* .icon-header{
+  display: none !important;
+} */
+    /*.icon-file{
+  display: none !important;
+}*/
+
+    .icon-hidden {
+        display: none !important;
+    }
+
+    .icon-paragraph {
+        display: none !important;
+    }
+
+    .icon-number {
+        display: none !important;
+    }
+    /*.icon-select {*/
+    /*	display: none !important;*/
+    /*}*/
+
+    .icon-textarea {
+        display: none !important;
+    }
+
+    .input-set-control {
+        display: none !important;
+    }
+
+    .input-control-14 {
+        /*display: none !important;*/
+        width: 100% !important;
+    }
+
+    .form-wrap.form-builder .btn {
+        margin: 0;
+    }
+
+    .template-textarea-wrap {
+        display: block !important;
+    }
+
+    .content {
+        margin: auto;
+        width: 100%;
+        max-width: 1280px;
+        padding-top: 5em;
+    }
+
+    .form-rendered .build-wrap {
+        display: none;
+    }
+
+    .render-wrap {
+        display: none;
+    }
+
+    .form-rendered .render-wrap {
+        display: block;
+    }
+
+    .form-wrap.form-builder .btn {
+        display: inline-block !important;
+    }
+
+    .cb-wrap .btn-group {
+        display: none !important;
+    }
+
+    @media only screen and (max-width: 576px) {
+        .form-wrap.form-builder .frmb-control li span {
+            font-size: 0;
+        }
+        .form-wrap.form-builder .frmb-control li .control-icon {
+            font-size: 22px;
+        }
+    }

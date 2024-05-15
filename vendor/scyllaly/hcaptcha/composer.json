@@ -1,0 +1,38 @@
+{
+    "name": "scyllaly/hcaptcha",
+    "description": "hCaptcha for Laravel",
+    "keywords": [
+        "hcaptcha",
+        "captcha",
+        "laravel"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "scyllaly",
+            "email": "scyllaly@github.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.5",
+        "illuminate/support": "5.*|6.*|7.*|8.*|^9.0|10.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8|^9.5.10|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Scyllaly\\HCaptcha\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Scyllaly\\HCaptcha\\HCaptchaServiceProvider"
+            ],
+            "aliases": {
+                "HCaptcha": "Scyllaly\\HCaptcha\\Facades\\HCaptcha"
+            }
+        }
+    }
+}

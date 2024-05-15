@@ -1,0 +1,77 @@
+.main-header{
+    min-height: unset !important;
+    height: auto;
+    padding: 15px 0  !important;
+    box-shadow: 0px 0px 9px rgb(0 0 0 / 15%);
+}
+.main-header::before,
+.main-header::after
+{
+    display: none;
+}
+
+.main-header .navbar-brand{
+    max-width: 140px;
+    width: 100%;
+    display: block;
+}
+.main-header .navbar-brand img{
+    width: 100%;
+}
+
+.feature .theme-avtar {
+    width: 60px !important;
+    height: 60px !important;
+}
+.feature .theme-avtar img{
+    width: 100%;
+}
+
+.product-row .col-md-6 {
+    display: flex !important;
+}
+.product-row .col-md-6 > div{
+    width: 100%;
+}
+
+
+.product-row  .card-body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.product-row  .card-body h4{
+    flex: 1;
+}
+
+.feature{
+    padding-top: 60px;
+}
+
+.main-header .btn-icon{
+    display: flex;
+    gap: 10px;
+}
+.product-row  .btn{
+    color: #fff;
+}
+
+/* login page */
+.forgot-password-link{
+    margin-left: 30%;
+    font-size: small;
+}
+.create_user{
+    font-size: small;
+    margin-top: 10px;
+    color: #525b69;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+{
+    "name": "paytm/js-checkout",
+    "description": "Paytm JS Checkout for laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Integartion Dev",
+            "email": "integration.dev@paytm.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Paytm\\JsCheckout\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Paytm\\JsCheckout\\PaytmServiceProvider"
+            ],
+            "aliases": {
+                "Pay": "Paytm\\JsCheckout\\Facades\\Paytm"
+            }
+        }
+    }
+}
