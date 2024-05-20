@@ -15,7 +15,7 @@
 
 <head>
 
-    <title><?php echo $__env->yieldContent('title'); ?> | <?php echo e(Utility::getsettings('app_name')); ?></title>
+    <title><?php echo $__env->yieldContent('title'); ?> | <?php echo e(Utility::getsettings('app_name')); ?> </title>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -114,7 +114,7 @@
     <footer class="dash-footer">
         <div class="footer-wrapper">
             <div class="py-1">
-                <span class="text-muted">&copy; <?php echo e(date('Y')); ?> <?php echo e(Utility::getsettings('app_name')); ?></span>
+                <span class="text-muted">&copy; <?php echo e(date('Y')); ?> Antavaya Survey </span>
             </div>
             <div class="py-1">
             </div>

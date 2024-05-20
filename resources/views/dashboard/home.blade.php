@@ -36,7 +36,7 @@
 @section('content')
     <div class="row">
         <div class="col-12 d-flex">
-            <div class="mb-4 row">
+            <div class="mb-3 row">
                 <div class="mb-3 col-xxl-7">
                     <div class="row h-100">
                         @if (\Auth::user()->can('manage-user'))
@@ -97,7 +97,7 @@
                                     </div>
                             </div>
                         @endif
-                        @if (\Auth::user()->can('manage-poll'))
+                        <!-- @if (\Auth::user()->can('manage-poll'))
                             <div class="col-lg-3 col-6 card-event">
                                 <a href="poll">
                                     <div class="card comp-card number-card">
@@ -115,7 +115,7 @@
                                     </div>
                                 </a>
                             </div>
-                        @endif
+                        @endif -->
                     </div>
                 </div>
                 <div class="mb-3 col-xxl-5">
@@ -166,10 +166,13 @@
                                             <span class="text-muted">{{ Auth::user()->name }}</span>
                                         </h4>
                                         <p>
-                                            {{ __('Have a nice day! you can quickly add your forms or polls Chart ') }}
+                                            <!-- {{ __('Have a nice day! you can quickly add your forms or polls Chart ') }} -->
                                         </p>
                                         <div class="dropdown quick-add-btn">
-                                            @canany(['create-form', 'create-poll', 'create-event'])
+                                            @canany(['create-form'])
+
+                                            <!-- , 'create-poll', 'create-event' -->
+
                                                 <a class="btn-q-add dropdown-toggle dash-btn btn btn-default btn-light-primary"
                                                     data-bs-toggle="dropdown" href="#" role="button"
                                                     aria-haspopup="false" aria-expanded="false">
@@ -184,7 +187,7 @@
                                                         class="dropdown-item"
                                                         data-bs-placement="top "><span>{{ __('Add New Form') }}</span></a>
                                                 @endif
-                                                @if (\Auth::user()->can('create-poll'))
+                                                <!-- @if (\Auth::user()->can('create-poll'))
                                                     <a href="{{ route('poll.create') }}" data-size="md"
                                                         data-ajax-popup="true" data-title="Create Tax"
                                                         class="dropdown-item"
@@ -196,7 +199,7 @@
                                                         data-ajax-popup="true" data-kt-modal="true"
                                                         data-title="Create Tax" class="dropdown-item"
                                                         data-bs-placement="top "><span>{{ __('Add New Event') }}</span></a>
-                                                @endif
+                                                @endif -->
                                             </div>
                                         </div>
                                     </div>

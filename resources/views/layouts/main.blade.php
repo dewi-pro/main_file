@@ -113,7 +113,7 @@
     <footer class="dash-footer">
         <div class="footer-wrapper">
             <div class="py-1">
-                <span class="text-muted">&copy; {{ date('Y') }}  Antavaya Survey</span>
+                <span class="text-muted">&copy; {{ date('Y') }} Antavaya Survey </span>
             </div>
             <div class="py-1">
             </div>

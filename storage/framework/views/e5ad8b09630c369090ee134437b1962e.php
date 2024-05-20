@@ -36,7 +36,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="col-12 d-flex">
-            <div class="mb-4 row">
+            <div class="mb-3 row">
                 <div class="mb-3 col-xxl-7">
                     <div class="row h-100">
                         <?php if(\Auth::user()->can('manage-user')): ?>
@@ -98,7 +98,7 @@
                                     </div>
                             </div>
                         <?php endif; ?>
-                        <?php if(\Auth::user()->can('manage-poll')): ?>
+                        <!-- <?php if(\Auth::user()->can('manage-poll')): ?>
                             <div class="col-lg-3 col-6 card-event">
                                 <a href="poll">
                                     <div class="card comp-card number-card">
@@ -116,7 +116,7 @@
                                     </div>
                                 </a>
                             </div>
-                        <?php endif; ?>
+                        <?php endif; ?> -->
                     </div>
                 </div>
                 <div class="mb-3 col-xxl-5">
@@ -168,11 +168,13 @@
                                             <span class="text-muted"><?php echo e(Auth::user()->name); ?></span>
                                         </h4>
                                         <p>
-                                            <?php echo e(__('Have a nice day! you can quickly add your forms or polls Chart ')); ?>
-
+                                            <!-- <?php echo e(__('Have a nice day! you can quickly add your forms or polls Chart ')); ?> -->
                                         </p>
                                         <div class="dropdown quick-add-btn">
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->any(['create-form', 'create-poll', 'create-event'])): ?>
+                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->any(['create-form'])): ?>
+
+                                            <!-- , 'create-poll', 'create-event' -->
+
                                                 <a class="btn-q-add dropdown-toggle dash-btn btn btn-default btn-light-primary"
                                                     data-bs-toggle="dropdown" href="#" role="button"
                                                     aria-haspopup="false" aria-expanded="false">
@@ -187,7 +189,7 @@
                                                         class="dropdown-item"
                                                         data-bs-placement="top "><span><?php echo e(__('Add New Form')); ?></span></a>
                                                 <?php endif; ?>
-                                                <?php if(\Auth::user()->can('create-poll')): ?>
+                                                <!-- <?php if(\Auth::user()->can('create-poll')): ?>
                                                     <a href="<?php echo e(route('poll.create')); ?>" data-size="md"
                                                         data-ajax-popup="true" data-title="Create Tax"
                                                         class="dropdown-item"
@@ -199,7 +201,7 @@
                                                         data-ajax-popup="true" data-kt-modal="true"
                                                         data-title="Create Tax" class="dropdown-item"
                                                         data-bs-placement="top "><span><?php echo e(__('Add New Event')); ?></span></a>
-                                                <?php endif; ?>
+                                                <?php endif; ?> -->
                                             </div>
                                         </div>
                                     </div>
