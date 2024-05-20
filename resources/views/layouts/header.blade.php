@@ -219,7 +219,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="dropdown dash-h-item drp-language">
+                <!-- <li class="dropdown dash-h-item drp-language">
                     <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="pr-1 ti ti-world nocolor"></i>
@@ -232,7 +232,7 @@
                                 href="{{ route('change.language', $language) }}">{{ Str::upper($language) }}</a>
                         @endforeach
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
