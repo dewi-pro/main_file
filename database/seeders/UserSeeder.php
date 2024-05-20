@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
         ];
 
         $settings = [
-            ['key' => 'app_name', 'value' => 'Prime Laravel Form Builder'],
+            ['key' => 'app_name', 'value' => 'Antavaya Survey'],
             ['key' => 'app_logo', 'value' => 'app-logo/app-logo.png'],
             ['key' => 'app_small_logo', 'value' => 'app-logo/app-small-logo.png'],
             ['key' => 'favicon_logo', 'value' => 'app-logo/app-favicon-logo.png'],

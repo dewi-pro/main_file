@@ -15,7 +15,7 @@
 
 <head>
 
-    <title>@yield('title') | {{ Utility::getsettings('app_name') }}</title>
+    <title>@yield('title') | {{ Utility::getsettings('app_name') }} </title>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -113,7 +113,7 @@
     <footer class="dash-footer">
         <div class="footer-wrapper">
             <div class="py-1">
-                <span class="text-muted">&copy; {{ date('Y') }} {{ Utility::getsettings('app_name') }}</span>
+                <span class="text-muted">&copy; {{ date('Y') }}  Antavaya Survey</span>
             </div>
             <div class="py-1">
             </div>

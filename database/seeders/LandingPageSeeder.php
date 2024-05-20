@@ -39,7 +39,7 @@ class LandingPageSeeder extends Seeder
 
 
             ['key' => 'feature_setting_enable', 'value' => 'on'],
-            ['key' => 'feature_name', 'value' => 'Prime Laravel Form Builder'],
+            ['key' => 'feature_name', 'value' => 'Antavaya Survey'],
             ['key' => 'feature_bold_name', 'value' => 'Features'],
             ['key' => 'feature_detail', 'value' => 'Prime Laravel Form Builder The features of Prime make it one of the most flexible systems for optimal inventory management. Features such as godown management, multiple stock valuation, manufacturing, batch and expiry date, job costing, etc., and powerful inventory reports make inventory management a cakewalk.'],
             ['key' => 'feature_setting', 'value' => '[
