@@ -49,7 +49,7 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('form_logo', __('Select Logo'), ['class' => 'form-label']) }}
                                 {!! Form::file('form_logo', ['class' => 'form-control']) !!}
@@ -76,7 +76,7 @@
                                     @endif
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}
@@ -130,7 +130,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label']) }}
                                 {!! Form::textarea('thanks_msg', $form->thanks_msg, [
@@ -144,7 +144,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('assignform', __('Assign Form'), ['class' => 'form-label']) }}
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -230,8 +230,8 @@
                                         {{ $form->form_fill_edit_lock == 1 ? 'checked' : 'unchecked' }}>
                                 </label>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
+                        </div> -->
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('allow_comments', __('Allow comments'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -240,8 +240,8 @@
                                         {{ $form->allow_comments == 1 ? 'checked' : 'unchecked' }}>
                                 </label>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
+                        </div> -->
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('allow_share_section', __('Allow Share Section'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -250,7 +250,7 @@
                                         {{ $form->allow_share_section == 1 ? 'checked' : 'unchecked' }}>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -287,7 +287,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5>{{ __('Lmit Setting') }}</h5>
                     </div>
@@ -312,10 +312,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5>{{ __('Password Protection') }}</h5>
                     </div>
@@ -352,10 +352,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h5>{{ __('Set End Date') }}</h5>
                     </div>
                     <div class="card-body">
@@ -379,7 +379,7 @@
                                     value="{{ $form->set_end_date_time }}">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="card-footer">
                         <div class="text-end">
                             {!! Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}

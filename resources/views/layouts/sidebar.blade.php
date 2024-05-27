@@ -43,10 +43,10 @@
             <a href="{{ route('home') }}" class="text-center b-brand">
                 <!-- ========   change your logo hear   ============ -->
                 @if ($user->dark_layout == 1)
-                    <img src="{{ Utility::getsettings('app_logo') ? Storage::url('app-logo/app-logo.png') : Storage::url('app-logo/78x78.png') }}"
+                    <img src="Storage::url('app-logo/app-logo.png')"
                         class="app-logo" />
                 @else
-                    <img src="{{ Utility::getsettings('app_dark_logo') ? Storage::url('app-logo/app-dark-logo.png') : Storage::url('app-logo/78x78.png') }}"
+                    <img src="{{Storage::url('app-logo/app-dark-logo.png')}}"
                         class="app-logo" />
                 @endif
             </a>

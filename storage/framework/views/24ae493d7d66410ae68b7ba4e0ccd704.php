@@ -43,10 +43,10 @@
             <a href="<?php echo e(route('home')); ?>" class="text-center b-brand">
                 <!-- ========   change your logo hear   ============ -->
                 <?php if($user->dark_layout == 1): ?>
-                    <img src="<?php echo e(Utility::getsettings('app_logo') ? Storage::url('app-logo/app-logo.png') : Storage::url('app-logo/78x78.png')); ?>"
+                    <img src="Storage::url('app-logo/app-logo.png')"
                         class="app-logo" />
                 <?php else: ?>
-                    <img src="<?php echo e(Utility::getsettings('app_dark_logo') ? Storage::url('app-logo/app-dark-logo.png') : Storage::url('app-logo/78x78.png')); ?>"
+                    <img src="<?php echo e(Storage::url('app-logo/app-dark-logo.png')); ?>"
                         class="app-logo" />
                 <?php endif; ?>
             </a>

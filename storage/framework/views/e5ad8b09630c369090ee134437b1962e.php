@@ -121,7 +121,7 @@
                 </div>
                 <div class="mb-3 col-xxl-5">
                     <div class="row">
-                        <?php if(\Auth::user()->can('dashboard-qrcode-form')): ?>
+                        <!-- <?php if(\Auth::user()->can('dashboard-qrcode-form')): ?>
                             <div class="col-lg-4 col-sm-6 col-12 dash-card-responsive">
                                 <div class="m-0 card comp-card h-100">
                                     <div class="card-body qr-card-body">
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <?php endif; ?>
+                        <?php endif; ?> -->
                         <div class="col-lg-8 col-sm-6 col-12 dash-card-responsive">
                             <div class="m-0 card comp-card">
                                 <div class="card-body admin-wish-card">
@@ -162,6 +162,7 @@
                                         </div>
                                         <h4 class="f-w-400">
                                             <a href="<?php echo e(Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image); ?>" target="_new">
+                                                
                                                 <img src="<?php echo e(Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image); ?>"
                                                     class="me-2 img-thumbnail rounded-circle" width="50px"
                                                     height="50px"></a>

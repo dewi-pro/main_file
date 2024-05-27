@@ -1,0 +1,310 @@
+<?php $__env->startSection('title', __('Landing Page')); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="col-md-12">
+    <div class="page-header-title">
+        <h4 class="m-b-10"><?php echo e(__('Menu Settings')); ?></h4>
+    </div>
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><?php echo Html::link(route('home'),__('Dashboard'),['']); ?></li>
+        <li class="breadcrumb-item"><?php echo e(__('Menu Settings')); ?></li>
+    </ul>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-xl-3">
+                    <div class="card sticky-top">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <?php echo $__env->make('landing-page.landingpage-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9">
+                    <div class="card">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="apps-setting" role="tabpanel"
+                                aria-labelledby="landing-apps-setting">
+                                <?php echo Form::open([
+                                    'route' => ['landing.menusection1.store'],
+                                    'method' => 'Post',
+                                    'id' => 'froentend-form',
+                                    'enctype' => 'multipart/form-data',
+                                    'data-validate',
+                                    'no-validate',
+                                ]); ?>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 d-flex align-items-center">
+                                            <h5 class="mb-0"><?php echo e(__('Menu Setting Section 1')); ?></h5>
+                                        </div>
+                                        <div class="col-lg-4 d-flex justify-content-end">
+                                            <div class="form-switch custom-switch-v1 d-inline-block">
+                                                <?php echo Form::checkbox(
+                                                    'menu_setting_section1_enable',
+                                                    null,
+                                                    Utility::getsettings('menu_setting_section1_enable') == 'on' ? true : false,
+                                                    [
+                                                        'class' => 'custom-control custom-switch form-check-input input-primary',
+                                                        'id' => 'appsSettingEnableBtn',
+                                                        'data-onstyle' => 'primary',
+                                                        'data-toggle' => 'switchbutton',
+                                                    ],
+                                                ); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_image_section1', __('Menu Image'), ['class' => 'form-label'])); ?> *
+                                                <?php echo Form::file('menu_image_section1', ['class' => 'form-control', 'id' => 'menu_image_section1']); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_name_section1', __('Menu Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_name_section1', Utility::getsettings('menu_name_section1'), [
+                                                    'class' => 'form-control',
+                                                    'rows' => '1',
+                                                    'placeholder' => __('Enter menu name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_bold_name_section1', __('Menu Bold Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_bold_name_section1', Utility::getsettings('menu_bold_name_section1'), [
+                                                    'class' => 'form-control',
+                                                    'rows' => '1',
+                                                    'placeholder' => __('Enter menu bold name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_detail_section1', __('Menu Detail'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::textarea('menu_detail_section1', Utility::getsettings('menu_detail_section1'), [
+                                                    'class' => 'form-control',
+                                                    'rows' => '3',
+                                                    'placeholder' => __('Enter menu detail'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-end">
+                                        <?php echo e(Form::button(__('Save'), ['type' => 'submit',  'class' => 'btn btn-primary'])); ?>
+
+                                    </div>
+                                </div>
+                                <?php echo Form::close(); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="apps-setting" role="tabpanel"
+                                aria-labelledby="landing-apps-setting">
+                                <?php echo Form::open([
+                                    'route' => ['landing.menusection2.store'],
+                                    'method' => 'Post',
+                                    'id' => 'froentend-form',
+                                    'enctype' => 'multipart/form-data',
+                                    'data-validate',
+                                    'no-validate',
+                                ]); ?>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 d-flex align-items-center">
+                                            <h5 class="mb-0"><?php echo e(__('Menu Setting Section 2')); ?></h5>
+                                        </div>
+                                        <div class="col-lg-4 d-flex justify-content-end">
+                                            <div class="form-switch custom-switch-v1 d-inline-block">
+                                                <?php echo Form::checkbox(
+                                                    'menu_setting_section2_enable',
+                                                    null,
+                                                    Utility::getsettings('menu_setting_section2_enable') == 'on' ? true : false,
+                                                    [
+                                                        'class' => 'custom-control custom-switch form-check-input input-primary',
+                                                        'id' => 'appsSettingEnableBtn',
+                                                        'data-onstyle' => 'primary',
+                                                        'data-toggle' => 'switchbutton',
+                                                    ],
+                                                ); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_image_section2', __('Menu Image'), ['class' => 'form-label'])); ?> *
+                                                <?php echo Form::file('menu_image_section2', ['class' => 'form-control', 'id' => 'menu_image_section2']); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_name_section2', __('Menu Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_name_section2', Utility::getsettings('menu_name_section2'), [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => __('Enter menu name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_bold_name_section2', __('Menu Bold Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_bold_name_section2', Utility::getsettings('menu_bold_name_section2'), [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => __('Enter menu bold name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_detail_section2', __('Menu Detail'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::textarea('menu_detail_section2', Utility::getsettings('menu_detail_section2'), [
+                                                    'class' => 'form-control',
+                                                    'rows' => '3',
+                                                    'placeholder' => __('Enter menu detail'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-end">
+                                        <?php echo e(Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary'])); ?>
+
+                                    </div>
+                                </div>
+                                <?php echo Form::close(); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="apps-setting" role="tabpanel"
+                                aria-labelledby="landing-apps-setting">
+                                <?php echo Form::open([
+                                    'route' => ['landing.menusection3.store'],
+                                    'method' => 'Post',
+                                    'id' => 'froentend-form',
+                                    'enctype' => 'multipart/form-data',
+                                    'data-validate',
+                                    'no-validate',
+                                ]); ?>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 d-flex align-items-center">
+                                            <h5 class="mb-0"><?php echo e(__('Menu Setting Section3')); ?></h5>
+                                        </div>
+                                        <div class="col-lg-4 d-flex justify-content-end">
+                                            <div class="form-switch custom-switch-v1 d-inline-block">
+                                                <?php echo Form::checkbox(
+                                                    'menu_setting_section3_enable',
+                                                    null,
+                                                    Utility::getsettings('menu_setting_section3_enable') == 'on' ? true : false,
+                                                    [
+                                                        'class' => 'custom-control custom-switch form-check-input input-primary',
+                                                        'id' => 'appsSettingEnableBtn',
+                                                        'data-onstyle' => 'primary',
+                                                        'data-toggle' => 'switchbutton',
+                                                    ],
+                                                ); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_image_section3', __('Menu Image'), ['class' => 'form-label'])); ?> *
+                                                <?php echo Form::file('menu_image_section3', ['class' => 'form-control', 'id' => 'menu_image_section3']); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_name_section3', __('Menu Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_name_section3', Utility::getsettings('menu_name_section3'), [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => __('Enter menu name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_bold_name_section3', __('Menu Bold Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::text('menu_bold_name_section3', Utility::getsettings('menu_bold_name_section3'), [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => __('Enter menu bold name'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('menu_detail_section3', __('Menu Detail'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo Form::textarea('menu_detail_section3', Utility::getsettings('menu_detail_section3'), [
+                                                    'class' => 'form-control',
+                                                    'rows' => '3',
+                                                    'placeholder' => __('Enter menu detail'),
+                                                ]); ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-end">
+                                        <?php echo e(Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary'])); ?>
+
+                                    </div>
+                                </div>
+                                <?php echo Form::close(); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/dewi/Downloads/primelaravel-304/codecanyon-33546000-prime-laravel-form-builder-form-builder-users-role-permissions-settings/main_file/resources/views/landing-page/menu/index.blade.php ENDPATH**/ ?>

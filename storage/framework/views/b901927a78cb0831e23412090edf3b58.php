@@ -46,14 +46,14 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 <?php echo e(Form::label('form_logo', __('Select Logo'), ['class' => 'form-label'])); ?>
 
                                 <?php echo Form::file('form_logo', ['class' => 'form-control']); ?>
 
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <?php echo e(Form::label('category_id', __('Category'), ['class' => 'form-label'])); ?>
@@ -114,7 +114,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 <?php echo e(Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label'])); ?>
 
@@ -130,7 +130,7 @@
                                     </span>
                                 <?php endif; ?>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <?php echo e(Form::label('assignform', __('Assign Form'), ['class' => 'form-label'])); ?>
@@ -210,7 +210,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 <?php echo e(Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label'])); ?>
 
@@ -239,7 +239,7 @@
                                         class="form-check-input input-primary" <?php echo e('unchecked'); ?>>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -284,7 +284,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5><?php echo e(__('Lmit Setting')); ?></h5>
                     </div>
@@ -310,9 +310,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5><?php echo e(__('Password Protection')); ?></h5>
                     </div>
@@ -352,10 +352,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h5><?php echo e(__('Set End Date')); ?></h5>
                     </div>
                     <div class="card-body">
@@ -378,7 +378,7 @@
                                 <input class="form-control" name="set_end_date_time" id="set_end_date_time">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="card-footer">
                         <div class="text-end">
                             <?php echo Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']); ?>

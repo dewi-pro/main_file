@@ -44,12 +44,12 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('form_logo', __('Select Logo'), ['class' => 'form-label']) }}
                                 {!! Form::file('form_logo', ['class' => 'form-control']) !!}
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}
@@ -102,7 +102,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label']) }}
                                 {!! Form::textarea('thanks_msg', null, [
@@ -116,7 +116,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('assignform', __('Assign Form'), ['class' => 'form-label']) }}
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
                                 {{ Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -211,7 +211,7 @@
                                         class="form-check-input input-primary" {{ 'unchecked' }}>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5>{{ __('Lmit Setting') }}</h5>
                     </div>
@@ -274,9 +274,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h5>{{ __('Password Protection') }}</h5>
                     </div>
@@ -314,10 +314,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h5>{{ __('Set End Date') }}</h5>
                     </div>
                     <div class="card-body">
@@ -339,7 +339,7 @@
                                 <input class="form-control" name="set_end_date_time" id="set_end_date_time">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="card-footer">
                         <div class="text-end">
                             {!! Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
