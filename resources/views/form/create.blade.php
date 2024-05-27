@@ -26,7 +26,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>{{ __('General') }}</h5>
+                        <h5>{{ __('General') }}sdtyu</h5>
                     </div>
                     <div class="card-body">
                         <div class="col-lg-12">
@@ -385,6 +385,7 @@
                 url: url,
                 data: {},
                 success: function(response) {
+                    console.log("hgfdss");
                     modal.find('.modal-title').html('{{ __('Select Theme Color') }}');
                     modal.find('.body').html(response);
                     modal.modal('show');
@@ -413,10 +414,10 @@
             filebrowserUploadUrl: "{{ route('ckeditors.upload', ['_token' => csrf_token()]) }}",
             filebrowserUploadMethod: 'form'
         });
-        CKEDITOR.replace('thanks_msg', {
-            filebrowserUploadUrl: "{{ route('ckeditors.upload', ['_token' => csrf_token()]) }}",
-            filebrowserUploadMethod: 'form'
-        });
+        // CKEDITOR.replace('thanks_msg', {
+        //     filebrowserUploadUrl: "{{ route('ckeditors.upload', ['_token' => csrf_token()]) }}",
+        //     filebrowserUploadMethod: 'form'
+        // });
     </script>
     <script>
         $(function() {

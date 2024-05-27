@@ -26,7 +26,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5><?php echo e(__('General')); ?></h5>
+                        <h5><?php echo e(__('General')); ?>sdtyu</h5>
                     </div>
                     <div class="card-body">
                         <div class="col-lg-12">
@@ -427,6 +427,7 @@
                 url: url,
                 data: {},
                 success: function(response) {
+                    console.log("hgfdss");
                     modal.find('.modal-title').html('<?php echo e(__('Select Theme Color')); ?>');
                     modal.find('.body').html(response);
                     modal.modal('show');
@@ -455,10 +456,10 @@
             filebrowserUploadUrl: "<?php echo e(route('ckeditors.upload', ['_token' => csrf_token()])); ?>",
             filebrowserUploadMethod: 'form'
         });
-        CKEDITOR.replace('thanks_msg', {
-            filebrowserUploadUrl: "<?php echo e(route('ckeditors.upload', ['_token' => csrf_token()])); ?>",
-            filebrowserUploadMethod: 'form'
-        });
+        // CKEDITOR.replace('thanks_msg', {
+        //     filebrowserUploadUrl: "<?php echo e(route('ckeditors.upload', ['_token' => csrf_token()])); ?>",
+        //     filebrowserUploadMethod: 'form'
+        // });
     </script>
     <script>
         $(function() {

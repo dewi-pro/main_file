@@ -96,7 +96,7 @@ class FormController extends Controller
         if (\Auth::user()->can('create-form')) {
             request()->validate([
                 'title'     => 'required|max:191',
-                'form_logo' => 'required|mimes:png,jpg,svg,jpeg',
+                'form_logo' => 'nullable|mimes:png,jpg,svg,jpeg',
                 'category_id' => 'required',
                 'form_status' => 'required'
             ]);
