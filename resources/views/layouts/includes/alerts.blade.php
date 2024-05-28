@@ -47,7 +47,7 @@
          },
          buttonsStyling: false,
          title: 'Are you sure?',
-         text: "23sfdcvdcgvThis action can not be undone. Do you want to continue?",
+         text: "This action can not be undone. Do you want to continue?",
          icon: 'warning',
          showCancelButton: true,
          confirmButtonText: 'Next Page',

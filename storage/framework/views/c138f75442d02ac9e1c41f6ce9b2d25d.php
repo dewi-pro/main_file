@@ -16,8 +16,7 @@
         <div class="card">
             <div class="card-body table-border-style">
                 <div class="table-responsive">
-                    <?php echo e($dataTable->table(['width' => '100%'])); ?>
-
+                    <?php echo e($dataTable->table(['width' => '100%'])); ?> 
                 </div>
             </div>
         </div>
