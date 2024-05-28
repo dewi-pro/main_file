@@ -250,9 +250,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" style="display: none;">
                     <div class="card-header">
-                        <h5>{{ __('Lmit Setting') }}</h5>
+                        <h5>{{ __('Limit Setting') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="mt-2 row">

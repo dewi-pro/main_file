@@ -284,9 +284,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" style="display: none;">
                     <div class="card-header">
-                        <h5><?php echo e(__('Lmit Setting')); ?></h5>
+                        <h5><?php echo e(__('Limit Setting')); ?></h5>
                     </div>
                     <div class="card-body">
                         <div class="mt-2 row">

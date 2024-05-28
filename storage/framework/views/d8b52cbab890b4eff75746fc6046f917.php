@@ -14,7 +14,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="main-content">
-            <?php if($_SERVER['REQUEST_SCHEME'] == 'http'): ?>
+            <?php if(isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == 'http'): ?>
                 <div class="alert alert-warning">
                     <b>
                         <?php echo e(__('Please note that the video recording and selfie features are only available on HTTPS websites and its not work on HTTP sites.')); ?></b>

@@ -15,7 +15,7 @@
 @section('content')
     <div class="row">
         <div class="main-content">
-            @if ($_SERVER['REQUEST_SCHEME'] == 'http')
+            @if (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == 'http')
                 <div class="alert alert-warning">
                     <b>
                         {{ __('Please note that the video recording and selfie features are only available on HTTPS websites and its not work on HTTP sites.') }}</b>
