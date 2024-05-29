@@ -114,7 +114,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 <?php echo e(Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label'])); ?>
 
@@ -210,7 +210,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 <?php echo e(Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label'])); ?>
 
@@ -220,7 +220,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 <?php echo e(Form::label('allow_comments', __('Allow comments'), ['class' => 'form-label'])); ?>
 
@@ -230,7 +230,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 <?php echo e(Form::label('allow_share_section', __('Allow Share Section'), ['class' => 'form-label'])); ?>
 
@@ -312,7 +312,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" style="display: none;">
                     <div class="card-header">
                         <h5><?php echo e(__('Password Protection')); ?></h5>
                     </div>
@@ -355,10 +355,10 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="display: none;">
                         <h5><?php echo e(__('Set End Date')); ?></h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="display: none;">
                         <div class="mt-2 row">
                             <div class="col-lg-12">
                                 <div class="form-group">

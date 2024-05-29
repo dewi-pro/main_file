@@ -130,7 +130,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 {{ Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label']) }}
                                 {!! Form::textarea('thanks_msg', $form->thanks_msg, [
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 {{ Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -231,7 +231,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 {{ Form::label('allow_comments', __('Allow comments'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -241,7 +241,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 {{ Form::label('allow_share_section', __('Allow Share Section'), ['class' => 'form-label']) }}
                                 <label class="mt-2 form-switch float-end custom-switch-v1">
@@ -287,7 +287,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" style="display: none;">
                     <div class="card-header">
                         <h5>{{ __('Lmit Setting') }}</h5>
                     </div>
@@ -315,7 +315,7 @@
                 </div>
 
 
-                <div class="card">
+                <div class="card" style="display: none;">
                     <div class="card-header">
                         <h5>{{ __('Password Protection') }}</h5>
                     </div>
@@ -355,10 +355,10 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="display: none;">
                         <h5>{{ __('Set End Date') }}</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="display: none;">
                         <div class="mt-2 row">
                             <div class="col-lg-12">
                                 <div class="form-group">
