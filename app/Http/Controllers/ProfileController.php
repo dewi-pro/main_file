@@ -106,7 +106,7 @@ class ProfileController extends Controller
         $image          = str_replace('data:image/png;base64,', '', $image);
         $image          = str_replace(' ', '+', $image);
         $imagename      = time() . '.' . 'png';
-        $imagepath      = "avatar/" . $imagename;
+        $imagepath      = "./avatar/" . $imagename;
         $disk->put($imagepath, base64_decode($image));
         $user->avatar = $imagepath;
 
