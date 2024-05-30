@@ -99,11 +99,11 @@
                                     <a class="dash-link" href="{{ route('form-category.index') }}">{{ __('Category') }}</a>
                                 </li>
                             @endcanany
-                            @canany(['manage-form-status'])
+                            <!-- @canany(['manage-form-status'])
                                 <li class="dash-item {{ request()->is('form-status*') ? 'active' : '' }}">
                                     <a class="dash-link" href="{{ route('form-status.index') }}">{{ __('Statuses') }}</a>
                                 </li>
-                            @endcanany
+                            @endcanany -->
                             @canany(['manage-form-template'])
                                 <li
                                     class="dash-item {{ request()->is('form-template*') || request()->is('form-template/design*') ? 'active' : '' }}">

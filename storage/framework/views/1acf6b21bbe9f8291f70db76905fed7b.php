@@ -31,9 +31,9 @@
     <?php endif; ?>
 <?php endif; ?>
 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('change-status-form-status')): ?>
-        <a class="btn btn-info btn-sm cust_btn text-white" data-share="<?php echo e(route('form-value.status.change', $formValue->id)); ?>"
+        <!-- <a class="btn btn-info btn-sm cust_btn text-white" data-share="<?php echo e(route('form-value.status.change', $formValue->id)); ?>"
             data-bs-toggle="tooltip" data-bs-placement="bottom" id="change-form-status"
-            data-bs-original-title="<?php echo e(__('Change Status')); ?>"><i class="ti ti-switch-2"></i></a>
+            data-bs-original-title="<?php echo e(__('Change Status')); ?>"><i class="ti ti-switch-2"></i></a> -->
 <?php endif; ?>
 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete-submitted-form')): ?>
     <?php echo Form::open([

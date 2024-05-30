@@ -60,7 +60,7 @@
                             </div>
                             <small>{{ __('Create Category') }} <a href="{{ route('form-category.index') }}">{{ __('Click here') }}</a></small>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 {{ Form::label('form_status', __('Select Status'), ['class' => 'form-label']) }}
                                 {!! Form::select('form_status', $status, null, [

@@ -66,7 +66,7 @@
                             </div>
                             <small><?php echo e(__('Create Category')); ?> <a href="<?php echo e(route('form-category.index')); ?>"><?php echo e(__('Click here')); ?></a></small>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="display: none;">
                             <div class="form-group">
                                 <?php echo e(Form::label('form_status', __('Select Status'), ['class' => 'form-label'])); ?>
 
