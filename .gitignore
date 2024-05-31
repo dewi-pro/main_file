@@ -3,7 +3,6 @@ auth.json
 /node_modules
 Homestead.json
 Homestead.yaml
-.env.testing
 
 # IDE & Editor related files
 /.vscode
@@ -66,15 +65,15 @@ collection-image
 ./collection-image
 ./collection-pdf
 collection-pdf
+.env
 .env.backup
 .env.local
 .env.development
 .env.production
 .env.test
+.env.testing
 .env.staging
 .env.example
-/.env
-.env
 /.fleet
 /.idea
 /.phpunit.
