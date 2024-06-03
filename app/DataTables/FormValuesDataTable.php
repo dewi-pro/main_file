@@ -65,19 +65,19 @@ class FormValuesDataTable extends DataTable
                 $status = '';
                 if ($formValue->form_status != null) {
                     if ($formStatus->color == 'danger') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else if ($formStatus->color == 'warning') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name;
                     } else if ($formStatus->color == 'info') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else if ($formStatus->color == 'success') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else if ($formStatus->color == 'dark') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else if ($formStatus->color == 'primary') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else if ($formStatus->color == 'secondory') {
-                        $label = '<span class="badge bg-light-' . $formStatus->color . ' p-2 rounded">' . $formStatus->name . '</span>';
+                        $label = $formStatus->name ;
                     } else {
                         $label = '<span class="text-center">--</span>';
                     }
@@ -341,7 +341,7 @@ class FormValuesDataTable extends DataTable
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('user')->title(__('User')),
             Column::make('amount')->title(__('Amount')),
-            Column::make('form_status')->title(__('Form Status')),
+            // Column::make('form_status')->title(__('Form Status')),
         ];
         if ($label != null) {
             foreach ($label as $key => $value) {

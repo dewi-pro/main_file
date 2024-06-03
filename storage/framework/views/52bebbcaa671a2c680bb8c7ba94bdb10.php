@@ -101,11 +101,11 @@
                                     <a class="dash-link" href="<?php echo e(route('form-category.index')); ?>"><?php echo e(__('Category')); ?></a>
                                 </li>
                             <?php endif; ?>
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->any(['manage-form-status'])): ?>
+                            <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->any(['manage-form-status'])): ?>
                                 <li class="dash-item <?php echo e(request()->is('form-status*') ? 'active' : ''); ?>">
                                     <a class="dash-link" href="<?php echo e(route('form-status.index')); ?>"><?php echo e(__('Statuses')); ?></a>
                                 </li>
-                            <?php endif; ?>
+                            <?php endif; ?> -->
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->any(['manage-form-template'])): ?>
                                 <li
                                     class="dash-item <?php echo e(request()->is('form-template*') || request()->is('form-template/design*') ? 'active' : ''); ?>">

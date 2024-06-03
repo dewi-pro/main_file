@@ -31,9 +31,9 @@
     @endif
 @endcan
 @can('change-status-form-status')
-        <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('form-value.status.change', $formValue->id) }}"
+        <!-- <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('form-value.status.change', $formValue->id) }}"
             data-bs-toggle="tooltip" data-bs-placement="bottom" id="change-form-status"
-            data-bs-original-title="{{ __('Change Status') }}"><i class="ti ti-switch-2"></i></a>
+            data-bs-original-title="{{ __('Change Status') }}"><i class="ti ti-switch-2"></i></a> -->
 @endcan
 @can('delete-submitted-form')
     {!! Form::open([

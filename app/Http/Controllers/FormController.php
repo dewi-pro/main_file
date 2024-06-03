@@ -86,6 +86,7 @@ class FormController extends Controller
         $form = Form::create([
             'title'     => $formtemplate->title,
             'json'      => $formtemplate->json,
+            'category_id' => 2,
         ]);
         return redirect()->route('forms.edit', $form->id)->with('success', __('Form created successfully.'));
     }
