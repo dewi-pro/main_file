@@ -1,0 +1,3 @@
+<link rel="stylesheet" href="<?php echo e(asset('vendor/datatables/datatables.min.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('vendor/datatables/buttons.bootstrap.min.css')); ?>">
+<?php /**PATH /home/dewi/Downloads/primelaravel-304/codecanyon-33546000-prime-laravel-form-builder-form-builder-users-role-permissions-settings/main_file/resources/views/layouts/includes/datatable-css.blade.php ENDPATH**/ ?>

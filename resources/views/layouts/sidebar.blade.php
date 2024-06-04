@@ -37,7 +37,7 @@
     }
     $bookings = $bookings->all();
 @endphp
-<nav class="dash-sidebar light-sidebar {{ $user->transprent_layout == 1 ? 'transprent-bg' : '' }}">
+<nav class="dash-sidebar dark-sidebar ">
     <div class="navbar-wrapper">
         <div class="m-header">
             <a href="{{ route('home') }}" class="text-center b-brand">

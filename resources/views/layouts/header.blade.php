@@ -57,11 +57,11 @@
                         </a>
                     </li>
                 @endImpersonating
-                <li class="dash-h-item theme_mode">
+                <!-- <li class="dash-h-item theme_mode">
                     <a class="dash-head-link add_dark_mode me-0" role="button">
                         <i class="ti {{ Utility::getsettings('dark_mode') == 'off' ? 'ti-sun' : 'ti-moon' }}"></i>
                     </a>
-                </li>
+                </li> -->
                 {{-- <input type="hidden" name="mode" id="mode" value="{{ auth()->user()->dark_layout == '0' ? 'light' : 'dark' }}"> --}}
                 <li class="dropdown dash-h-item drp-notification">
                     <a class="dash-head-link dropdown-toggle arrow-none me-0" id="kt_activities_toggle"
