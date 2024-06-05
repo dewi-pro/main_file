@@ -8,26 +8,26 @@
     @can('edit-form')
         @if ($form->json)
             @if ($form->is_active)
-                @can('theme-setting-form')
+                <!-- @can('theme-setting-form')
                     <a class="btn btn-secondary btn-sm" href="{{ route('form.theme', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Theme Setting') }}"><i
                             class="ti ti-layout-2"></i></a>
-                @endcan
-                @can('payment-form')
+                @endcan -->
+                <!-- @can('payment-form')
                     <a class="btn btn-warning btn-sm" href="{{ route('form.payment.integration', $form->id) }}"
                         data-bs-toggle="tooltip" data-bs-placement="bottom"
                         data-bs-original-title="{{ __('Payment Integration') }}"><i class="ti ti-report-money"></i></a>
-                @endcan
-                @can('integration-form')
+                @endcan -->
+                <!-- @can('integration-form')
                     <a class="btn btn-info btn-sm" href="{{ route('form.integration', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Integration') }}"><i
                             class="ti ti-send"></i></a>
-                @endcan
-                @can('manage-form-rule')
+                @endcan -->
+                <!-- @can('manage-form-rule')
                     <a class="btn btn-secondary btn-sm" href="{{ route('form.rules', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Conditional Rules') }}"><i
                             class="ti ti-notebook"></i></a>
-                @endcan
+                @endcan -->
                 <a class="btn btn-primary btn-sm embed_form " href="javascript:void(0)"
                     onclick="copyToClipboard('#embed-form-{{ $form->id }}')" id="embed-form-{{ $form->id }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="{{ __('Embedded form') }}"
@@ -50,9 +50,9 @@
                             class="ti ti-copy"></i></a>
                 @endif
 
-                <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('forms.survey.qr', $id) }}"
+                <!-- <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('forms.survey.qr', $id) }}"
                     id="share-qr-code" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    data-bs-original-title="{{ __('Show QR Code') }}"><i class="ti ti-qrcode"></i></a>
+                    data-bs-original-title="{{ __('Show QR Code') }}"><i class="ti ti-qrcode"></i></a> -->
                 <a class="btn btn-secondary btn-sm" href="{{ route('view.form.values', $form->id) }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom"
                     data-bs-original-title="{{ __('View Submited forms') }}"><i class="ti ti-clipboard-check"></i></a>
