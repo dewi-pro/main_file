@@ -160,7 +160,7 @@
                                         </div>
                                         <h4 class="f-w-400">
                                             <a href="{{ Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image }}" target="_new">
-                                                <img src="{{ asset('vendor/avatar_image/avatar.png')}}"
+                                                <img src="{{ Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image }}"
                                                     class="me-2 img-thumbnail rounded-circle" width="50px"
                                                     height="50px"></a>
                                             <span class="text-muted">{{ Auth::user()->name }}</span>
