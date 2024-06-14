@@ -6,9 +6,9 @@
     <a href="https://www.mysql.com"><img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white"></a>
 </p>
 
-## About Survey Application
+## About Antavaya Survey Application
 
-This is Survey Application
+This is Antavaya Survey Application
 
 A survey application typically refers to software or a platform designed to create, distribute, and analyze surveys or questionnaires. These applications are used by businesses, researchers, educators, and organizations to gather information from a targeted audience.
 
