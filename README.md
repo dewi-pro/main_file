@@ -1,8 +1,9 @@
 <p align="center"><a href="https://survey.antavaya.com/" target="_blank"><img src="https://survey.antavaya.com/tmp/assets/61b43a35/logo%20baru%20antavaya(1).png" width="400"></a></p>
 
 <p align="center">
-[![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1342-shield.svg)](https://madewithlaravel.com/p/laravel-auth/shield-link)
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+    <a href="https://laravel.com"><img alt="Laravel v9.x" src="https://img.shields.io/badge/Laravel-v9.x-FF2D20?style=for-the-badge&logo=laravel"></a>
+    <a href="https://php.net"><img alt="PHP 8.x" src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php"></a>
 </p>
 
 ## About Survey Application
