@@ -80,15 +80,15 @@
                                 @foreach ($json->values as $subData)
                                     @if ($json->type == 'checkbox-group')
                                         @if (isset($subData->selected))
-                                            @php  $value .= $subData->label . ',' @endphp
+                                            @php  $value .= $subData->value . ',' @endphp
                                         @endif
                                     @elseif ($json->type == 'radio-group')
                                         @if (isset($subData->selected))
-                                            @php  $value .= $subData->label . ',' @endphp
+                                            @php  $value .= $subData->value . ',' @endphp
                                         @endif
                                     @elseif($json->type == 'select')
                                         @if (isset($subData->selected))
-                                            @php  $value .= $subData->label . ',' @endphp
+                                            @php  $value .= $subData->value . ',' @endphp
                                         @endif
                                     @endif
                                 @endforeach
