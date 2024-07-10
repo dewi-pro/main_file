@@ -42,6 +42,7 @@ use App\Http\Controllers\PaymentGateway\CoingateController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\FormStatusController;
 use App\Http\Controllers\FromCategoryController;
+use App\Http\Controllers\FromTypeController;
 use App\Http\Controllers\SystemAnalyticsController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
@@ -86,7 +87,12 @@ Route::group(['middleware' => ['auth', 'xss', 'Setting', 'verified', '2fa', 'ver
     Route::resource('form-category', FromCategoryController::class)->except(['show']);
     Route::post('formcategory-status/{id}', [FromCategoryController::class, 'formCategoryStatus'])->name('formcategory.status');
 
-
+    // type
+    Route::resource('form-type', FromTypeController::class)->except(['show']);
+    Route::post('formcategory-status/{id}', [FromCategoryController::class, 'formCategoryStatus'])->name('formcategory.status');
+    Route::get('form-types', [FormTypeController::class, 'index'])->name('form-types.index');
+    Route::get('form-types/data', [FormTypeController::class, 'anyData'])->name('form-types.data');
+    
     // form status
     Route::resource('form-status', FormStatusController::class)->except(['show']);
     Route::post('form-status/change/{id}', [FormStatusController::class, 'formStatusChange'])->name('form-status.status');
