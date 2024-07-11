@@ -41,6 +41,7 @@ use App\Http\Controllers\PageSettingController;
 use App\Http\Controllers\PaymentGateway\CoingateController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\FormStatusController;
+use App\Http\Controllers\FromDestinationController;
 use App\Http\Controllers\FromCategoryController;
 use App\Http\Controllers\FromTypeController;
 use App\Http\Controllers\SystemAnalyticsController;
@@ -89,10 +90,14 @@ Route::group(['middleware' => ['auth', 'xss', 'Setting', 'verified', '2fa', 'ver
 
     // type
     Route::resource('form-type', FromTypeController::class)->except(['show']);
-    Route::post('formcategory-status/{id}', [FromCategoryController::class, 'formCategoryStatus'])->name('formcategory.status');
-    Route::get('form-types', [FormTypeController::class, 'index'])->name('form-types.index');
-    Route::get('form-types/data', [FormTypeController::class, 'anyData'])->name('form-types.data');
+    // Route::get('form-types', [FormTypeController::class, 'index'])->name('form-types.index');
+    // Route::get('form-types/data', [FormTypeController::class, 'anyData'])->name('form-types.data');
     
+    // form destination
+    Route::resource('form-destination', FromDestinationController::class)->except(['show']);
+    Route::get('form-destination', [FromDestinationController::class, 'index'])->name('form-destination.index');
+    Route::get('form-destination/data', [FromDestinationController::class, 'anyData'])->name('form-destination.data');
+
     // form status
     Route::resource('form-status', FormStatusController::class)->except(['show']);
     Route::post('form-status/change/{id}', [FormStatusController::class, 'formStatusChange'])->name('form-status.status');

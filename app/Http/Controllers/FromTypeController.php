@@ -13,13 +13,13 @@ class FromTypeController extends Controller
      */
     public function index(FormTypeDataTable $dataTable)
     {
-        if (\Auth::user()->can('manage-form-type')) {
-            return $dataTable->render('form-type.index');
-        } else {
+        // if (\Auth::user()->can('manage-form-type')) {
+        //     return $dataTable->render('form-type.index');
+        // } else {
             return $dataTable->render('form-type.index');
 
             // return redirect()->back()->with('failed', __('Permission denied.'));
-        }
+        // }
     }
 
     /**
@@ -27,15 +27,15 @@ class FromTypeController extends Controller
      */
     public function create()
     {
-        if (\Auth::user()->can('create-form-type')) {
+        // if (\Auth::user()->can('create-form-type')) {
 
             $view = view('form-type.create');
             return ['html' => $view->render()];
-        } else {
-            $view = view('form-type.create');
-            return ['html' => $view->render()];
-            // return redirect()->back()->with('failed', __('Permission denied.'));
-        }
+        // } else {
+        //     $view = view('form-type.create');
+        //     return ['html' => $view->render()];
+        //     // return redirect()->back()->with('failed', __('Permission denied.'));
+        // }
     }
 
     /**
