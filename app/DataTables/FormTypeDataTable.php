@@ -88,7 +88,7 @@ class FormTypeDataTable extends DataTable
         if ($canCreateCategory) {
             $buttonsConfig[] =  [
                 'extend' => 'create',
-                'className' => 'btn btn-light-primary no-corner me-1 add_module add-category',
+                'className' => 'btn btn-light-primary no-corner me-1 add_module add-type',
                 'action' => "function ( e, dt, node, config ) {}",
             ];
         }

@@ -42,7 +42,7 @@ class FormTemplateController extends Controller
                 'title'         => 'required|max:191',
             ]);
 
-            $formtemplate = FormTemplate::find(21);
+            $formtemplate = FormTemplate::find(24);
 
             FormTemplate::create([
                 'title'         => $request->title,

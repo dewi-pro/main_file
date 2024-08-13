@@ -13,13 +13,12 @@ class FromTypeController extends Controller
      */
     public function index(FormTypeDataTable $dataTable)
     {
-        // if (\Auth::user()->can('manage-form-type')) {
-        //     return $dataTable->render('form-type.index');
-        // } else {
+        if (\Auth::user()->can('manage-form-type')) {
             return $dataTable->render('form-type.index');
-
-            // return redirect()->back()->with('failed', __('Permission denied.'));
-        // }
+        } else {
+            // return $dataTable->render('form-type.index');
+            return redirect()->back()->with('failed', __('Permission denied.'));
+        }
     }
 
     /**
@@ -27,15 +26,13 @@ class FromTypeController extends Controller
      */
     public function create()
     {
-        // if (\Auth::user()->can('create-form-type')) {
+        if (\Auth::user()->can('create-form-type')) {
 
             $view = view('form-type.create');
             return ['html' => $view->render()];
-        // } else {
-        //     $view = view('form-type.create');
-        //     return ['html' => $view->render()];
-        //     // return redirect()->back()->with('failed', __('Permission denied.'));
-        // }
+        } else {
+            return redirect()->back()->with('failed', __('Permission denied.'));
+        }
     }
 
     /**
@@ -53,16 +50,8 @@ class FromTypeController extends Controller
                 'name' => $request->name,
             ]);
             return redirect()->route('form-type.index')->with('success', __('Type Created Successfully!'));
-        } else {
-            $request->validate([
-                'name' => 'required|unique:form_types',
-            ]);
-
-            FormType::create([
-                'name' => $request->name,
-            ]);
-            return redirect()->route('form-type.index')->with('success', __('Type Created Successfully!'));
-            // return redirect()->back()->with('failed', __('Permission denied.'));
+        } else {        
+            return redirect()->back()->with('failed', __('Permission denied.'));
         }
     }
 
@@ -85,12 +74,7 @@ class FromTypeController extends Controller
             $view = view('form-type.edit', compact('formType'));
             return ['html' => $view->render()];
         } else {
-            $formType = FormType::find($id);
-
-            $view = view('form-type.edit', compact('formType'));
-            return ['html' => $view->render()];
-
-            // return redirect()->back()->with('failed', __('Permission denied.'));
+            return redirect()->back()->with('failed', __('Permission denied.'));
         }
     }
 
@@ -110,16 +94,6 @@ class FromTypeController extends Controller
 
             return redirect()->route('form-type.index')->with('success', __('Type Updated Successfully!'));
         } else {
-            $request->validate([
-                'name' => 'required|unique:form_types,name,' . $id,
-            ]);
-
-            $formType =  FormType::find($id);
-            $formType->name = $request->name;
-            $formType->save();
-
-            return redirect()->route('form-type.index')->with('success', __('Type Updated Successfully!'));
-
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
     }
