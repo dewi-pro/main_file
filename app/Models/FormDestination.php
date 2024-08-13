@@ -9,5 +9,5 @@ class FormDestination extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['destination_name', 'code_tour', 'tour_leader', 'type', 'categories_name', 'status'];
+    protected $fillable = ['category_id', 'status'];
 }

@@ -1,18 +1,18 @@
 @extends('layouts.main')
-@section('title', __('Types'))
+@section('title', __('Destination'))
 @section('content')
     <div class="page-header">
         <div class="page-block">
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <div class="page-header-title">
-                        <h4 class="m-b-10">{{ __('Form Types') }}</h4>
+                        <h4 class="m-b-10">{{ __('Form Destination') }}</h4>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item active">
                             {!! Html::link(route('home'), __('Dashboard'), ['']) !!}
                         </li>
-                        <li class="breadcrumb-item active">{{ __('Form Types') }}</li>
+                        <li class="breadcrumb-item active">{{ __('Form Destination') }}</li>
                     </ul>
                 </div>
             </div>
@@ -38,14 +38,14 @@
     {{ $dataTable->scripts() }}
     <script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
     <script>
-        $('body').on('click', '.add-type', function() {
+        $('body').on('click', '.add-destination', function() {
             var modal = $('#common_modal');
             $.ajax({
                 type: "GET",
-                url: '{{ route('form-type.create') }}',
+                url: '{{ route('form-destination.create') }}',
                 data: {},
                 success: function(response) {
-                    modal.find('.modal-title').html('{{ __('Create Form type') }}');
+                    modal.find('.modal-title').html('{{ __('Create Form Destination') }}');
                     modal.find('.body').html(response.html);
                     modal.modal('show');
                     var genericExamples = document.querySelectorAll('[data-trigger]');
@@ -61,11 +61,11 @@
             });
         });
 
-        $(document).on('click', '#edit-form-type', function() {
+        $(document).on('click', '#edit-form-destination', function() {
             var action = $(this).data('url');
             var modal = $('#common_modal');
             $.get(action, function(response) {
-                modal.find('.modal-title').html('{{ __('Edit Form type') }}');
+                modal.find('.modal-title').html('{{ __('Edit Form Destination') }}');
                 modal.find('.body').html(response.html);
                 modal.modal('show');
                 var genericExamples = document.querySelectorAll('[data-trigger]');

@@ -1,14 +1,14 @@
 {{-- @extends('layouts.main')
-@section('title', 'Create Type')
+@section('title', 'Create Destination')
 @section('breadcrumb')
     <div class="col-md-12">
         <div class="page-header-title">
-            <h4 class="m-b-10">{{ __('Create Type') }}</h4>
+            <h4 class="m-b-10">{{ __('Create Destination') }}</h4>
         </div>
         <ul class="breadcrumb">
             <li class="breadcrumb-item">{!! Html::link(route('home'), __('Dashboard'), []) !!}</li>
-            <li class="breadcrumb-item"><a href="{{ route('form-type.index') }}">{{ __('Type') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('Create Type') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('form-destination.index') }}">{{ __('Form Destination') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('Create Destination') }}</li>
         </ul>
     </div>
 @endsection
@@ -17,9 +17,9 @@
         <div class="col-xl-6 col-lg-8 col-sm-12 col-12 m-auto">
             <div class="card">
                 <div class="card-header">
-                    <h5>{{ __('Create Type') }}</h5>
-                    {!! Form::model($formType, [
-                        'route' => ['form-type.update', $formType->id],
+                    <h5>{{ __('Create Destination') }}</h5>
+                    {!! Form::model($formDestination, [
+                        'route' => ['form-destination.update', $formDestination->id],
                         'method' => 'put',
                         'data-validate',
                     ]) !!}
@@ -29,18 +29,18 @@
                         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
                         {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
                         <select name="status" class="custom_select form-select" id="status" data-trigger>
-                            <option value="" disabled>{{ __('Select Type Status') }}</option>
-                            <option value="1" @select('1' == $formType)>{{ __('Active') }}</option>
-                            <option value="2" @select('2' == $formType)>{{ __('Deactive') }}</option>
+                            <option value="" disabled>{{ __('Select Destination Status') }}</option>
+                            <option value="1" @select('1' == $formDestination)>{{ __('Active') }}</option>
+                            <option value="2" @select('2' == $formDestination)>{{ __('Deactive') }}</option>
                         </select>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="text-end">
-                        {!! Html::link(route('form-type.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
+                        {!! Html::link(route('form-destination.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
                         {{ Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
                     </div>
                 </div>
@@ -49,8 +49,8 @@
         </div>
     </div>
 @endsection --}}
-{!! Form::model($formType, [
-    'route' => ['form-type.update', $formType->id],
+{!! Form::model($formDestination, [
+    'route' => ['form-destination.update', $formDestination->id],
     'method' => 'put',
     'data-validate',
 ]) !!}
@@ -60,7 +60,7 @@
         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
         {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
     </div>
-    <!-- <div class="form-group">
+    <div class="form-group">
         {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
         {{ Form::select(
             'status',
@@ -72,11 +72,11 @@
             null,
             ['class' => 'custom_select form-select', 'id' => 'status', 'data-trigger'],
         ) }}
-    </div> -->
+    </div>
 </div>
 <div class="modal-footer">
     <div class="text-end">
-        {!! Html::link(route('form-type.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
+        {!! Html::link(route('form-destination.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
         {{ Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
     </div>
 </div>
