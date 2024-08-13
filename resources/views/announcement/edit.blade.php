@@ -102,7 +102,7 @@
     </div>
 @endsection
 @push('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/datepicker-bs5.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/plugins/datepicker-bs5.min.css') }}">
 @endpush
 @push('script')
     <script src="{{ asset('assets/js/plugins/datepicker-full.min.js') }}"></script>

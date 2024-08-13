@@ -129,11 +129,11 @@ class FormCategoryDataTable extends DataTable
 
 
         $buttonsConfig = array_merge($buttonsConfig, [
-            $exportButtonConfig,
-            [
-                'extend' => 'reset',
-                'className' => 'btn btn-light-danger me-1',
-            ],
+            // $exportButtonConfig,
+            // [
+            //     'extend' => 'reset',
+            //     'className' => 'btn btn-light-danger me-1',
+            // ],
             [
                 'extend' => 'reload',
                 'className' => 'btn btn-light-warning',
@@ -170,12 +170,12 @@ class FormCategoryDataTable extends DataTable
         $dataTable->language([
             'buttons' => [
                 'create' => __('Create'),
-                'export' => __('Export'),
-                'print' => __('Print'),
-                'reset' => __('Reset'),
+                // 'export' => __('Export'),
+                // 'print' => __('Print'),
+                // 'reset' => __('Reset'),
                 'reload' => __('Reload'),
-                'excel' => __('Excel'),
-                'csv' => __('CSV'),
+                // 'excel' => __('Excel'),
+                // 'csv' => __('CSV'),
             ]
         ]);
         return $dataTable;
@@ -191,7 +191,7 @@ class FormCategoryDataTable extends DataTable
         return [
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('name')->title(__('Name')),
-            Column::make('status')->title(__('Status')),
+            // Column::make('type_name')->title(__('Type')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)

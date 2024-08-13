@@ -14,7 +14,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-md-3 d-flex">
+        <!-- <div class="col-md-3 d-flex">
             <a class="btn-addnew-project h-100 w-100" href="{{ route('forms.create') }}">
                 <div class="bg-primary add_user proj-add-icon">
                     <i class="ti ti-plus"></i>
@@ -22,7 +22,7 @@
                 <h6 class="mt-4 mb-2">{{ __('Start From Scratch') }}</h6>
                 <p class="text-center text-muted">{{ __('A blank slate is all you need') }}</p>
             </a>
-        </div>
+        </div> -->
         @foreach ($formTemplates as $formTemplate)
             <div class="col-xl-3 d-flex">
                 <div class="text-center text-white card h-100 w-100">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <img src="{{ Storage::url($formTemplate->image) }}" alt="user-image" class="w-100">
+                        <!-- <img src="{{ Storage::url($formTemplate->image) }}" alt="user-image" class="w-100"> -->
                         <h4 class="mt-2 text-dark">{{ $formTemplate->title }}</h4>
                     </div>
                     <div class="card-footer">

@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item"> {{ __('Edit Form') }} </li>
                 </ul>
             </div>
-            <div class="float-end">
+            <!-- <div class="float-end">
                 <div class="d-flex align-items-center">
                     <a href="@if (!empty($previous)) {{ route('forms.edit', [$previous->id]) }}@else javascript:void(0) @endif"
                         type="button" class="btn btn-outline-primary"><i class="me-2"
@@ -22,7 +22,7 @@
                         class="btn btn-outline-primary ms-1"><i class="me-2"
                             data-feather="chevrons-right"></i>{{ __('Next') }}</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 @endsection
@@ -30,14 +30,14 @@
     <div class="row">
         {{ Form::model($form, ['route' => ['forms.update', $form->id], 'data-validate', 'method' => 'PUT', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) }}
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h5>{{ __('General') }}</h5>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <div class="form-group">
-                            {{ Form::label('title', __('Title of form'), ['class' => 'form-label']) }}
+                            {{ Form::label('title', __('Title of Survey'), ['class' => 'form-label']) }}
                             {!! Form::text('title', $form->title, [
                                 'class' => 'form-control',
                                 'id' => 'password',
@@ -51,355 +51,97 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('form_logo', __('Select Logo'), ['class' => 'form-label']) }}
-                                {!! Form::file('form_logo', ['class' => 'form-control']) !!}
-
-                                @if ($form->logo)
-                                    @if (App\Facades\UtilityFacades::getsettings('storage_type') == 'local')
-                                        <div class="text-center form-group w-25">
-                                            {!! Form::image(
-                                                Storage::exists($form->logo) ? asset('storage/app/' . $form->logo) : Storage::url('app-logo/78x78.png'),
-                                                null,
-                                                [
-                                                    'class' => 'img img-responsive justify-content-center text-center form-img',
-                                                    'id' => 'app-dark-logo',
-                                                ],
-                                            ) !!}
-                                        </div>
-                                    @else
-                                        <div class="text-center form-group w-25">
-                                            {!! Form::image(Storage::url($form->logo), null, [
-                                                'class' => 'img img-responsive justify-content-center text-center form-img',
-                                                'id' => 'app-dark-logo',
-                                            ]) !!}
-                                        </div>
-                                    @endif
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}
-                                {!! Form::select('category_id', $categories, $form->category_id, [
-                                    'class' => 'form-select',
-                                    'required',
-                                    'data-trigger',
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('form_status', __('Status'), ['class' => 'form-label']) }}
-                                {!! Form::select('form_status', $status, $form->form_status, [
-                                    'class' => 'form-select',
-                                    'required',
-                                    'data-trigger',
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('form_description', __('Short Description'), ['class' => 'form-label']) }}
-                                <p><small>{{ 'Note' }} :-
-                                        {{ __('This Description Only Show in front side') }}</small></p>
-                                {!! Form::textarea('form_description', $form->description, [
-                                    'id' => 'form_description',
-                                    'placeholder' => __('Enter short description'),
-                                    'rows' => '3',
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('form_description'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('form_description') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('success_msg', __('Success Message'), ['class' => 'form-label']) }}
-                                {!! Form::textarea('success_msg', $form->success_msg, [
-                                    'id' => 'success_msg',
-                                    'placeholder' => __('Enter success message'),
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('success_msg'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('success_msg') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label']) }}
-                                {!! Form::textarea('thanks_msg', $form->thanks_msg, [
-                                    'id' => 'thanks_msg',
-                                    'placeholder' => __('Enter client message'),
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('thanks_msg'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('thanks_msg') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('assignform', __('Assign Form'), ['class' => 'form-label']) }}
-                                <div class="assignform" id="assign_form">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    {!! Form::label('assign_type_role', __('Role'), ['class' => 'form-label']) !!}
-                                                    <label class="form-switch custom-switch-v1 ms-2">
-                                                        {!! Form::radio('assign_type', 'role', $getFormRole ? true : false, [
-                                                            'class' => 'form-check-input input-primary',
-                                                            'id' => 'assign_type_role',
-                                                        ]) !!}
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    {!! Form::label('assign_type_user', __('User'), ['class' => 'form-label tesk-1']) !!}
-                                                    <label class="form-switch custom-switch-v1 ms-2">
-                                                        {!! Form::radio('assign_type', 'user', $GetformUser ? true : false, [
-                                                            'class' => 'form-check-input input-primary',
-                                                            'id' => 'assign_type_user',
-                                                        ]) !!}
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    {!! Form::label('assign_type_public', __('Public'), ['class' => 'form-label tesk-1']) !!}
-                                                    <label class="form-switch custom-switch-v1 ms-2">
-                                                        {!! Form::radio('assign_type', 'public', null, [
-                                                            'class' => 'form-check-input input-primary',
-                                                            'id' => 'assign_type_public',
-                                                        ]) !!}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div id="role" class="desc {{ $formRole ? 'd-block' : 'd-none' }}">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            {{ Form::label('roles', __('Role'), ['class' => 'form-label']) }}
-                                                            <select name="roles[]" class="form-select" multiple
-                                                                id="choices-multiple-remove-button">
-                                                                @foreach ($getFormRole as $k => $role)
-                                                                    <option value="{{ $k }}"
-                                                                        {{ in_array($k, $formRole) ? 'selected' : '' }}>
-                                                                        {{ $role }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="user" class="desc {{ $formUser ? 'd-block' : 'd-none' }}">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            {{ Form::label('users', __('User'), ['class' => 'form-label']) }}
-                                                            <select name="users[]" class="form-select" multiple
-                                                                id="choices-multiples-remove-button">
-                                                                @foreach ($GetformUser as $key => $user)
-                                                                    <option value="{{ $key }}"
-                                                                        {{ in_array($key, $formUser) ? 'selected' : '' }}>
-                                                                        {{ $user }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                    {{ Form::label('type_id', __('Type'), ['class' => 'form-label']) }}
+                                    {!! Form::hidden('type_id', null, ['id' => 'type-hidden']) !!}
+                                    {{ Form::select(
+                                        'type_id', $type,null,
+                                        ['class' => 'custom_select form-select', 'id' => 'type_id', 'data-trigger'],
+                                    ) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ Form::label('field_categories', __('Category'), ['class' => 'form-label']) }}
+                                        {!! Form::hidden('field_categories', null, ['id' => 'type-hidden']) !!}
+                                        {{ Form::select(
+                                            'field_categories',$cat,null,
+                                            ['class' => 'custom_select form-select', 'id' => 'field_categories', 'data-trigger'],
+                                        ) }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="display: none;">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="form_fill_edit_lock" id="form_fill_edit_lock"
-                                        class="form-check-input input-primary"
-                                        {{ $form->form_fill_edit_lock == 1 ? 'checked' : 'unchecked' }}>
-                                </label>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_destination', __('Cluster'), ['class' => 'form-label']) }}
+                                            {!! Form::select('field_destination', $cluster, null, ['class' => 'form-control','id' => 'field_destination', 'data-trigger']) !!}
+                                    </div>
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_codetour', __('Code Tour'), ['class' => 'form-label']) }}
+                                            {!! Form::text('field_codetour', null, ['class' => 'form-control','id' => 'password',]) !!}                                    
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="display: none;">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('allow_comments', __('Allow comments'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="allow_comments" id="allow_comments"
-                                        class="form-check-input input-primary"
-                                        {{ $form->allow_comments == 1 ? 'checked' : 'unchecked' }}>
-                                </label>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_tourleader', __('Tour Leader'), ['class' => 'form-label']) }}
+                                            {!! Form::select('field_tourleader', $lead, null, ['class' => 'form-control','data-trigger']) !!}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ Form::label('numberofpart', __('Number of Participants'), ['class' => 'form-label']) }}
+                                        {!! Form::number('numberofpart', null, [
+                                            'autofocus' => '',
+                                            'autocomplete' => 'off',
+                                            'class' => 'form-control',
+                                        ]) !!}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="display: none;">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('allow_share_section', __('Allow Share Section'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="allow_share_section" id="allow_share_section"
-                                        class="form-check-input input-primary"
-                                        {{ $form->allow_share_section == 1 ? 'checked' : 'unchecked' }}>
-                                </label>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ Form::label('start_date', __('Start Date Tour'), ['class' => 'form-label']) }}
+                                        {!! Form::text('start_date', null, ['class' => 'form-control',
+                                            'id' => 'datepicker-start-date',
+                                            'placeholder' => __('Start Date'),]) !!}                  
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ Form::label('end_date', __('End Date Tour'), ['class' => 'form-label']) }}
+                                        {!! Form::text('end_date', null, ['class' => 'form-control',
+                                            'id' => 'datepicker-end-date',
+                                            'placeholder' => __('End Date'),]) !!}                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>{{ __('Email Setting') }}</h5>
+            <div class="card-footer">
+                    <div class="text-end">
+                        {!! Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
+                        {!! Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                     </div>
-                    <div class="card-body">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('email[]', __('Recipient Email'), ['class' => 'form-label']) }}
-                                {!! Form::text('email[]', null, [
-                                    'class' => 'form-control',
-                                    'placeholder' => __('Enter recipient email'),
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('ccemail[]', __('Enter cc emails (Optional)'), ['class' => 'form-label']) }}
-                                {!! Form::text('ccemail[]', null, [
-                                    'class' => 'form-control inputtags',
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('bccemail[]', __('Enter bcc emails (Optional)'), ['class' => 'form-label']) }}
-                                {!! Form::text('bccemail[]', null, [
-                                    'class' => 'form-control inputtags',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" style="display: none;">
-                    <div class="card-header">
-                        <h5>{{ __('Lmit Setting') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('limit_status', __('Set limit'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="limit_status" value="0">
-                                        <input type="checkbox" name="limit_status" id="m_limit_status"
-                                            class="form-check-input input-primary"
-                                            @if ($form->limit_status == '1') checked @endif>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="limit_status" class="{{ $form->limit ? 'd-block' : 'd-none' }}">
-                            <div class="form-group">
-                                {!! Form::number('limit', null, ['class' => 'form-control limit', 'placeholder' => __('limit')]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card" style="display: none;">
-                    <div class="card-header">
-                        <h5>{{ __('Password Protection') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('password_enable', __('Password Protection Enable'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="password_enable" value="0">
-                                        <input type="checkbox" name="password_enable" id="form_password_enable"
-                                            class="form-check-input input-primary"  @if ($form->password_enabled == '1') checked @endif value="1">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="password_enable" class="{{ $form->form_password ? 'd-block' : 'd-none' }}">
-                            <div class="form-group">
-                                <div class="position-relative password-toggle">
-                                    {!! Form::password('form_password' , [
-                                        'class' => 'form-control password-toggle-input',
-                                        'placeholder' => __('************'),
-                                        'autocomplete' => 'off',
-                                        'id' => 'form_protection_password',
-                                    ]) !!}
-
-                                    <div class="input-group-append password-toggle-icon" id="togglePassword">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header" style="display: none;">
-                        <h5>{{ __('Set End Date') }}</h5>
-                    </div>
-                    <div class="card-body" style="display: none;">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('set_end_date', __('Set end date'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="set_end_date" value="0">
-                                        <input type="checkbox" name="set_end_date" id="m_set_end_date"
-                                            class="form-check-input input-primary"
-                                            @if ($form->set_end_date == '1') checked @endif>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="set_end_date" class="{{ isset($form->set_end_date_time) ? 'd-block' : 'd-none' }}">
-                            <div class="form-group">
-                                <input class="form-control" name="set_end_date_time" id="set_end_date_time"
-                                    value="{{ $form->set_end_date_time }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="text-end">
-                            {!! Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
-                            {!! Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         {!! Form::close() !!}
     </div>
 @endsection
 @push('style')
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/css/plugins/datepicker-bs5.min.css') }}">
     <link href="{{ asset('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 @endpush
 @push('script')
     <script src="{{ asset('vendor/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/daterangepicker/daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/datepicker-full.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
     <script>
         var multipleCancelButton = new Choices(
@@ -558,5 +300,165 @@
                 });
             }
         });
+        // $(document).on("change", "#form_title", function() {
+        //     var cate_id = $(this).val();
+        //     $.ajax({
+        //         url: '{{ route('widget.chnages') }}',
+        //         type: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             widget: cate_id,
+        //         },
+        //         success: function(data) {
+        //             var toAppend = '';
+        //             $.each(data, function(i, o) {
+        //                 toAppend += '<option value=' + o.name + '>' + o.label + '</option>';
+        //             });
+        //             $('.field_name').html(
+        //                 '<select name="field_name" class="form-control" id="field_name" data-trigger>' +
+        //                 toAppend +
+        //                 '</select>');
+        //             new Choices('#field_name', {
+        //                 removeItemButton: true,
+        //             });
+        //         }
+        //     })
+        // });
+        $(document).on("change", "#field_categories", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesDestination') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.destination_name +'>' + o.destination_name + '</option>';
+                       
+                    });
+                    $('.field_destination').html(
+                        '<select name="field_destination" class="form-control" id="field_destination" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_destination', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        $(document).on("change", "#field_destination", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesCodetour') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    var toAppend2 = '';
+
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.code_tour + '>' + o.code_tour + '</option>';
+                        toAppend2 += '<option value=' + o.tour_leader + '>' + o.tour_leader + '</option>';
+
+                    });
+                    $('.field_codetour').html(
+                        '<select name="field_codetour" class="form-control" id="field_codetour" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_codetour', {
+                        removeItemButton: true,
+                    });
+                    $('.field_tourleader').html(
+                        '<select name="field_tourleader" class="form-control" id="field_tourleader" data-trigger>' +
+                        toAppend2 +
+                        '</select>');
+                    new Choices('#field_tourleader', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        // $(document).on("change", "#field_codetour", function() {
+        //     var cate_id = $(this).val();
+        //     $.ajax({
+        //         url: '{{ route('widget.ChnagesTouleader') }}',
+        //         type: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             widget: cate_id,
+        //         },
+        //         success: function(data) {
+        //             var toAppend = '';
+        //             var toAppend1 = '';
+
+        //             $.each(data, function(i, o) {
+        //                 toAppend += '<option value=' + o.tour_leader + '>' + o.tour_leader + '</option>';
+        //                 toAppend1 += '<option value=' + o.tour_consultant + '>' + o.tour_consultant + '</option>';
+
+        //             });
+        //             $('.field_tourleader').html(
+        //                 '<select name="field_tourleader" class="form-control" id="field_tourleader" data-trigger>' +
+        //                 toAppend +
+        //                 '</select>');
+        //             new Choices('#field_tourleader', {
+        //                 removeItemButton: true,
+        //             });
+
+        //             $('.field_tourconsultant').html(
+        //                 '<select name="field_tourconsultant" class="form-control" id="field_tourconsultant" data-trigger>' +
+        //                 toAppend1+
+        //                 '</select>');
+        //             new Choices('#field_tourconsultant', {
+        //                 removeItemButton: true,
+        //             });
+        //         }
+        //     })
+        // });
+        // $(document).on("change", "#field_tourleader", function() {
+        //     var cate_id = $(this).val();
+        //     $.ajax({
+        //         url: '{{ route('widget.ChnagesTouConsultant') }}',
+        //         type: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             widget: cate_id,
+        //         },
+        //         success: function(data) {
+        //             var toAppend = '';
+        //             $.each(data, function(i, o) {
+        //                 toAppend += '<option value=' + o.tour_consultant + '>' + o.tour_consultant + '</option>';
+        //             });
+        //             $('.field_tourconsultant').html(
+        //                 '<select name="field_tourconsultant" class="form-control" id="field_tourconsultant" data-trigger>' +
+        //                 toAppend +
+        //                 '</select>');
+        //             new Choices('#field_tourconsultant', {
+        //                 removeItemButton: true,
+        //             });
+        //         }
+        //     })
+        // });
+    </script>
+    <script>
+        (function() {
+            const d_week = new Datepicker(document.querySelector('#datepicker-start-date'), {
+                buttonClass: 'btn',
+                format: 'dd/mm/yyyy'
+            });
+        })();
+    </script>
+    <script>
+        (function() {
+            const d_week = new Datepicker(document.querySelector('#datepicker-end-date'), {
+                buttonClass: 'btn',
+                format: 'dd/mm/yyyy'
+            });
+        })();
     </script>
 @endpush

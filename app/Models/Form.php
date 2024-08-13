@@ -28,7 +28,7 @@ class Form extends Model
     public $fillable = [
         'title', 'json', 'logo', 'success_msg', 'thanks_msg', 'email', 'amount', 'currency_symbol', 'currency_name', 'theme', 'theme_color', 'theme_background_image','category_id',
         'payment_status', 'payment_type', 'bccemail', 'ccemail', 'allow_comments', 'allow_share_section', 'assign_type', 'created_by', 'set_end_date', 'set_end_date_time','limit',
-        'limit_status','form_fill_edit_lock', 'form_status'
+        'limit_status','form_fill_edit_lock', 'form_status', 'status', 'destination', 'start_tour', 'end_tour', 'number_participants'
     ];
 
     public function getFormArray()
@@ -124,6 +124,8 @@ class Form extends Model
     {
         $appName = UtilityFacades::getsettings('app_name');
         $formTitle = $form->title;
+        $formStatus = $form->status;
+
         //slack integration
         $formslacksetting = FormIntegrationSetting::where('key', 'slack_integration')->where('form_id', $form->id)->where('status', 1)->first();
         if ($formslacksetting) {

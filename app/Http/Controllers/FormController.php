@@ -11,6 +11,10 @@ use App\Models\AssignFormsUsers;
 use App\Models\DashboardWidget;
 use App\Models\Form;
 use App\Models\FormCategory;
+use App\Models\FormType;
+use App\Models\FormCluster;
+use App\Models\FormLeader;
+use App\Models\FormDestination;
 use App\Models\FormComments;
 use App\Models\FormCommentsReply;
 use App\Models\FormIntegrationSetting;
@@ -37,6 +41,7 @@ use Stripe\Stripe as StripeStripe;
 use Illuminate\Support\Facades\Mail;
 use Spatie\MailTemplates\Models\MailTemplate;
 use Stevebauman\Location\Facades\Location;
+use App\Models\Poll;
 
 
 class FormController extends Controller
@@ -48,10 +53,11 @@ class FormController extends Controller
                 return redirect()->route('grid.form.view', 'view');
             }
             $categories = FormCategory::where('status', 1)->pluck('name', 'id');
+            $type           = FormType::where('status', 1)->pluck('name', 'id');
             $roles = Role::pluck('name', 'id');
             $trashForm = Form::onlyTrashed()->count();
             $form = Form::count();
-            return $dataTable->render('form.index', compact('categories', 'roles', 'trashForm', 'form'));
+            return $dataTable->render('form.index', compact('categories', 'roles', 'trashForm', 'form', 'type'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
@@ -59,21 +65,27 @@ class FormController extends Controller
 
     public function addForm()
     {
-        $formTemplates = FormTemplate::where('created_by', \Auth::user()->id)->where('json', '!=', null)->where('status', 1)->get();
-        return view('form.add', compact('formTemplates'));
+        if (\Auth::user()->type == 1) {
+            $formTemplates = FormTemplate::where('json', '!=', null)->where('status', 1)->get();
+            return view('form.add', compact('formTemplates'));
+        } else {
+            $formTemplates = FormTemplate::where('image', \Auth::user()->type)->where('json', '!=', null)->where('status', 1)->get();
+            return view('form.add', compact('formTemplates'));
+        }
     }
 
     public function create()
     {
         if (\Auth::user()->can('create-form')) {
-            $users = User::where('id', '!=', 1)->pluck('name', 'id');
+            // $users = User::where('id', '!=', 1)->pluck('name', 'id');
             $roles = Role::where('name', '!=', 'Super Admin')
                 ->orwhere('name', Auth::user()->type)
                 ->pluck('name', 'id');
 
             $category = FormCategory::where('status', 1)->pluck('name', 'id');
             $status   = FormStatus::where('status', 1)->pluck('name', 'id');
-            return view('form.create', compact('roles', 'users', 'category', 'status'));
+            $type           = FormType::where('status', 1)->pluck('name', 'id');
+            return view('form.create', compact('roles', 'users', 'category', 'status', 'type'));
         } else {
             return response()->json(['failed' => __('Permission denied.')], 401);
         }
@@ -87,6 +99,8 @@ class FormController extends Controller
             'title'     => $formtemplate->title,
             'json'      => $formtemplate->json,
             'category_id' => 2,
+            'created_by' => Auth::user()->id
+            
         ]);
         return redirect()->route('forms.edit', $form->id)->with('success', __('Form created successfully.'));
     }
@@ -96,111 +110,11 @@ class FormController extends Controller
     {
         if (\Auth::user()->can('create-form')) {
             request()->validate([
-                'title'     => 'required|max:191',
-                'form_logo' => 'nullable|mimes:png,jpg,svg,jpeg',
-                'category_id' => 'required',
-                'form_status' => 'required'
+                'title'     => 'required|max:191'
             ]);
-
-            if (isset($request->set_end_date) && $request->set_end_date == 'on') {
-                request()->validate([
-                    'set_end_date' => 'required',
-                    'set_end_date_time' => 'required'
-                ]);
-            }
-
-            if (isset($request->limit_status) && $request->limit_status == 1) {
-                request()->validate([
-                    'limit_status' => 'required',
-                    'limit' => 'required'
-                ]);
-            }
-
-
-            if (isset($request->password_enable) && $request->password_enable == 1) {
-                request()->validate([
-                    'password_enable' => 'required',
-                    'form_password' => 'required'
-                ]);
-                $password = 1;
-                $formPassword = Hash::make($request->form_password);
-            } else {
-                $password = 0;
-                $formPassword = null;
-            }
-
-            $ccemails = implode(',', $request->ccemail);
-            $bccemails = implode(',', $request->bccemail);
-            if ($ccemails) {
-                request()->validate([
-                    'ccemail' => ['nullable', new CommaSeparatedEmails],
-                ]);
-            }
-            if ($bccemails) {
-                request()->validate([
-                    'bccemail' => ['nullable', new CommaSeparatedEmails],
-                ]);
-            }
-            request()->validate([
-                'email' => ['nullable', new CommaSeparatedEmails],
-            ]);
-
-            $userSchema = User::where('type', '=', 'Admin')->first();
-            $filename = '';
-            if (request()->file('form_logo')) {
-                $allowedfileExtension = ['jpeg', 'jpg', 'png'];
-                $file = $request->file('form_logo');
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
-                if ($check) {
-                    $filename = $file->store('form-logo');
-                } else {
-                    return redirect()->route('forms.index')->with('failed', __('File type not valid.'));
-                }
-            }
-            if (isset($request->email) and !empty($request->email)) {
-                $emails = implode(',', $request->email);
-            }
-            if (isset($request->ccemail) and !empty($request->ccemail)) {
-                $ccemails = implode(',', $request->ccemail);
-            }
-            if (isset($request->bccemail) and !empty($request->bccemail)) {
-                $bccemails = implode(',', $request->bccemail);
-            }
-            if (isset($request->set_end_date) && $request->set_end_date == 1) {
-                $setEndDate = 1;
-            } else {
-                $setEndDate = 0;
-            }
-            if (isset($request->set_end_date_time)) {
-                $setEndDateTime = Carbon::parse($request->set_end_date_time)->toDateTimeString();
-            } else {
-                $setEndDateTime = null;
-            }
-
             $form = new Form();
             $form->title                = $request->title;
-            $form->logo                 = $filename;
-            $form->description          = $request->form_description;
-            $form->category_id          = $request->category_id;
-            $form->email                = $emails;
-            $form->bccemail             = $bccemails;
-            $form->ccemail              = $bccemails;
-            $form->form_fill_edit_lock  = ($request->form_fill_edit_lock == 'on') ? '1' : '0';
-            $form->allow_comments       = ($request->allow_comments == 'on') ? '1' : '0';
-            $form->allow_share_section  = ($request->allow_share_section == 'on') ? '1' : '0';
-            $form->json                 = '';
-            $form->success_msg          = $request->success_msg;
-            $form->thanks_msg           = $request->thanks_msg;
-            $form->set_end_date         = $setEndDate;
-            $form->set_end_date_time    = $setEndDateTime;
-            $form->created_by           = Auth::user()->id;
-            $form->assign_type          = $request->assign_type;
-            $form->limit_status         = $request->limit_status;
-            $form->limit                = $request->limit;
-            $form->password_enabled     = $password;
-            $form->form_password        = $formPassword;
-            $form->form_status          = $request->form_status;
+           
             $form->save();
             if ($request->assign_type == 'role') {
                 $form->assignRole($request->roles);
@@ -210,18 +124,7 @@ class FormController extends Controller
             }
             $form->assignFormRoles($request->roles);
 
-            $notify = NotificationsSetting::where('title', 'From Create')->first();
-            if (isset($notify)) {
-                if ($notify->notify == 1) {
-                    if (UtilityFacades::getsettings('email_setting_enable') == 'on') {
-                        if (isset($notify)) {
-                            if ($notify &&  $notify->notify == '1') {
-                                $userSchema->notify(new CreateForm($form));
-                            }
-                        }
-                    }
-                }
-            }
+        
             return redirect()->route('forms.index')->with('success', __('Form created successfully.'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
@@ -233,7 +136,7 @@ class FormController extends Controller
         $usr                = \Auth::user();
         $userRole          = $usr->roles->first()->id;
         $formallowededit    = UserForm::where('role_id', $userRole)->where('form_id', $id)->count();
-        if (\Auth::user()->can('edit-form') && $usr->type == 'Admin') {
+        if (\Auth::user()->can('edit-form')) {
             $form           = Form::find($id);
             $next           = Form::where('id', '>', $form->id)->first();
             $previous       = Form::where('id', '<', $form->id)->orderBy('id', 'desc')->first();
@@ -242,10 +145,32 @@ class FormController extends Controller
             $getFormRole    = Role::pluck('name', 'id');
             $formUser       =  $form->assignedusers->pluck('id')->toArray();
             $GetformUser    = User::where('id', '!=', 1)->pluck('name', 'id');
-            $categories     = FormCategory::where('status', 1)->pluck('name', 'id');
             $status         = FormStatus::where('status', 1)->pluck('name', 'id');
-
-            return view('form.edit', compact('form', 'roles', 'GetformUser', 'formUser', 'formRole', 'getFormRole', 'next', 'previous', 'categories', 'status'));
+            $types           = FormType::where('name', 'Tour')->get();
+            $type          = [];
+            $type['']      = __('Select type');
+            foreach ($types as $value) {
+                $type[$value->name] = $value->name;
+            }
+            $categories           = FormCategory::where('type_name', 'Tour')->get();
+            $cat          = [];
+            $cat['']      = __('Select categories');
+            foreach ($categories as $value) {
+                $cat[$value->name] = $value->name;
+            }
+            $clusters          = FormCluster::all();
+            $cluster          = [];
+            $cluster['']      = __('Select clusters');
+            foreach ($clusters as $value) {
+                $cluster[$value->name] = $value->name;
+            }
+            $leaders           = FormLeader::all();
+            $lead          = [];
+            $lead['']      = __('Select leaders');
+            foreach ($leaders as $value) {
+                $lead[$value->name] = $value->name;
+            }
+            return view('form.edit', compact('form', 'roles', 'GetformUser', 'formUser', 'formRole', 'getFormRole', 'next', 'previous', 'status', 'type', 'cat', 'cluster', 'lead'));
         } else {
             if (\Auth::user()->can('edit-form') && $formallowededit > 0) {
                 $form           = Form::find($id);
@@ -256,14 +181,201 @@ class FormController extends Controller
                 $getFormRole    = Role::pluck('name', 'id');
                 $formUser       = $form->assignedusers->pluck('id')->toArray();
                 $GetformUser    = User::where('id', '!=', 1)->pluck('name', 'id');
-                $categories     = FormCategory::where('status', 1)->pluck('name', 'id');
                 $status         = FormStatus::where('status', 1)->pluck('name', 'id');
-
-                return view('form.edit', compact('form', 'getFormRole', 'GetformUser', 'formUser', 'formRole', 'next', 'previous', 'categories', 'status'));
+                $types           = FormType::where('name', 'Tour')->get();
+                $type          = [];
+                $type['']      = __('Select type');
+                foreach ($types as $value) {
+                    $type[$value->name] = $value->name;
+                }
+                $categories           = FormCategory::where('type_name', 'Tour')->get();
+                $cat          = [];
+                $cat['']      = __('Select categories');
+                foreach ($categories as $value) {
+                    $cat[$value->name] = $value->name;
+                }
+                $clusters          = FormCluster::all();
+                $cluster          = [];
+                $cluster['']      = __('Select clusters');
+                foreach ($clusters as $value) {
+                    $cluster[$value->name] = $value->name;
+                }
+                $leaders           = FormLeader::all();
+                $lead          = [];
+                $lead['']      = __('Select leaders');
+                foreach ($leaders as $value) {
+                    $lead[$value->name] = $value->name;
+                }
+                return view('form.edit', compact('form', 'getFormRole', 'GetformUser', 'formUser', 'formRole', 'next', 'previous', 'status', 'type', 'cat', 'clusters', 'lead'));
             } else {
                 return redirect()->back()->with('failed', __('Permission denied.'));
             }
         }
+    }
+
+    public function buttonedit($id)
+    {
+        $usr                = \Auth::user();
+        $userRole          = $usr->roles->first()->id;
+        $formallowededit    = UserForm::where('role_id', $userRole)->where('form_id', $id)->count();
+        if (\Auth::user()->can('edit-form')) {
+            $form           = Form::find($id);
+            $next           = Form::where('id', '>', $form->id)->first();
+            $previous       = Form::where('id', '<', $form->id)->orderBy('id', 'desc')->first();
+            $roles          = Role::where('name', '!=', 'Super Admin')->pluck('name', 'id');
+            $formRole       = $form->assignedroles->pluck('id')->toArray();
+            $getFormRole    = Role::pluck('name', 'id');
+            $formUser       =  $form->assignedusers->pluck('id')->toArray();
+            $GetformUser    = User::where('id', '!=', 1)->pluck('name', 'id');
+            $status         = FormStatus::where('status', 1)->pluck('name', 'id');
+            $types           = FormType::where('name', 'Tour')->get();
+            $type          = [];
+            $type['']      = __('Select type');
+            foreach ($types as $value) {
+                $type[$value->name] = $value->name;
+            }
+            $categories           = FormCategory::where('type_name', 'Tour')->get();
+            $cat          = [];
+            $cat['']      = __('Select categories');
+            foreach ($categories as $value) {
+                $cat[$value->name] = $value->name;
+            }
+            $clusters          = FormCluster::all();
+            $cluster          = [];
+            $cluster['']      = __('Select clusters');
+            foreach ($clusters as $value) {
+                $cluster[$value->name] = $value->name;
+            }
+            $leaders           = FormLeader::all();
+            $lead          = [];
+            $lead['']      = __('Select leaders');
+            foreach ($leaders as $value) {
+                $lead[$value->name] = $value->name;
+            }
+            $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $form->start_tour)->format('d/m/Y');
+            $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $form->end_tour)->format('d/m/Y');
+            return view('form.buttonedit', compact('form', 'roles', 'GetformUser', 'formUser', 'formRole', 'getFormRole', 'next', 'previous', 'status','type', 'cat', 'cluster', 'lead', 'startDate', 'endDate'));
+        } else {
+            if (\Auth::user()->can('edit-form') && $formallowededit > 0) {
+                $form           = Form::find($id);
+                $next           = Form::where('id', '>', $form->id)->first();
+                $previous       = Form::where('id', '<', $form->id)->orderBy('id', 'desc')->first();
+                $roles          = Role::pluck('name', 'id');
+                $formRole       = $form->assignedroles->pluck('id')->toArray();
+                $getFormRole    = Role::pluck('name', 'id');
+                $formUser       = $form->assignedusers->pluck('id')->toArray();
+                $GetformUser    = User::where('id', '!=', 1)->pluck('name', 'id');
+                $status         = FormStatus::where('status', 1)->pluck('name', 'id');
+                $types           = FormType::where('name', 'Tour')->get();
+                $type          = [];
+                $type['']      = __('Select type');
+                foreach ($types as $value) {
+                    $type[$value->name] = $value->name;
+                }
+                $categories           = FormCategory::where('type_name', 'Tour')->get();
+                $cat          = [];
+                $cat['']      = __('Select categories');
+                foreach ($categories as $value) {
+                    $cat[$value->name] = $value->name;
+                }
+                $clusters          = FormCluster::all();
+                $cluster          = [];
+                $cluster['']      = __('Select clusters');
+                foreach ($clusters as $value) {
+                    $cluster[$value->name] = $value->name;
+                }
+                $leaders           = FormLeader::all();
+                $lead          = [];
+                $lead['']      = __('Select leaders');
+                foreach ($leaders as $value) {
+                    $lead[$value->name] = $value->name;
+                }
+                $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $form->start_tour)->format('d/m/Y');
+                $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $form->end_tour)->format('d/m/Y');
+                return view('form.buttonedit', compact('form', 'getFormRole', 'GetformUser', 'formUser', 'formRole', 'next', 'previous', 'status', 'type', 'cat', 'cluster', 'lead', 'startDate', 'endDate'));
+            } else {
+                return redirect()->back()->with('failed', __('Permission denied.'));
+            }
+        }
+    }
+    public function fetchState(Request $request)
+    {
+        $data['states'] = State::where("country_id", $request->country_id)
+                                ->get(["name", "id"]);
+  
+        return response()->json($data);
+    }
+
+    public function WidgetChnages(Request $request)
+    {
+        $widget = $request->widget;
+        $form = Form::find($widget);
+        $home = json_decode($form->json);
+        $label = [];
+        if (isset($home)) {
+            foreach ($home as $hom) {
+                foreach ($hom as $key => $var) {
+                    if ($var->type == 'select' || $var->type == 'radio-group' || $var->type == 'date' || $var->type == 'checkbox-group' || $var->type == 'starRating') {
+                        $label[$key] = $var;
+                    }
+                }
+            }
+        }
+        return response()->json($label, 200);
+    }
+
+    public function WidgetChnagesC(Request $request)
+    {
+        $widget = $request->widget;
+        $form = FormCategory::where("type_name", $widget)
+        ->get(["name", "id"]);
+        
+        return response()->json($form, 200);
+    }
+
+    public function WidgetChnagesDestination(Request $request)
+    {
+        $widget = $request->widget;
+        $form = FormDestination::where("categories_name", $widget)
+        ->get(["id", "destination_name"]);
+        
+        return response()->json($form, 200);
+    }
+
+    public function WidgetChnagesCodetour(Request $request)
+    {
+        $widget = $request->widget;
+        $form = FormDestination::where("destination_name", 'LIKE', $widget.'%' )
+        ->get(["id", "code_tour", "tour_leader"]);
+        
+        return response()->json($form, 200);
+    }
+
+    public function WidgetChnagesTouleader(Request $request)
+    {
+        $widget = $request->widget;
+        $form = FormDestination::where("code_tour", $widget)
+        ->get(["id", "tour_leader", "tour_consultant"]);
+        
+        return response()->json($form, 200);
+    }
+
+    public function WidgetChnagesTouConsultant(Request $request)
+    {
+        $widget = $request->widget;
+        $form = FormDestination::where("tour_leader", $widget)
+        ->get(["id", "tour_consultant"]);
+        
+        return response()->json($form, 200);
+    }
+
+    public function WidgetChnagesForm(Request $request)
+    {
+        $widget = $request->widget;
+        $form = Form::where("type", $widget)
+        ->get(["id", "tour_leader_name", "tour_consultant"]);
+        
+        return response()->json($form, 200);
     }
 
     public function update(Request $request, Form $form)
@@ -271,109 +383,39 @@ class FormController extends Controller
         if (\Auth::user()->can('edit-form')) {
             request()->validate([
                 'title'       => 'required|max:191',
-                'form_status' => 'required'
             ]);
-
-            $ccemails = implode(',', $request->ccemail);
-            $bccemails = implode(',', $request->bccemail);
-            if ($ccemails) {
-                $request->validate([
-                    'ccemail' => ['nullable', new CommaSeparatedEmails],
-                ]);
-            }
-            if ($bccemails) {
-                $request->validate([
-                    'bccemail' => ['nullable', new CommaSeparatedEmails],
-                ]);
-            }
-            request()->validate([
-                'email' => ['nullable', new CommaSeparatedEmails],
-            ]);
-
-            $filename = $form->logo;
-            $emails = $form->logo;
-            if (request()->file('form_logo')) {
-                $allowedfileExtension   = ['jpeg', 'jpg', 'png'];
-                $file                   = $request->file('form_logo');
-                $extension              = $file->getClientOriginalExtension();
-                $check                  = in_array($extension, $allowedfileExtension);
-                if ($check) {
-                    $filename = $file->store('form-logo');
-                    $form->logo                 = $filename;
-                } else {
-                    return redirect()->route('forms.index')->with('failed', __('File type not valid.'));
-                }
-            }
-            if (isset($request->email) and !empty($request->email)) {
-                $emails = implode(',', $request->email);
-            }
-            if (isset($request->ccemail) and !empty($request->ccemail)) {
-                $ccemails = implode(',', $request->ccemail);
-            }
-            if (isset($request->bccemail) and !empty($request->bccemail)) {
-                $bccemails = implode(',', $request->bccemail);
-            }
-
-            if ($request->set_end_date == 'on') {
-                $setEndDate = 1;
-            } else {
-                $setEndDate = 0;
-            }
-            if (isset($request->set_end_date_time)) {
-                $setEndDateTime = Carbon::parse($request->set_end_date_time)->toDateTimeString();;
-            } else {
-                $setEndDateTime = null;
-            }
-
-            if (isset($request->password_enable) && $request->password_enable == 1) {
-                request()->validate([
-                    'password_enable' => 'required',
-                    'form_password' => 'required'
-                ]);
-                $password = 1;
-                $formPassword = Hash::make($request->form_password);
-            } else {
-                $password = 0;
-                $formPassword = null;
-            }
+            $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
+            $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
 
             $form->title                = $request->title;
-            $form->success_msg          = $request->success_msg;
-            $form->thanks_msg           = $request->thanks_msg;
-            $form->category_id          = $request->category_id;
-            $form->description          = $request->form_description;
-            $form->email                = $emails;
-            $form->ccemail              = $ccemails;
-            $form->bccemail             = $bccemails;
-            $form->form_fill_edit_lock  = ($request->form_fill_edit_lock == 'on') ? '1' : '0';
-            $form->allow_comments       = ($request->allow_comments == 'on') ? '1' : '0';
-            $form->allow_share_section  = ($request->allow_share_section == 'on') ? '1' : '0';
-            $form->set_end_date         = $setEndDate;
-            $form->set_end_date_time    = $setEndDateTime;
+            $form->type                 = $request->type_id;
+            $form->category             = $request->field_categories;
+            $form->destination          = $request->field_destination;
+            $form->code_tour            = $request->field_codetour;
+            $form->tour_leader_name     = $request->field_tourleader;
+            $form->number_participants  = $request->numberofpart;
+            $form->start_tour           = $startDate;
+            $form->end_tour             = $endDate;
             $form->created_by           = Auth::user()->id;
-            $form->limit_status         = $request->limit_status == 'on' ? '1' : '0';
-            $form->limit                = $request->limit;
-            $form->assign_type          = $request->assign_type;
-            $form->password_enabled     = $password;
-            $form->form_password        = $formPassword;
-            $form->form_status          = $request->form_status;
+            // $form->assign_type          = $request->assign_type;
             $form->save();
-            if ($request->assign_type == 'role') {
-                $id = $form->id;
-                AssignFormsUsers::where('form_id', $id)->delete();
-                $form->assignRole($request->roles);
-            }
-            if ($request->assign_type == 'user') {
-                $id = $form->id;
-                AssignFormsRoles::where('form_id', $id)->delete();
-                $form->assignUser($request->users);
-            }
-            if ($request->assign_type == 'public') {
-                $id = $form->id;
-                AssignFormsRoles::where('form_id', $id)->delete();
-                AssignFormsUsers::where('form_id', $id)->delete();
-            }
-            $form->assignFormRoles($request->roles);
+            // if ($request->assign_type == 'role') {
+            //     $id = $form->id;
+            //     AssignFormsUsers::where('form_id', $id)->delete();
+            //     $form->assignRole($request->roles);
+            // }
+            // if ($request->assign_type == 'user') {
+            //     $id = $form->id;
+            //     AssignFormsRoles::where('form_id', $id)->delete();
+            //     $form->assignUser($request->users);
+            // }
+            // if ($request->assign_type == 'public') {
+            //     $id = $form->id;
+            //     AssignFormsRoles::where('form_id', $id)->delete();
+            //     AssignFormsUsers::where('form_id', $id)->delete();
+            // }
+            // $form->assignFormRoles($request->roles);
+            
             return redirect()->route('forms.index')->with('success', __('Form updated successfully.'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
@@ -427,7 +469,7 @@ class FormController extends Controller
 
         $roleId    = $usr->roles->first()->id;
         $userId    = $usr->id;
-        if ($usr->type == 'Admin') {
+        if ($usr->type == 1) {
             $forms = Form::all();
         } else {
             $forms = Form::where(function ($query) use ($roleId, $userId) {
@@ -565,6 +607,7 @@ class FormController extends Controller
                     }
                 }
                 if ($form) {
+
                     $clientEmails = [];
                     if ($request->form_value_id) {
                         $formValue = FormValue::find($request->form_value_id);
@@ -817,7 +860,7 @@ class FormController extends Controller
                                     Storage::put($file, $imageBase64);
                                 }
                                 $row->value  = $file;
-                            }
+                            } 
                         }
                     }
 
@@ -829,6 +872,7 @@ class FormController extends Controller
                         $formValue->submited_forms_city       = $ipDataArray['city'];
                         $formValue->submited_forms_latitude   = $loc[0];
                         $formValue->submited_forms_longitude  = $loc[1];
+                        
                         $formValue->save();
                     } else {
                         if (\Auth::user()) {
@@ -1473,22 +1517,22 @@ class FormController extends Controller
                     }
                 }
 
-                $user = User::where('type', 'Admin')->first();
+                $user = User::where('type', 'Super Admin')->first();
                 $notificationsSetting = NotificationsSetting::where('title', 'new survey details')->first();
-                if (isset($notificationsSetting)) {
-                    if ($notificationsSetting->notify == '1') {
-                        $user->notify(new NewSurveyDetails($form));
-                    } elseif ($notificationsSetting->email_notification == '1') {
-                        if (UtilityFacades::getsettings('email_setting_enable') == 'on') {
-                            if (MailTemplate::where('mailable', FormSubmitEmail::class)->first()) {
-                                try {
-                                    Mail::to($formValue->email)->send(new FormSubmitEmail($formValue, $formValueArray));
-                                } catch (\Exception $e) {
-                                }
-                            }
-                        }
-                    }
-                }
+                // if (isset($notificationsSetting)) {
+                //     if ($notificationsSetting->notify == '1') {
+                //         $user->notify(new NewSurveyDetails($form));
+                //     } elseif ($notificationsSetting->email_notification == '1') {
+                //         if (UtilityFacades::getsettings('email_setting_enable') == 'on') {
+                //             if (MailTemplate::where('mailable', FormSubmitEmail::class)->first()) {
+                //                 try {
+                //                     Mail::to($formValue->email)->send(new FormSubmitEmail($formValue, $formValueArray));
+                //                 } catch (\Exception $e) {
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
                 if ($form->payment_type != 'coingate' && $form->payment_type != 'mercado') {
                     $successMsg = strip_tags($form->success_msg);
                 }

@@ -46,6 +46,9 @@ use App\Http\Controllers\SystemAnalyticsController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\FormTypeController;
+use App\Http\Controllers\FormClusterController;
+use App\Http\Controllers\FormLeaderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,7 +67,8 @@ Route::group(['middleware' =>  ['auth', 'Upload', 'verified', 'xss', 'verified_p
 });
 
 Route::group(['middleware' => ['auth', 'xss', 'Setting', 'verified', '2fa', 'verified_phone', 'Upload']], function () {
-    Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [LoginSecurityController::class, 'index'])->name('home');
+    // Route::get('home', [HomeController::class, 'index']);'show2faForm',
     Route::resource('profile', ProfileController::class);
     Route::resource('users', UserController::class)->except(['show']);
     Route::resource('permission', PermissionController::class);
@@ -160,8 +164,30 @@ Route::group(['middleware' => ['auth', 'xss', 'Setting', 'verified', '2fa', 'ver
 
         Route::get('grid/{id?}', [FormController::class, 'gridView'])->name('grid.form.view');
         Route::post('status/{id}', [FormController::class, 'formStatus'])->name('form.status');
+        Route::post('widget/chnages', [FormController::class, 'WidgetChnages'])->name('widget.chnages');
+        Route::post('widget/chnagesc', [FormController::class, 'WidgetChnagesC'])->name('widget.chnagesc');
+        Route::post('widget/ChnagesDestination', [FormController::class, 'WidgetChnagesDestination'])->name('widget.ChnagesDestination');
+        Route::post('widget/ChnagesCodetour', [FormController::class, 'WidgetChnagesCodetour'])->name('widget.ChnagesCodetour');
+        Route::post('widget/ChnagesTouleader', [FormController::class, 'WidgetChnagesTouleader'])->name('widget.ChnagesTouleader');
+        Route::post('widget/ChnagesTouConsultant', [FormController::class, 'WidgetChnagesTouConsultant'])->name('widget.ChnagesTouConsultant');
+        Route::post('widget/ChnagesForms', [FormController::class, 'WidgetChnagesForm'])->name('widget.ChnagesForm');
+
     });
 
+     //form type
+     Route::resource('form-type', FormTypeController::class)->except(['show']);
+      // Route::get('form-types', [FormTypeController::class, 'index'])->name('form-types.index');
+    // Route::get('form-types/data', [FormTypeController::class, 'anyData'])->name('form-types.data');
+
+    // form cluster
+    Route::resource('form-cluster', FormClusterController::class)->except(['show']);
+    Route::get('form-cluster', [FormClusterController::class, 'index'])->name('form-cluster.index');
+    Route::get('form-desticlusternation/data', [FormClusterController::class, 'anyData'])->name('form-cluster.data');
+    Route::post('widget/chnagesc', [FormClusterController::class, 'WidgetChnagesC'])->name('widget.chnagesc');
+
+    // form leader
+    Route::resource('form-leader', FormLeaderController::class)->except(['show']);
+    Route::get('form-leader', [FormLeaderController::class, 'index'])->name('form-leader.index');
 
     //Form Template
     Route::resource('form-template', FormTemplateController::class);
@@ -411,6 +437,7 @@ Route::group(['middleware' => ['Upload']], function () {
     Route::put('forms/{id}/design', [FormController::class, 'designUpdate'])->name('forms.design.update')->middleware(['auth', 'Setting', 'xss']);
     Route::post('form-values/excel', [FormValueController::class, 'exportXlsx'])->name('download.form.values.excel')->middleware(['auth', 'Setting', 'xss']);
     Route::get('form-fill-edit-lock/{id}', [FormValueController::class, 'formFillEditlock'])->name('form.fill.edit.lock')->middleware(['auth', 'Setting', 'xss']);
+    Route::get('forms/{id}', [FormController::class, 'buttonedit'])->name('forms.buttonedit')->middleware(['auth', 'Setting', 'xss']);
 
     //password protection
     Route::get('password/protection/{id}', [FormController::class, 'passwordProtection'])->name('password.protection');

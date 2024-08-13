@@ -221,6 +221,7 @@ class Utility
         $form_values = $form_values->get();
         foreach ($form_values as $form_value) {
             $array1 = json_decode($form_value->form_json);
+
             foreach ($array1 as $rows1) {
                 foreach ($rows1 as $row_key1 => $row1) {
                     if (property_exists($row1, 'name')) {

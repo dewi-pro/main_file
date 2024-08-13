@@ -144,11 +144,11 @@ class UsersDataTable extends DataTable
 
 
     $buttonsConfig = array_merge($buttonsConfig, [
-        $exportButtonConfig,
-        [
-            'extend' => 'reset',
-            'className' => 'btn btn-light-danger me-1',
-        ],
+        // $exportButtonConfig,
+        // [
+        //     'extend' => 'reset',
+        //     'className' => 'btn btn-light-danger me-1',
+        // ],
         [
             'extend' => 'reload',
             'className' => 'btn btn-light-warning',
@@ -203,10 +203,10 @@ class UsersDataTable extends DataTable
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('name')->title(__('Name')),
             Column::make('email')->title(__('Email')),
-            Column::make('role')->title(__('Role')),
-            Column::make('active_status')->title(__('Status')),
-            Column::make('email_verified_at')->title(__('Email Verified At')),
-            Column::make('phone_verified_at')->title(__('Phone Verified At')),
+            // Column::make('role')->titlez(__('Role')),
+            // Column::make('active_status')->title(__('Status')),
+            // Column::make('email_verified_at')->title(__('Email Verified At')),
+            // Column::make('phone_verified_at')->title(__('Phone Verified At')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

@@ -20,8 +20,20 @@ class FormValueController extends Controller
     public function index(FormValuesDataTable $dataTable)
     {
         if (\Auth::user()->can('manage-submitted-form')) {
-            $forms = Form::all();
-            return $dataTable->render('form-value.index', compact('forms'));
+            // // $formValue = FormValue::All();
+            // // $array      = json_decode($formValue->json);
+            $form = FormValue::all();
+            $forms = [];
+            $forms[''] = __('No select title');
+            foreach ($form as $val) {
+                $forms[$val->id] = json_decode($val->json);
+            }
+
+
+            // $formValue = FormValue::all();
+            // $array      = json_decode($formValue->json);
+            
+            return $dataTable->render('form-value.index', compact( 'forms'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -33,6 +45,7 @@ class FormValueController extends Controller
             $forms          = Form::all();
             $chartData      = UtilityFacades::dataChart($form_id);
             $formsDetails  = Form::find($form_id);
+            
             return $dataTable->with('form_id', $form_id)->render('form-value.view-submited-form', compact('forms', 'chartData', 'formsDetails'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -234,6 +247,7 @@ class FormValueController extends Controller
         $status  = $request->form_status ?? 1 ;
         if ($formValue) {
             $formValue->form_status  = $status;
+            // $formValue->status = 'POSITIVE';
             $formValue->save();
         }
 

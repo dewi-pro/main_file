@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\FormCategoryDataTable;
 use App\Models\FormCategory;
 use Illuminate\Http\Request;
+use App\Models\FormType;
+
 
 class FromCategoryController extends Controller
 {
@@ -26,9 +28,15 @@ class FromCategoryController extends Controller
     public function create()
     {
         if (\Auth::user()->can('create-form-category')) {
-
+            // $types           = FormType::all();
+            // $type          = [];
+            // $type['']      = __('Select type');
+            // foreach ($types as $value) {
+            //     $type[$value->name] = $value->name;
+            // }
             $view = view('form-category.create');
             return ['html' => $view->render()];
+            
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
@@ -40,15 +48,14 @@ class FromCategoryController extends Controller
     public function store(Request $request)
     {
         if (\Auth::user()->can('create-form-category')) {
-
             $request->validate([
                 'name' => 'required|unique:form_categories',
-                'status' => 'required',
             ]);
 
             FormCategory::create([
                 'name' => $request->name,
-                'status' => $request->status
+                'status' => 1,
+                // 'type_name' => $request->type_id
             ]);
             return redirect()->route('form-category.index')->with('success', __('Category Created Successfully!'));
         } else {
@@ -71,6 +78,11 @@ class FromCategoryController extends Controller
     {
         if (\Auth::user()->can('edit-form-category')) {
             $formCategory = FormCategory::find($id);
+            // $type   = FormType::all();
+            // $types['']      = __('Select type');
+            // foreach ($type as $value) {
+            //     $types[$value->name] = $value->name;
+            // }
 
             $view = view('form-category.edit', compact('formCategory'));
             return ['html' => $view->render()];
@@ -87,12 +99,11 @@ class FromCategoryController extends Controller
         if (\Auth::user()->can('edit-form-category')) {
             $request->validate([
                 'name' => 'required|unique:form_categories,name,' . $id,
-                'status' => 'required'
             ]);
 
             $formCategory =  FormCategory::find($id);
             $formCategory->name = $request->name;
-            $formCategory->status = $request->status;
+            // $formCategory->type_name = $request->type_name;
             $formCategory->save();
 
             return redirect()->route('form-category.index')->with('success', __('Category Updated Successfully!'));

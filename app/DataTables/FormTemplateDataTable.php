@@ -31,17 +31,17 @@ class FormTemplateDataTable extends DataTable
             ->addIndexColumn()
             ->editColumn('created_at', function ($request) {
                 return UtilityFacades::date_time_format($request->created_at);
-            })->editColumn('image', function (FormTemplate $FormTemplate) {
-                if ($FormTemplate->image) {
-                    if (Storage::path($FormTemplate->image)) {
-                        $a = '<img src="' . Storage::url($FormTemplate->image) . '" style="width:60px; ">';
-                    } else {
-                        $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px;  ">';
-                    }
-                } else {
-                    $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px; ">';
-                }
-                return $a;
+            // })->editColumn('image', function (FormTemplate $FormTemplate) {
+            //     if ($FormTemplate->image) {
+            //         if (Storage::path($FormTemplate->image)) {
+            //             $a = '<img src="' . Storage::url($FormTemplate->image) . '" style="width:60px; ">';
+            //         } else {
+            //             $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px;  ">';
+            //         }
+            //     } else {
+            //         $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px; ">';
+            //     }
+            //     return $a;
             })->editColumn('status', function (FormTemplate $FormTemplate) {
                 if ($FormTemplate->status == 1) {
                     $a = '<div class="form-check form-switch">
@@ -68,10 +68,11 @@ class FormTemplateDataTable extends DataTable
      */
     public function query(FormTemplate $model): QueryBuilder
     {
-        if (\Auth::user()->type == 'Admin') {
-            return $model->newQuery()->where('created_by', \Auth::user()->id);
+        if (\Auth::user()->type == 'Super Admin') {
+            return $model->newQuery()->where('created_by', \Auth::user()->id)->orderBy('created_at', 'asc');
+            ;
         } else {
-            return $model->newQuery()->where('created_by', \Auth::user()->id    );
+            return $model->newQuery()->where('created_by', \Auth::user()->id)->orderBy('created_at', 'asc');
         }
     }
 
@@ -159,11 +160,11 @@ class FormTemplateDataTable extends DataTable
         }
 
         $buttonsConfig = array_merge($buttonsConfig, [
-            $exportButtonConfig,
-            [
-                'extend' => 'reset',
-                'className' => 'btn btn-light-danger me-1',
-            ],
+            // $exportButtonConfig,
+            // [
+            //     'extend' => 'reset',
+            //     'className' => 'btn btn-light-danger me-1',
+            // ],
             [
                 'extend' => 'reload',
                 'className' => 'btn btn-light-warning',
@@ -221,9 +222,9 @@ class FormTemplateDataTable extends DataTable
         return [
             Column::make('No')->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('title')->title(__('Title')),
-            Column::make('image')->title(__('Image')),
+            // Column::make('image')->title(__('Image')),
             Column::make('status')->title(__('Status')),
-            Column::make('created_at')->title(__('Created At')),
+            Column::make('created_at')->title(__('Created Date')),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

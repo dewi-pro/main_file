@@ -33,12 +33,8 @@
                             {!! Form::text('title', null, ['class' => 'form-control', 'required', 'placeholder' => __('Enter title')]) !!}
                         </div>
                         <div class="form-group">
-                            {{ Form::label('image', __('Image'), ['class' => 'form-label']) }}
-                            {!! Form::file('image', ['class' => 'form-control', 'id' => 'image']) !!}
-                            @if (isset($formTemplate->image))
-                                <img src="{{ Storage::url($formTemplate->image) }}" width="100"
-                                    height="100" class="mt-2">
-                            @endif
+                            {{ Form::label('roles', __('Role'), ['class' => 'form-label']) }}
+                            {!! Form::select('roles', $roles, $formTemplate->image, ['class' => 'form-select', 'class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
                     <div class="card-footer">

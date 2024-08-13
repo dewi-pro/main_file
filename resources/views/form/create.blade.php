@@ -23,11 +23,10 @@
             'enctype' => 'multipart/form-data',
         ]) !!}
         <div class="row">
-            <div class="col-sm-6">
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h5>{{ __('General') }}</h5>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <div class="col-lg-12">
                             <div class="form-group">
@@ -46,75 +45,62 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('form_logo', __('Select Logo'), ['class' => 'form-label']) }}
-                                {!! Form::file('form_logo', ['class' => 'form-control']) !!}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            {{ Form::label('type_id', __('Type'), ['class' => 'form-label']) }}
+                                            {!! Form::select('type_id', $type, null, [
+                                            'class' => 'form-select',
+                                            'id' => 'type_id',
+                                            'data-trigger',
+                                        ]) !!}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ Form::label('field_categories', __('Category'), ['class' => 'form-label']) }}
+                                        <div class="field_categories">
+                                            {!! Form::select('field_categories', [], null, ['class' => 'form-control','data-trigger']) !!}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}
-                                {!! Form::select('category_id', $category, null, [
-                                    'class' => 'form-select',
-                                    'data-trigger',
-                                ]) !!}
-                            </div>
-                            <small>{{ __('Create Category') }} <a href="{{ route('form-category.index') }}">{{ __('Click here') }}</a></small>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('form_status', __('Select Status'), ['class' => 'form-label']) }}
-                                {!! Form::select('form_status', $status, null, [
-                                    'class' => 'form-select',
-                                    'data-trigger',
-                                ]) !!}
-                            </div>
-                            <small>{{ __('Create Form Status') }} <a href="{{ route('form-status.index') }}">{{ __('Click here') }}</a></small>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('form_description', __('Short Description'), ['class' => 'form-label']) }}
-                                <small>{{ __('Note') }} :- {{ __('This Description Only Show in front side') }}</small>
-                                {!! Form::textarea('form_description', null, [
-                                    'id' => 'form_description',
-                                    'placeholder' => __('Enter short description'),
-                                    'rows' => '3',
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('form_description'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('form_description') }}</strong>
-                                    </span>
-                                @endif
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_destination', __('Destination'), ['class' => 'form-label']) }}
+                                        <div class="field_destination">
+                                            {!! Form::select('field_destination', [], null, ['class' => 'form-control','data-trigger']) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_codetour', __('Code Tour'), ['class' => 'form-label']) }}
+                                        <div class="field_codetour">
+                                            {!! Form::select('field_codetour', [], null, ['class' => 'form-control','data-trigger']) !!}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                {{ Form::label('success_msg', __('Success Message'), ['class' => 'form-label']) }}
-                                {!! Form::textarea('success_msg', null, [
-                                    'id' => 'success_msg',
-                                    'placeholder' => __('Enter success message'),
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('success_msg'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('success_msg') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('thanks_msg', __('Thanks Message'), ['class' => 'form-label']) }}
-                                {!! Form::textarea('thanks_msg', null, [
-                                    'id' => 'thanks_msg',
-                                    'placeholder' => __('Enter client message'),
-                                    'class' => 'form-control',
-                                ]) !!}
-                                @if ($errors->has('thanks_msg'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('thanks_msg') }}</strong>
-                                    </span>
-                                @endif
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_tourleader', __('Tour Leader'), ['class' => 'form-label']) }}
+                                        <div class="field_tourleader">
+                                            {!! Form::select('field_tourleader', [], null, ['class' => 'form-control','data-trigger']) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                            {{ Form::label('field_tourconsultant', __('Tour Consultant'), ['class' => 'form-label']) }}
+                                        <div class="field_tourconsultant">
+                                            {!! Form::select('field_tourconsultant', [], null, ['class' => 'form-control','data-trigger']) !!}
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                {{ Form::label('form_status', __('Status'), ['class' => 'form-label']) }}
+                               
+                            </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -185,169 +171,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('form_fill_edit_lock', __('Form Fill Edit Lock'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="form_fill_edit_lock" id="form_fill_edit_lock"
-                                        class="form-check-input input-primary" {{ 'checked' }}>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('allow_comments', __('Allow comments'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="allow_comments" id="allow_comments"
-                                        class="form-check-input input-primary" {{ 'unchecked' }}>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-12" style="display: none;">
-                            <div class="form-group">
-                                {{ Form::label('allow_share_section', __('Allow Share Section'), ['class' => 'form-label']) }}
-                                <label class="mt-2 form-switch float-end custom-switch-v1">
-                                    <input type="checkbox" name="allow_share_section" id="allow_share_section"
-                                        class="form-check-input input-primary" {{ 'unchecked' }}>
-                                </label>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>{{ __('Email Setting') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('email[]', __('Recipient Email'), ['class' => 'form-label']) }}
-                                {!! Form::text('email[]', null, [
-                                    'class' => 'form-control',
-                                    'placeholder' => __('Enter recipient email'),
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('ccemail[]', __('Cc Emails (Optional)'), ['class' => 'form-label']) }}
-                                {!! Form::text('ccemail[]', null, [
-                                    'class' => 'form-control inputtags',
-                                    'placeholder' => __('Enter recipient cc email'),
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                {{ Form::label('bccemail[]', __('Bcc Emails (Optional)'), ['class' => 'form-label']) }}
-                                {!! Form::text('bccemail[]', null, [
-                                    'class' => 'form-control inputtags',
-                                    'placeholder' => __('Enter recipient bcc email'),
-                                ]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" style="display: none;">
-                    <div class="card-header">
-                        <h5>{{ __('Limit Setting') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('limit_status', __('Set limit'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="limit_status" value="0">
-                                        <input type="checkbox" name="limit_status" id="m_limit_status"
-                                            class="form-check-input input-primary" {{ 'unchecked' }} value="1">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="limit_status" class="{{ 'd-none' }}">
-                            <div class="form-group">
-                                {!! Form::number('limit', null, ['class' => 'form-control', 'placeholder' => __('limit')]) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="display: none;">
-                    <div class="card-header">
-                        <h5>{{ __('Password Protection') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('password_enable', __('Password Protection Enable'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="password_enable" value="0">
-                                        <input type="checkbox" name="password_enable" id="form_password_enable"
-                                            class="form-check-input input-primary" {{ 'unchecked' }} value="1">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="password_enable" class="{{ 'd-none' }}">
-                            <div class="form-group">
-
-                                <div class="position-relative password-toggle">
-                                    {!! Form::password('form_password', [
-                                        'class' => 'form-control password-toggle-input',
-                                        'placeholder' => __('************'),
-                                        'autocomplete' => 'off',
-                                        'id' => 'form_protection_password',
-                                    ]) !!}
-
-                                    <div class="input-group-append password-toggle-icon" id="togglePassword">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header" style="display: none;">
-                        <h5>{{ __('Set End Date') }}</h5>
-                    </div>
-                    <div class="card-body" style="display: none;">
-                        <div class="mt-2 row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    {{ Form::label('set_end_date', __('Set end date'), ['class' => 'form-label']) }}
-                                    <label class="mt-2 form-switch float-end custom-switch-v1">
-                                        <input type="hidden" name="set_end_date" value="0">
-                                        <input type="checkbox" name="set_end_date" id="m_set_end_date"
-                                            class="form-check-input input-primary" {{ 'unchecked' }} value="1">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="set_end_date" class="{{ 'd-none' }}">
-                            <div class="form-group">
-                                <input class="form-control" name="set_end_date_time" id="set_end_date_time">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
+                <div class="card-footer">
                         <div class="text-end">
                             {!! Html::link(route('forms.index'), __('Cancel'), ['class' => 'btn btn-secondary']) !!}
                             {!! Form::button(__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
                         </div>
-                    </div>
                 </div>
-            </div>
         </div>
         {!! Form::close() !!}
     </div>
@@ -516,6 +348,140 @@
                     searchPlaceholderValue: 'This is a search placeholder',
                 });
             }
+        });
+    </script>
+    <script>
+        $(document).on("change", "#type_id", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.chnagesc') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.name + '>' + o.name+ '</option>';
+                    });
+                    $('.field_categories').html(
+                        '<select name="field_categories" class="form-control" id="field_categories" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_categories', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        $(document).on("change", "#field_categories", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesDestination') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.destination_name + '>' + o.destination_name + '</option>';
+                    });
+                    $('.field_destination').html(
+                        '<select name="field_destination" class="form-control" id="field_destination" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_destination', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        $(document).on("change", "#field_destination", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesCodetour') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.code_tour + '>' + o.code_tour + '</option>';
+                    });
+                    $('.field_codetour').html(
+                        '<select name="field_codetour" class="form-control" id="field_codetour" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_codetour', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        $(document).on("change", "#field_codetour", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesTouleader') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    var toAppend1 = '';
+
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.tour_leader + '>' + o.tour_leader + '</option>';
+                        toAppend1 += '<option value=' + o.tour_consultant + '>' + o.tour_consultant + '</option>';
+
+                    });
+                    $('.field_tourleader').html(
+                        '<select name="field_tourleader" class="form-control" id="field_tourleader" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_tourleader', {
+                        removeItemButton: true,
+                    });
+
+                    $('.field_tourconsultant').html(
+                        '<select name="field_tourconsultant" class="form-control" id="field_tourconsultant" data-trigger>' +
+                        toAppend1+
+                        '</select>');
+                    new Choices('#field_tourconsultant', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+        $(document).on("change", "#field_tourleader", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.ChnagesTouConsultant') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.tour_consultant + '>' + o.tour_consultant + '</option>';
+                    });
+                    $('.field_tourconsultant').html(
+                        '<select name="field_tourconsultant" class="form-control" id="field_tourconsultant" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_tourconsultant', {
+                        removeItemButton: true,
+                    });
+                }
+            })
         });
     </script>
 @endpush

@@ -234,8 +234,7 @@
                 success: function(response) {
                     if (response.is_success) {
                         $('.form-card-body').html(
-                            '<div class="text-center gallery" id="success_loader"><img src="{{ asset('assets/images/success.gif') }}" class="" /><br><br><h2 class="w-100 ">' +
-                            response.message + '</h2></div>');
+                            '<div class="text-center gallery" id="success_loader"><img src="{{ asset('assets/images/success.gif') }}" class="" /><br><br><h2 class="w-100 ">Thank you for taking the time to complete this survey.</h2></div>');
                         $('#nextBtn').removeAttr('disabled');
                         $('#nextBtn').html('Submit');
                     } else {
@@ -807,7 +806,7 @@
             $(document).on("submit", "#fill-form", function(e) {
                 e.preventDefault();
                 var $this = $("#nextBtn");
-                var loadingText = '<i class="ti ti-circle-dashed"></i> Submiting form';
+                var loadingText = '<i class="ti ti-circle-dashed"></i> Submiting TESTform';
                 if ($("#nextBtn").html() !== loadingText) {
                     $this.data('original-text', $("#nextBtn").html());
                     $this.html(loadingText);

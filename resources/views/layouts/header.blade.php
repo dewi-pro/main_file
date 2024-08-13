@@ -19,7 +19,7 @@
                 <li class="dropdown dash-h-item">
                     <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="{{ Storage::exists($users->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image  }}" class="user-avtar ms-2" />
+                            <img src="{{ asset('vendor/avatar_image/avatar.png') }}" class="user-avtar ms-2" />
                         <span class="pr-1">
                             <h6 class="mb-0 f-w-500 fs-6 d-inline-flex">{{ Auth::user()->name }}</h6>
                         </span>

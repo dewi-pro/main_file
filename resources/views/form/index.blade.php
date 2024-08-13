@@ -303,5 +303,30 @@
             });
 
         });
+
+        $(document).on("change", "#form_title", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.chnages') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.name + '>' + o.label + '</option>';
+                    });
+                    $('.field_name').html(
+                        '<select name="field_name" class="form-control" id="field_name" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_name', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
     </script>
 @endpush

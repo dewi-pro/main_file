@@ -53,7 +53,7 @@ class FormsDataTable extends DataTable
         $user_id = $usr->id;
 
 
-        if ($usr->type == 'Admin') {
+        if (\Auth::user()->type == 1) {
             $form =   $model->newQuery()
                 ->select('forms.*', 'form_categories.name as category_name')
                 ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
@@ -72,7 +72,7 @@ class FormsDataTable extends DataTable
                     ->select('forms.*', 'form_categories.name as category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
                     ->where('forms.created_by', Auth::user()->id)
-                    ->orWhere('forms.created_by', Auth::user()->created_by)
+                    // ->orWhere('forms.created_by', Auth::user()->created_by)
                     ->orderBy('forms.created_at', 'asc');
 
 
@@ -81,7 +81,7 @@ class FormsDataTable extends DataTable
                         ->select('forms.*', 'form_categories.name as category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
                         ->where('forms.created_by', Auth::user()->id)
-                        ->orWhere('forms.created_by', Auth::user()->created_by)
+                        // ->orWhere('forms.created_by', Auth::user()->created_by)
                         ->orderBy('forms.created_at', 'asc')
                         ->onlyTrashed();
                 }
@@ -89,25 +89,29 @@ class FormsDataTable extends DataTable
                 $form = $model->newQuery()
                     ->select('forms.*', 'form_categories.name AS category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    ->where(function ($query)   use ($role_id, $user_id) {
-                        $query->whereIn('forms.id', function ($query) use ($role_id) {
-                            $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
-                        })->orWhereIn('forms.id', function ($query) use ($user_id) {
-                            $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
-                        })->orWhere('forms.assign_type', 'public');
-                    })->orderBy('forms.created_at', 'asc');
+                    ->where('forms.created_by', Auth::user()->id)
+                    // ->where(function ($query)   use ($role_id, $user_id) {
+                    //     $query->whereIn('forms.id', function ($query) use ($role_id) {
+                    //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
+                    //     })->orWhereIn('forms.id', function ($query) use ($user_id) {
+                    //         $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
+                    //     })->orWhere('forms.assign_type', 'public');
+                    // })
+                    ->orderBy('forms.created_at', 'asc');
 
                 if ($request->query->get('view') && $request->query->get('view') == 'trash') {
                     $form = $model->newQuery()
                         ->select('forms.*', 'form_categories.name AS category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                        ->where(function ($query)   use ($role_id, $user_id) {
-                            $query->whereIn('forms.id', function ($query) use ($role_id) {
-                                $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
-                            })->orWhereIn('forms.id', function ($query) use ($user_id) {
-                                $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
-                            })->orWhere('forms.assign_type', 'public');
-                        })->orderBy('forms.created_at', 'asc')
+                        ->where('forms.created_by', Auth::user()->id)
+                        // ->where(function ($query)   use ($role_id, $user_id) {
+                        //     $query->whereIn('forms.id', function ($query) use ($role_id) {
+                        //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
+                        //     })->orWhereIn('forms.id', function ($query) use ($user_id) {
+                        //         $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
+                        //     })->orWhere('forms.assign_type', 'public');
+                        // })
+                        ->orderBy('forms.created_at', 'asc')
                         ->onlyTrashed();
                 }
             }
@@ -309,9 +313,10 @@ class FormsDataTable extends DataTable
             Column::make('No')->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('title')->title(__('Title')),
             // Column::make('form_status')->title(__('Form Status')),
-            Column::make('category_id')->title(__('Category')),
-            Column::make('status')->title(__('Status')),
-            Column::make('created_at')->title(__('Created At')),
+            Column::make('category')->title(__('Category')),
+            Column::make('destination')->title(__('Destination')),
+            Column::make('tour_leader_name')->title(__('Tour Leader')),
+            // Column::make('created_at')->title(__('Created At')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

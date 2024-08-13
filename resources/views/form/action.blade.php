@@ -8,7 +8,7 @@
     @can('edit-form')
         @if ($form->json)
             @if ($form->is_active)
-                @can('theme-setting-form')
+                <!-- @can('theme-setting-form')
                     <a class="btn btn-secondary btn-sm" href="{{ route('form.theme', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Theme Setting') }}"><i
                             class="ti ti-layout-2"></i></a>
@@ -22,17 +22,17 @@
                     <a class="btn btn-info btn-sm" href="{{ route('form.integration', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Integration') }}"><i
                             class="ti ti-send"></i></a>
-                @endcan
-                @can('manage-form-rule')
+                @endcan -->
+                <!-- @can('manage-form-rule')
                     <a class="btn btn-secondary btn-sm" href="{{ route('form.rules', $form->id) }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" data-bs-original-title="{{ __('Conditional Rules') }}"><i
                             class="ti ti-notebook"></i></a>
-                @endcan
-                <a class="btn btn-primary btn-sm embed_form " href="javascript:void(0)"
+                @endcan -->
+                <!-- <a class="btn btn-primary btn-sm embed_form " href="javascript:void(0)"
                     onclick="copyToClipboard('#embed-form-{{ $form->id }}')" id="embed-form-{{ $form->id }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="{{ __('Embedded form') }}"
                     data-url='<iframe src="{{ route('forms.survey', $id) }}" scrolling="auto" align="bottom" height:100vh; width="100%></iframe>'><i
-                        class="ti ti-code"></i></a>
+                        class="ti ti-code"></i></a> -->
 
                 @if ($form->limit_status == 1)
                     @if ($form->limit > $formValue)
@@ -50,16 +50,16 @@
                             class="ti ti-copy"></i></a>
                 @endif
 
-                <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('forms.survey.qr', $id) }}"
+                <!-- <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('forms.survey.qr', $id) }}"
                     id="share-qr-code" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    data-bs-original-title="{{ __('Show QR Code') }}"><i class="ti ti-qrcode"></i></a>
+                    data-bs-original-title="{{ __('Show QR Code') }}"><i class="ti ti-qrcode"></i></a> -->
                 <a class="btn btn-secondary btn-sm" href="{{ route('view.form.values', $form->id) }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom"
                     data-bs-original-title="{{ __('View Submited forms') }}"><i class="ti ti-clipboard-check"></i></a>
             @endif
         @endif
     @endcan
-    @can('fill-form')
+    <!-- @can('fill-form')
         @if ($form->json)
             @if ($form->limit_status == 1)
                 @if ($form->limit > $formValue)
@@ -73,23 +73,21 @@
                         class="ti ti-list"></i></a>
             @endif
         @endif
-    @endcan
+    @endcan -->
     @can('duplicate-form')
         <a href="#" class="btn btn-warning btn-sm " data-bs-toggle="tooltip" data-bs-placement="bottom"
             data-bs-original-title="{{ __('Duplicate Form') }}"
             onclick="document.getElementById('duplicate-form-{{ $form->id }}').submit();"><i
                 class="ti ti-squares-diagonal"></i></a>
     @endcan
-
-
     @can('design-form')
         <a class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom"
             data-bs-original-title="{{ __('Design Form') }}" href="{{ route('forms.design', $form->id) }}"><i
                 class="ti ti-brush"></i></a>
     @endcan
     @can('edit-form')
-        <a class="btn btn-primary btn-sm" href="{{ route('forms.edit', $form->id) }}" data-bs-toggle="tooltip"
-            data-bs-placement="bottom" data-bs-original-title="{{ __('Edit Form') }}" id="edit-form"><i
+        <a class="btn btn-primary btn-sm" href="{{ route('forms.buttonedit', $form->id) }}" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" data-bs-original-title="{{ __('Edit Form') }}" id="buttonedit-form"><i
                 class="ti ti-edit"></i></a>
     @endcan
     @can('delete-form')

@@ -117,7 +117,7 @@
                                         </a>
                                     @endcan
                                     @can('edit-form')
-                                        <a class="dropdown-item" href="{{ route('forms.edit', $form->id) }}"
+                                        <a class="dropdown-item" href="{{ route('forms.buttonedit', $form->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             data-bs-original-title="{{ __('Edit Form') }}">
                                             <i class="ti ti-edit"></i><span>{{ __('Edit Form') }}</span>

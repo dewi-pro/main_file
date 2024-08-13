@@ -43,7 +43,7 @@
                         <div class="mb-3 form-group">
                             <div class="col-md-12">
                                 {{ Form::label('password', __('Enter Password'), ['class' => 'form-label']) }}
-                                {!! Html::link(route('password.request'), __('Forgot Password ?'), ['class' => 'float-end forget-password']) !!}
+                                <!-- {!! Html::link(route('password.request'), __('Forgot Password ?'), ['class' => 'float-end forget-password']) !!} -->
                                 {!! Form::password('password', [
                                     'class' => 'form-control',
                                     'placeholder' => __('Enter password'),
@@ -121,12 +121,12 @@
                             ? Storage::url(Utility::getsettings('login_image'))
                             : asset('assets/images/auth/img-auth-3.svg') }}"
                             class="img-fluid" />
-                        <h3>
+                        <!-- <h3>
                             {{ Utility::getsettings('login_title') ? Utility::getsettings('login_title') : 'Attention is the new currency' }}
                         </h3>
                         <p>
                             {{ Utility::getsettings('login_subtitle') ? Utility::getsettings('login_subtitle') : 'The more effortless the writing looks, the more effort the writer actually put into the process.' }}
-                        </p>
+                        </p> -->
                     </div>
                 </div>
             </div>

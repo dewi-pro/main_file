@@ -36,7 +36,7 @@
             data-bs-original-title="{{ __('Change Status') }}"><i class="ti ti-switch-2"></i></a> -->
 @endcan
 @can('delete-submitted-form')
-    {!! Form::open([
+    <!-- {!! Form::open([
         'method' => 'DELETE',
         'route' => ['form-values.destroy', $formValue->id],
         'id' => 'delete-form-' . $formValue->id,
@@ -44,5 +44,8 @@
     ]) !!}
     <a href="#" class="btn btn-danger btn-sm show_confirm" data-bs-toggle="tooltip" data-bs-placement="bottom"
         data-bs-original-title="{{ __('Delete') }}" id="delete-form-{{ $formValue->id }}"><i class="ti ti-trash"></i></a>
-    {!! Form::close() !!}
+    {!! Form::close() !!} -->
+    <a class="btn btn-info btn-sm cust_btn text-white" data-share="{{ route('form-value.status.change', $formValue->id) }}"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" id="change-form-status"
+            data-bs-original-title="{{ __('Change Status') }}"><i class="ti ti-switch-2"></i></a>
 @endcan

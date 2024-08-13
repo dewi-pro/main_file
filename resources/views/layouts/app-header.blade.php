@@ -42,7 +42,7 @@
 
 <body class="light">
     <header class="site-header header-style-one">
-        <div class="main-navigationbar">
+        <!-- <div class="main-navigationbar">
             <div class="container">
                 <div class="navigation-row d-flex align-items-center ">
                     <nav class="menu-items-col d-flex align-items-center justify-content-between ">
@@ -130,7 +130,7 @@
                     </nav>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="container">
             <div class="mobile-menu-wrapper">
                 <div class="mobile-menu-bar">

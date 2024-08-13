@@ -17,12 +17,14 @@
         <div class="card">
             <div class="card-body table-border-style">
                 <div class="table-responsive">
-                    {{ $dataTable->table(['width' => '100%']) }}
+                    <!-- {{ $dataTable->table(['width' => '100%']) }} -->
+                    {{$forms }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}" />

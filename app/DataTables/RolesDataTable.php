@@ -96,11 +96,11 @@ var select = $(table.api().table().container()).find(".dataTables_length select"
 
 
         $buttonsConfig = array_merge($buttonsConfig, [
-            $exportButtonConfig,
-            [
-                'extend' => 'reset',
-                'className' => 'btn btn-light-danger me-1',
-            ],
+            // $exportButtonConfig,
+            // [
+            //     'extend' => 'reset',
+            //     'className' => 'btn btn-light-danger me-1',
+            // ],
             [
                 'extend' => 'reload',
                 'className' => 'btn btn-light-warning',

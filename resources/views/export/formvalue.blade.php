@@ -18,9 +18,9 @@
                     @foreach ($currantColumn as $value)
                         <th>{{ $value }}</th>
                     @endforeach
-                    {{-- <th>{{ __('Amount') }}</th>
+                    <!-- <th>{{ __('Amount') }}</th>
                     <th>{{ __('Transaction ID') }}</th>
-                    <th>{{ __('Created At') }}</th> --}}
+                    <th>{{ __('Created At') }}</th>} -->
                 </tr>
             @endif
             <tr>

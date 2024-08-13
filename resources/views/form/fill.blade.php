@@ -208,7 +208,7 @@
                 // ... the form gets submitted:
                 var formData = new FormData($('#fill-form')[0]);
                 var $this = $("#nextBtn");
-                var loadingText = '<i class="fa fa-spinner fa-spin"></i> Submiting form';
+                var loadingText = '<i class="fa fa-spinner fa-spin"></i> Submiting TEST form';
                 if ($("#nextBtn").html() !== loadingText) {
                     $this.data('original-text', $("#nextBtn").html());
                     $this.html(loadingText);

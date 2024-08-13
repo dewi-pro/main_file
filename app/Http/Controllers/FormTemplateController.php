@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
+
 class FormTemplateController extends Controller
 {
     public function index(FormTemplateDataTable $dataTable)
@@ -22,7 +26,10 @@ class FormTemplateController extends Controller
     public function create()
     {
         if (\Auth::user()->can('create-form-template')) {
-            return view('form-template.create');
+            $roles = Role::where('name', '!=', 'Super Admin')
+                ->orwhere('name', Auth::user()->type)
+                ->pluck('name', 'id');
+            return view('form-template.create', compact('roles'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
@@ -33,19 +40,15 @@ class FormTemplateController extends Controller
         if (\Auth::user()->can('create-form-template')) {
             request()->validate([
                 'title'         => 'required|max:191',
-                'image'         => 'required|mimes:jpeg,jpg,png',
             ]);
 
-            $fileName = '';
-            if ($request->file('image')) {
-                $file       = $request->file('image');
-                $fileName  =  $file->store('form-template');
-            }
+            $formtemplate = FormTemplate::find(21);
 
             FormTemplate::create([
                 'title'         => $request->title,
-                'image'         => $fileName,
+                'image'         => $request->roles,
                 'created_by'    => \Auth::user()->id,
+                'json'          => $formtemplate->json
             ]);
             return redirect()->route('form-template.index')->with('success', __('Form Template created succesfully.'));
         } else {
@@ -56,7 +59,10 @@ class FormTemplateController extends Controller
     {
         if (\Auth::user()->can('edit-form-template')) {
             $formTemplate = FormTemplate::find($id);
-            return view('form-template.edit', compact('formTemplate'));
+            $roles = Role::where('id', $formTemplate->image)
+                ->orwhere('name', Auth::user()->type)
+                ->pluck('name', 'id');
+            return view('form-template.edit', compact('formTemplate', 'roles'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
@@ -66,17 +72,12 @@ class FormTemplateController extends Controller
     {
         if (\Auth::user()->can('edit-form-template')) {
             request()->validate([
-                'title' => 'required|max:191',
-                'image' => 'required|mimes:jpeg,jpg,png',
+                'title' => 'required|max:191'
             ]);
 
             $formTemplate = FormTemplate::find($id);
-            if ($request->hasfile('image')) {
-                $file                   = $request->file('image');
-                $fileName              =  $file->store('form-template');
-                $formTemplate->image    = $fileName;
-            }
             $formTemplate->title        = $request->title;
+            $formTemplate->image        = $request->roles;
             $formTemplate->created_by   = \Auth::user()->id;
             $formTemplate->save();
             return redirect()->route('form-template.index')->with('success', __('Form Template updated successfully.'));

@@ -14,8 +14,8 @@
 
             @if (!empty($form->logo))
                 <div class="mb-2 text-center gallery gallery-md">
-                    <img id="app-dark-logo" class="float-none gallery-item"
-                        src="{{ isset($form->logo) ? Storage::url($form->logo) : Storage::url('/not-exists-data-images/78x78.png') }}">
+                    <!-- <img id="app-dark-logo" class="float-none gallery-item"
+                        src="{{ asset('vendor/app_logo/logo.png') }}"> -->
                 </div>
             @endif
             @if (session()->has('success'))
@@ -28,8 +28,7 @@
                             <img src="{{ asset('assets/images/success.gif') }}" />
                             <br>
                             <br>
-                            <h2 class="w-100 ">{{ session()->get('success') }}</h2>
-                        </div>
+                     </div>
                     </div>
                 </div>
             @else
@@ -42,7 +41,7 @@
                         // }
                     @endphp
                     <div class="card-header">
-                        <h5 class="text-center w-100">{{ $form->title }}</h5>
+                        <h1 class=" survey-name  text-center">{{ $form -> title}}</h1>
                     </div>
                     <div class="card-body form-card-body">
                         <form action="{{ route('forms.fill.store', $form->id) }}" method="POST"
@@ -61,11 +60,12 @@
                                                             $col = 'col-6 step-' . $keys;
                                                         } elseif ($row->column == 3) {
                                                             $col = 'col-4 step-' . $keys;
-                                                        }
+                                                        }  
                                                     } else {
                                                         $col = 'col-12 step-' . $keys;
                                                     }
                                                 @endphp
+                                                
                                                 @if ($row->type == 'checkbox-group')
                                                     <div class="form-group {{ $col }}"
                                                         data-name="{{ $row->name }}">
@@ -180,9 +180,21 @@
                                                         }
                                                     @endphp
                                                     <div class="{{ $col }}">
-                                                        <{{ $row->subtype }} class="{{ $class }}">
+                                                        <!-- <{{ $row->subtype }} class="{{ $class }}">
                                                             {{ html_entity_decode($row->label) }}
-                                                            </{{ $row->subtype }}>
+                                                            </{{ $row->subtype }}> -->
+                                                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                                                 Category : {{ $form->category }}
+                                                            </h2>
+                                                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                                                Destination : {{ $form->destination }}
+                                                            </h2>
+                                                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                                                Code Tour : {{ $form->code_tour }}
+                                                            </h2>
+                                                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                                                Tour Leader : {{ $form->tour_leader_name }}
+                                                            </h2>
                                                     </div>
                                                 @elseif($row->type == 'paragraph')
                                                     @php
@@ -191,11 +203,20 @@
                                                             $class = $class . ' ' . $row->className;
                                                         }
                                                     @endphp
-                                                    <div class="{{ $col }}">
+                                                    <!-- <div class="{{ $col }}">
                                                         <{{ $row->subtype }} class="{{ $class }}">
                                                             {{ html_entity_decode($row->label) }}
                                                             </{{ $row->subtype }}>
-                                                    </div>
+                                                    </div> -->
+                                                    <h6 class="text-center w-100">Thank you for choosing AntaVaya.</h6>
+                                            <h6 class="text-center w-100">In effort to maintain our service,
+                                                we would be grateful if you would take a moment of your time
+                                                to complete the questionnaire</h6>
+                                            <h3 class="text-center w-100">Welcome to AntaVaya Questionnaire</h3>
+                                            <div class="mb-2 text-center gallery gallery-md">
+                                                <img id="app-dark-logo" class="float-none gallery-item"
+                                                    src="{{ asset('vendor/app_logo/LogoAntaVaya-removebg-preview.png') }}">
+                                            </div>
                                                 @elseif($row->type == 'radio-group')
                                                     <div class="form-group {{ $col }}"
                                                         data-name={{ $row->name }}>
@@ -627,12 +648,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if (@$row->value != '')
+                                                        <!-- @if (@$row->value != '')
                                                             <div class="col-lg-6 col-md-12 col-12">
                                                                 <img src="{{ Storage::url($row->value) }}"
                                                                     width="80%" class="border" alt="">
                                                             </div>
-                                                        @endif
+                                                        @endif -->
                                                     </div>
                                                 @elseif($row->type == 'break')
                                                     <hr class="hr_border">
@@ -662,7 +683,7 @@
                                                             <span class="text-danger align-items-center">*</span>
                                                         @endif
                                                         <div class="d-flex justify-content-start">
-                                                            <button type="button" class="btn btn-primary"
+                                                            <!-- <button type="button" class="btn btn-primary"
                                                                 id="videostream">
                                                                 <span class="svg-icon svg-icon-2">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -674,7 +695,7 @@
                                                                     </svg>
                                                                 </span>
                                                                 {{ __('Record Video') }}
-                                                            </button>
+                                                            </button> -->
                                                         </div>
                                                         @if ($row->required)
                                                             <div class="error-message required-text"></div>
@@ -705,7 +726,7 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div id='btns'>
+                                                                <!-- <div id='btns'>
                                                                     <div id="controls">
                                                                         <button class="btn btn-light-primary"
                                                                             id='start' type="button">
@@ -737,7 +758,7 @@
                                                                                 class="indicator-label">{{ __('Stop') }}</span>
                                                                         </button>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -763,12 +784,12 @@
                                                                 @endif
                                                                 <div id="my_camera" class="camera_screen"></div>
                                                                 <br />
-                                                                <button type="button"
+                                                                <!-- <button type="button"
                                                                     class="btn btn-default btn-light-primary"
                                                                     onClick="take_snapshot()">
                                                                     <i class="ti ti-camera"></i>
                                                                     {{ __('Take Selfie') }}
-                                                                </button>
+                                                                </button> -->
                                                                 <input type="hidden" name="image"
                                                                     value="{{ $value }}"
                                                                     class="image-tag  {{ implode(' ', $attr) }}">
@@ -781,6 +802,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                               
                                                 @endif
                                             @endforeach
                                         </div>
@@ -788,7 +810,7 @@
                                 @endforeach
                             @endif
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col cap">
                                     @if (UtilityFacades::getsettings('captcha_enable') == 'on')
                                         @if (UtilityFacades::getsettings('captcha') == 'hcaptcha')
@@ -820,7 +842,7 @@
                                             id="form_value_id">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             @if (!isset($formValue) && $form->payment_status == 1)
                                 @if (!isset($formValue) && $form->payment_type == 'stripe')
@@ -944,13 +966,13 @@
                             'id' => 'payumoney_payment_frms',
                             'name' => 'payuForm',
                         ]) !!}
-                        {{ Form::hidden('payumoney_currency', null, ['id' => 'payumoney_currency']) }}
+                        <!-- {{ Form::hidden('payumoney_currency', null, ['id' => 'payumoney_currency']) }}
                         {{ Form::hidden('payumoney_amount', null, ['id' => 'payumoney_amount']) }}
                         {{ Form::hidden('payumoney_form_id', null, ['id' => 'payumoney_form_id']) }}
                         {{ Form::hidden('payumoney_created_by', null, ['id' => 'payumoney_created_by']) }}
-                        {!! Form::hidden('payumoney_submit_type', null, ['id' => 'payumoney_submit_type']) !!}
+                        {!! Form::hidden('payumoney_submit_type', null, ['id' => 'payumoney_submit_type']) !!} -->
                         {!! Form::close() !!}
-                        {!! Form::open([
+                        <!-- {!! Form::open([
                             'route' => ['molliefillprepare'],
                             'method' => 'post',
                             'id' => 'mollie_payment_frms',
@@ -967,7 +989,7 @@
                         {{ Form::hidden('mercado_form_id', null, ['id' => 'mercado_form_id']) }}
                         {{ Form::hidden('mercado_created_by', null, ['id' => 'mercado_created_by']) }}
                         {!! Form::hidden('mercado_submit_type', null, ['id' => 'mercado_submit_type']) !!}
-                        {!! Form::close() !!}
+                        {!! Form::close() !!} -->
                     </div>
                 </div>
             @endif

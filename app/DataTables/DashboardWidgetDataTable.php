@@ -190,6 +190,7 @@ class DashboardWidgetDataTable extends DataTable
             Column::make('size')->title(__('Size')),
             Column::make('type')->title(__('Type')),
             Column::make('chart_type')->title(__('Chart Type')),
+            Column::make('field_name')->title(__('Chart Type')),
             Column::make('position')->title(__('Position')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')->title(__('Action'))

@@ -1,5 +1,5 @@
 <span>
-    @can('impersonate-user')
+    <!-- @can('impersonate-user')
         <a class="btn btn-secondary btn-sm" href="{{ route('users.impersonate', $user->id) }}" data-bs-toggle="tooltip"
             data-bs-placement="bottom" data-bs-original-title="{{ __('Impersonate') }}" aria-label="{{ __('Impersonate') }}">
             <i class="ti ti-new-section"></i>
@@ -27,7 +27,7 @@
             data-bs-placement="bottom" data-bs-original-title="{{ __('Email Unverified') }}">
             <i class="ti ti-mail-forward"></i></a>
     @endif
-    @endcan
+    @endcan -->
 
     @can('edit-user')
         <a class="btn btn-primary btn-sm" href="javascript:void(0);" id="edit-user"

@@ -26,31 +26,58 @@ class FormValuesDataTable extends DataTable
                 }
                 return $tu;
             })
-            ->editColumn('amount', function (FormValue $formValue) {
-                return $formValue->currency_symbol . $formValue->amount;
+            ->editColumn('alamat', function (FormValue $formValuez) {
+                    $name = '';
+                    if ($formValuez->json) {
+                        $field_name = json_decode($formValuez->json);
+                        foreach ($field_name[13] as $val) {
+                            if($val->description== 'saran'){
+                                $name = $val->value;
+                            }else{
+                                $name = '';
+                            }
+                        }
+                    }
+                    return $name;
+                
+                // return $formValue->json[1]->type;
             })
             ->editColumn('status', function (FormValue $formValue) {
-                if ($formValue->status == "free") {
-                    $out = '<span class="p-2 px-3 badge rounded-pill bg-primary">' . __('Free') . '</span>';
+                if ($formValue->form_status == 3) {
+                    $out = '<span class="p-2 px-3 badge rounded-pill bg-primary">' . __('NEUTRAL') . '</span>';
                     return $out;
-                } else if ($formValue->status == "pending") {
-                    $out = '<span class="p-2 px-3 badge rounded-pill bg-warning">' . __('Pending') . '</span>';
+                } else if ($formValue->form_status == 2) {
+                    $out = '<span class="p-2 px-3 badge rounded-pill bg-warning">' . __('NEGATIVE') . '</span>';
                     return $out;
-                } else if ($formValue->status == "successfull") {
-                    $out = '<span class="p-2 px-3 badge rounded-pill bg-success">' . __('Successfull') . '</span>';
+                } else if ($formValue->form_status == 1) {
+                    $out = '<span class="p-2 px-3 badge rounded-pill bg-success">' . __('POSITIVE') . '</span>';
                     return $out;
                 } else {
                     $out = '<span class="p-2 px-3 badge rounded-pill bg-danger">' . __('Failed') . '</span>';
                     return $out;
                 }
+                // $name = '';
+                //     if ($formValuez->json) {
+                //         $field_name = json_decode($formValuez->json);
+                //         foreach ($field_name[1] as $val) {
+                //             if ($val->subtype == 'email') {
+                //                     $name = $val->value;
+                //             }
+                //         }
+                //     }
+                //     return $name;
             })
             ->editColumn('payment_type', function (FormValue $formValue) {
-                if ($formValue->payment_type == "offlinepayment") {
-                    $paymentType = '<a href="' . route('payment.slip.download', $formValue->id) . '" class="badge bg-primary text-white p-2 px-3 rounded-pill">' . __('Offline Payment') . '</a>';
-                    return $paymentType;
-                } else {
-                    return $formValue->payment_type;
-                }
+                $name = '';
+                    if ($formValue->json) {
+                        $field_name = json_decode($formValue->json);
+                        foreach ($field_name[1] as $val) {
+                            if ($val->label == 'Participant Name') {
+                                    $name = $val->value;
+                            }
+                        }
+                    }
+                    return $name;
             })
             ->editColumn('created_at', function (FormValue $formValue) {
                 return UtilityFacades::date_time_format($formValue->created_at);
@@ -143,7 +170,7 @@ class FormValuesDataTable extends DataTable
             $arr = array_merge(['status', 'action', 'user', 'type', 'created_at','payment_type'], array_keys($labels));
         } else {
             $arr = array_merge(['status', 'action', 'user', 'type', 'created_at','payment_type' , 'form_status']);
-        }
+    }
         $data->rawColumns($arr);
         return $data;
     }
@@ -155,7 +182,7 @@ class FormValuesDataTable extends DataTable
 
         $userId = $usr->id;
 
-        if ($usr->type != 'Admin') {
+        if ($usr->type != 1) {
             if (\Auth::user()->can('access-all-submitted-form')) {
                 $formValues = FormValue::select(['form_values.*', 'forms.title'])
                 ->join('forms', 'forms.id', '=', 'form_values.form_id')
@@ -196,7 +223,7 @@ class FormValuesDataTable extends DataTable
             $formValues->where('users.name', 'LIKE', '%' . $request->user_name . '%')->Where('form_values.form_id', '=', $request->form);
         }
         return $formValues;
-    }
+        }
 
     public function labels()
     {
@@ -229,8 +256,8 @@ class FormValuesDataTable extends DataTable
                             var filter = $(".created_at").val();
                             var spilit = filter.split("to");
                             d.form = $("#form_id").val();
-                            d.start_date = spilit[0];
-                            d.end_date = spilit[1];
+                    d.start_date = spilit[0];
+                    d.end_date = spilit[1];
 
                             var user_filter = $("input[name=user]").val();
                             d.user_name = user_filter;
@@ -281,7 +308,7 @@ class FormValuesDataTable extends DataTable
                     ["extend" => "excel", "text" => '<i class="fas fa-file-excel"></i> ' . __('Excel'), "className" => "btn btn-light text-primary dropdown-item", "exportOptions" => ["columns" => [0, 1, 3]]],
                     //["extend" => "pdf", "text" => '<i class="fas fa-file-pdf"></i> ' . __('PDF'), "className" => "btn btn-light text-primary dropdown-item", "exportOptions" => ["columns" => [0, 1, 3]]],
                     ["extend" => "copy", "text" => '<i class="fas fa-copy"></i> ' . __('Copy'), "className" => "btn btn-light text-primary dropdown-item", "exportOptions" => ["columns" => [0, 1, 3]]],
-                ],
+                    ],
             ];
         }
 
@@ -296,27 +323,27 @@ class FormValuesDataTable extends DataTable
         $dataTable->parameters([
             "dom" =>  "
             <'dataTable-top row'<'dataTable-dropdown page-dropdown col-lg-2 col-sm-12'l><'dataTable-botton table-btn col-lg-6 col-sm-12'B>>
-            <'dataTable-container'<'col-sm-12'tr>>
-            <'dataTable-bottom row'<'col-sm-5'i><'col-sm-7'p>>
-            ",
+                <'dataTable-container'<'col-sm-12'tr>>
+                <'dataTable-bottom row'<'col-sm-5'i><'col-sm-7'p>>
+                ",
             'buttons' => $buttonsConfig,
             "drawCallback" => 'function( settings ) {
-                    var tooltipTriggerList = [].slice.call(
-                        document.querySelectorAll("[data-bs-toggle=tooltip]")
-                      );
-                      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                        return new bootstrap.Tooltip(tooltipTriggerEl);
-                      });
-                      var popoverTriggerList = [].slice.call(
-                        document.querySelectorAll("[data-bs-toggle=popover]")
-                      );
-                      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-                        return new bootstrap.Popover(popoverTriggerEl);
-                      });
-                      var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-                      var toastList = toastElList.map(function (toastEl) {
-                        return new bootstrap.Toast(toastEl);
-                      });
+                var tooltipTriggerList = [].slice.call(
+                    document.querySelectorAll("[data-bs-toggle=tooltip]")
+                  );
+                  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                  });
+                  var popoverTriggerList = [].slice.call(
+                    document.querySelectorAll("[data-bs-toggle=popover]")
+                  );
+                  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                    return new bootstrap.Popover(popoverTriggerEl);
+                  });
+                  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+                  var toastList = toastElList.map(function (toastEl) {
+                    return new bootstrap.Toast(toastEl);
+                  });
                 }'
         ]);
 
@@ -337,10 +364,12 @@ class FormValuesDataTable extends DataTable
 
     protected function getColumns($label)
     {
+
         $columns = [
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
-            Column::make('user')->title(__('User')),
-            Column::make('amount')->title(__('Amount')),
+            Column::make('payment_type')->title(__('Participants')),
+            Column::make('status')->title(__('Status')),
+            Column::make('alamat')->title(__('Comments')),
             // Column::make('form_status')->title(__('Form Status')),
         ];
         if ($label != null) {
@@ -349,13 +378,13 @@ class FormValuesDataTable extends DataTable
             }
         }
 
-        $columns[] = Column::make('transaction_id')->title(__('Transaction Id'));
-        $columns[] = Column::make('status')->title(__('Payment Status'));
-        $columns[] = Column::make('payment_type')->title(__('Payment Type'));
-        $columns[] = Column::make('created_at')->title(__('Created At'));
+        // $columns[] = Column::make('transaction_id')->title(__('Transaction Id'));
+        // $columns[] = 
+        // $columns[] = Column::make('payment_type')->title(__('Payment Type'));
+        $columns[] = Column::make('created_at')->title(__('Submit Survey'));
         $columns[] = Column::computed('action')->title(__('Action'))
-            ->exportable(false)
-            ->printable(false)
+                ->exportable(false)
+                ->printable(false)
             ->addClass('text-end');
 
         return $columns;

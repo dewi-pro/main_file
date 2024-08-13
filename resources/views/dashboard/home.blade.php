@@ -27,14 +27,7 @@
 @extends('layouts.main')
 @section('title', __('Dashboard'))
 @section('breadcrumb')
-    <div class="col-md-12">
-        <div class="page-header-title">
-            <h4 class="m-b-10">{{ __('Dashboard') }}</h4>
-        </div>
-    </div>
-@endsection
-@section('content')
-    <div class="row">
+<div class="row">
         <div class="col-12 d-flex">
             <div class="mb-3 row">
                 <div class="mb-3 col-xxl-7">
@@ -149,69 +142,13 @@
                                 </div>
                             </div>
                         @endif -->
-                        <div class="col-lg-8 col-sm-6 col-12 dash-card-responsive">
-                            <div class="m-0 card comp-card">
-                                <div class="card-body admin-wish-card">
-                                    <div class="row h-100">
-                                        <div class="col-xxl-12">
-                                            <div class="row">
-                                                <h4 id="wishing">{{ 'Good morning ,' }}</h4>
-                                            </div>
-                                        </div>
-                                        <h4 class="f-w-400">
-                                            <a href="{{ Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image }}" target="_new">
-                                                <img src="{{ Storage::exists(Auth::user()->avatar) ? Storage::url(Auth::user()->avatar) : Auth::user()->avatar_image }}"
-                                                    class="me-2 img-thumbnail rounded-circle" width="50px"
-                                                    height="50px"></a>
-                                            <span class="text-muted">{{ Auth::user()->name }}</span>
-                                        </h4>
-                                        <p>
-                                            <!-- {{ __('Have a nice day! you can quickly add your forms or polls Chart ') }} -->
-                                        </p>
-                                        <div class="dropdown quick-add-btn">
-                                            @canany(['create-form'])
-
-                                            <!-- , 'create-poll', 'create-event' -->
-
-                                                <a class="btn-q-add dropdown-toggle dash-btn btn btn-default btn-light-primary"
-                                                    data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false">
-                                                    <i class="ti ti-plus drp-icon"></i>
-                                                    <span class="ms-1">{{ __('Quick add') }}</span>
-                                                </a>
-                                            @endcanany
-                                            <div class="dropdown-menu">
-                                                @if (\Auth::user()->can('create-form'))
-                                                    <a href="{{ route('forms.create') }}" data-size="lg" data-url=""
-                                                        data-ajax-popup="true" data-title="Add Product"
-                                                        class="dropdown-item"
-                                                        data-bs-placement="top "><span>{{ __('Add New Form') }}</span></a>
-                                                @endif
-                                                <!-- @if (\Auth::user()->can('create-poll'))
-                                                    <a href="{{ route('poll.create') }}" data-size="md"
-                                                        data-ajax-popup="true" data-title="Create Tax"
-                                                        class="dropdown-item"
-                                                        data-bs-placement="top "><span>{{ __('Add New Poll') }}</span></a>
-                                                @endif
-                                                @if (\Auth::user()->can('create-event'))
-                                                    <a href="javascript:void(0);" data-size="md"
-                                                        data-url="{{ route('event.create') }}" id="EventCalender"
-                                                        data-ajax-popup="true" data-kt-modal="true"
-                                                        data-title="Create Tax" class="dropdown-item"
-                                                        data-bs-placement="top "><span>{{ __('Add New Event') }}</span></a>
-                                                @endif -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                     
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <section id="draggable-cards">
             <div class="row" id="widget-drag-area">
                 @if (isset($widgets))
@@ -325,7 +262,7 @@
                 @endif
             </div>
         </section>
-    </div>
+    </div> -->
 @endsection
 @push('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/dragdrop/dragula.min.css') }}">

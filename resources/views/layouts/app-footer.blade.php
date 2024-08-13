@@ -1,5 +1,5 @@
       <!--footer start here-->
-      <footer class="site-footer">
+      <!-- <footer class="site-footer">
           <div class="container">
               <div class="footer-row">
                   <div class="footer-col footer-link">
@@ -54,7 +54,7 @@
                   </div>
               </div>
           </div>
-      </footer>
+      </footer> -->
       <!--footer end here-->
 
       <!--scripts start here-->
