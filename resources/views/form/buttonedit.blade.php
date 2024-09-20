@@ -50,7 +50,7 @@
                                     ) }}
                                     </div>
                                     <div class="col-lg-6">
-                                    {{ Form::label('type_id', __('Category'), ['class' => 'form-label']) }}
+                                    {{ Form::label('field_categories', __('Category'), ['class' => 'form-label']) }}
                                     {{ Form::select(
                                             'field_categories',$cat,$form->category,
                                             ['class' => 'form-control'],

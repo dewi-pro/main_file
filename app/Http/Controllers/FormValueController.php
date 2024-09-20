@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\FormValueDetail10;
 
 class FormValueController extends Controller
 {
@@ -45,8 +46,136 @@ class FormValueController extends Controller
             $forms          = Form::all();
             $chartData      = UtilityFacades::dataChart($form_id);
             $formsDetails  = Form::find($form_id);
+            $valueDetail1 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '1.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail2 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '2.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail3 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '3.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail4 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '4.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail5 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '5.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail6 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '6.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail7 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '7.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail8 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '8.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail9 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '9.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail10 = FormValueDetail10::select(\DB::raw('((SUM(very_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '10.%')
+                            ->where('form_id', '=', $form_id)->get();
+
+            $valueDetail11 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '1.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail12 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '2.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail13 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '3.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail14 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '4.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail15 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '5.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail16 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '6.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail17 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '7.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail18 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '8.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail19 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '9.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail20 = FormValueDetail10::select(\DB::raw('((SUM(satisfied + failry_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '10.%')
+                            ->where('form_id', '=', $form_id)->get();
             
-            return $dataTable->with('form_id', $form_id)->render('form-value.view-submited-form', compact('forms', 'chartData', 'formsDetails'));
+            $valueDetail21 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '1.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail22 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '2.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail23 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '3.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail24 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '4.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail25 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '5.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail26 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '6.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail27 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '7.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail28 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '8.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail29 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '9.%')
+                            ->where('form_id', '=', $form_id)->get();
+            $valueDetail30 = FormValueDetail10::select(\DB::raw('((SUM(not_satisfied)*100)/COUNT(form_values_id)) AS sum'),)
+                            ->join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+                            ->where('label', 'like', '10.%')
+                            ->where('form_id', '=', $form_id)->get();
+
+            return $dataTable->with('form_id', $form_id)->render('form-value.view-submited-form', compact('forms', 'chartData', 'formsDetails', 'valueDetail1', 
+            'valueDetail2', 'valueDetail3', 'valueDetail4', 'valueDetail5', 'valueDetail6'
+         , 'valueDetail7', 'valueDetail8', 'valueDetail9', 'valueDetail10', 
+            'valueDetail11', 'valueDetail12', 'valueDetail13', 'valueDetail14', 'valueDetail15', 
+            'valueDetail16', 'valueDetail17', 'valueDetail18', 'valueDetail19', 'valueDetail20',
+            'valueDetail21', 'valueDetail22', 'valueDetail23', 'valueDetail24', 'valueDetail25', 
+            'valueDetail26', 'valueDetail27', 'valueDetail28', 'valueDetail29', 'valueDetail30'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

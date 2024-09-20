@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\MailTemplates\Models\MailTemplate;
 use Stevebauman\Location\Facades\Location;
 use App\Models\Poll;
+use App\Models\FormValueDetail10;
 
 
 class FormController extends Controller
@@ -152,7 +153,7 @@ class FormController extends Controller
             foreach ($types as $value) {
                 $type[$value->name] = $value->name;
             }
-            $categories           = FormCategory::where('type_name', 'Tour')->get();
+            $categories           = FormCategory::all();
             $cat          = [];
             $cat['']      = __('Select categories');
             foreach ($categories as $value) {
@@ -234,7 +235,7 @@ class FormController extends Controller
             foreach ($types as $value) {
                 $type[$value->name] = $value->name;
             }
-            $categories           = FormCategory::where('type_name', 'Tour')->get();
+            $categories           = FormCategory::all();
             $cat          = [];
             $cat['']      = __('Select categories');
             foreach ($categories as $value) {
@@ -386,6 +387,9 @@ class FormController extends Controller
             ]);
             $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
             $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
+            $cat           = FormCategory::where('name', $request->field_categories)->first();
+            $clu = FormCluster::where('name', $request->field_destination)->first();
+            $lea = FormLeader::where('name', $request->field_tourleader)->first();
 
             $form->title                = $request->title;
             $form->type                 = $request->type_id;
@@ -397,6 +401,9 @@ class FormController extends Controller
             $form->start_tour           = $startDate;
             $form->end_tour             = $endDate;
             $form->created_by           = Auth::user()->id;
+            $form->category_id           = $cat->id;
+            $form->cluster_id           = $clu->id;
+            $form->leader_id           = $lea->id;
             // $form->assign_type          = $request->assign_type;
             $form->save();
             // if ($request->assign_type == 'role') {
@@ -872,7 +879,6 @@ class FormController extends Controller
                         $formValue->submited_forms_city       = $ipDataArray['city'];
                         $formValue->submited_forms_latitude   = $loc[0];
                         $formValue->submited_forms_longitude  = $loc[1];
-                        
                         $formValue->save();
                     } else {
                         if (\Auth::user()) {
@@ -991,6 +997,7 @@ class FormController extends Controller
                         $data['submited_forms_latitude']   = $loc[0];
                         $data['submited_forms_longitude']  = $loc[1];
                         $formValue      = FormValue::create($data);
+
                     }
                     $formValueArray = json_decode($formValue->json);
                     $emails = explode(',', $form->email);
@@ -1216,6 +1223,75 @@ class FormController extends Controller
                             foreach ($row->values as &$radiovalue) {
                                 if ($radiovalue->value == $request->{$row->name}) {
                                     $radiovalue->selected = 1;
+                                        if($radiovalue->value == 100){
+                                            $formRule = new FormRule();
+                                            $formRule->rule_name  = $radiovalue->value;
+                                            $formRule->if_json  = $row->label;
+                                            $formRule->form_id  = $form->id;
+                                            $formRule->condition  = 1;
+                                            $formRule->save();
+
+                                            $formValueDetail = new FormValueDetail10();
+                                            $formValueDetail->very_satisfied  = 1;
+                                            $formValueDetail->satisfied  = 0;
+                                            $formValueDetail->failry_satisfied  = 0;
+                                            $formValueDetail->not_satisfied  = 0;
+                                            $formValueDetail->label  = $row->label;
+                                            $formValueDetail->form_values_id  = 1;
+                                            $formValueDetail->status  = 1;
+                                            $formValueDetail->save();
+                                        }elseif($radiovalue->value == 75){
+                                            $formRule = new FormRule();
+                                            $formRule->rule_name  = $radiovalue->value;
+                                            $formRule->if_json  = $row->label;
+                                            $formRule->form_id  = $form->id;
+                                            $formRule->condition  = 1;
+                                            $formRule->save();
+
+                                            $formValueDetail = new FormValueDetail10();
+                                            $formValueDetail->very_satisfied  = 0;
+                                            $formValueDetail->satisfied  = 1;
+                                            $formValueDetail->failry_satisfied  = 0;
+                                            $formValueDetail->not_satisfied  = 0;
+                                            $formValueDetail->label  = $row->label;
+                                            $formValueDetail->form_values_id  = 1;
+                                            $formValueDetail->status  = 1;
+                                            $formValueDetail->save();
+                                        }elseif($radiovalue->value == 50){
+                                            $formRule = new FormRule();
+                                            $formRule->rule_name  = $radiovalue->value;
+                                            $formRule->if_json  = $row->label;
+                                            $formRule->form_id  = $form->id;
+                                            $formRule->condition  = 1;
+                                            $formRule->save();
+
+                                            $formValueDetail = new FormValueDetail10();
+                                            $formValueDetail->very_satisfied  = 0;
+                                            $formValueDetail->satisfied  = 0;
+                                            $formValueDetail->failry_satisfied  = 1;
+                                            $formValueDetail->not_satisfied  = 0;
+                                            $formValueDetail->label  = $row->label;
+                                            $formValueDetail->form_values_id  = 1;
+                                            $formValueDetail->status  = 1;
+                                            $formValueDetail->save();
+                                        }elseif($radiovalue->value == 25){
+                                            $formRule = new FormRule();
+                                            $formRule->rule_name  = $radiovalue->value;
+                                            $formRule->if_json  = $row->label;
+                                            $formRule->form_id  = $form->id;
+                                            $formRule->condition  = 1;
+                                            $formRule->save();
+
+                                            $formValueDetail = new FormValueDetail10();
+                                            $formValueDetail->very_satisfied  = 0;
+                                            $formValueDetail->satisfied  = 0;
+                                            $formValueDetail->failry_satisfied  = 0;
+                                            $formValueDetail->not_satisfied  = 1;
+                                            $formValueDetail->label  = $row->label;
+                                            $formValueDetail->form_values_id  = 1;
+                                            $formValueDetail->status  = 1;
+                                            $formValueDetail->save();
+                                        }
                                 } else {
                                     if (isset($radiovalue->selected)) {
                                         unset($radiovalue->selected);
@@ -1357,7 +1433,9 @@ class FormController extends Controller
                     $formValue->submited_forms_city       = $ipDataArray['city'];
                     $formValue->submited_forms_latitude   = $loc[0];
                     $formValue->submited_forms_longitude  = $loc[1];
+
                     $formValue->save();
+
                 } else {
                     if (\Auth::user()) {
                         $userId = \Auth::user()->id;
@@ -1459,14 +1537,14 @@ class FormController extends Controller
                             }
                         }
                     } else {
-                        $data['status'] = 'free';
+                        $data['status'] = 'NEW COMMENT';
                     }
 
                     $data['form_id']                = $form->id;
                     $data['user_id']                = $userId;
                     $data['json']                   = json_encode($array);
                     $data['form_edit_lock_status']  = $form->form_fill_edit_lock;
-                    $data['form_status']            = $form->form_status;
+                    $data['form_status']            = 4;
                     $data['submited_forms_ip']         = $ipDataArray['ip'];
                     $data['submited_forms_country']    = $ipDataArray['country'];
                     $data['submited_forms_region']     = $ipDataArray['region'];
@@ -1475,6 +1553,12 @@ class FormController extends Controller
                     $data['submited_forms_longitude']  = $loc[1];
 
                     $formValue    = FormValue::create($data);
+                    $ruleUpdate = formRule::where("condition", 1)->update(["condition" => $formValue->id]);
+                    $ruleDelete = formRule::where("rule_name", [1,0]);
+                    $ruleDelete->delete();
+                    $valueDetaialUpdate = FormValueDetail10::where("form_values_id", 1)->update(["form_values_id" => $formValue->id]);
+
+
                 }
                 $formValueArray = json_decode($formValue->json);
                 $emails = explode(',', $form->email);

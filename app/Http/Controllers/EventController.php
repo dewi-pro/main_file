@@ -9,6 +9,16 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\GoogleCalendar\Event as GoogleEvent;
+use App\DataTables\ResultDataTable;
+use App\Models\FormCategory;
+use App\Models\FormType;
+use Spatie\Permission\Models\Role;
+use App\Models\Form;
+use App\Models\FormCluster;
+use App\Models\FormLeader;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReportExport;
+
 
 class EventController extends Controller
 {
@@ -22,46 +32,46 @@ class EventController extends Controller
         7 => 'event-success',
     ];
 
-    public function index(Request $request)
+    public function index(ResultDataTable $dataTable, Request $request)
     {
-
-        if (\Auth::user()->can('manage-event')) {
-            $date = Carbon::now();
-            $events    = Event::all();
-            $transdate = $date->format('Y-m-d');
-            $todayDate = $date->format('m');
-            $user = \Auth::user();
-            if (\Auth::user()->type == 'Admin') {
-                $currentMonthEvent = Event::select('id', 'start_date', 'end_date', 'title', 'created_at', 'color', 'user')
-                    ->where('created_by', $user->id)
-                    ->whereRaw('MONTH(start_date)=' . $todayDate)
-                    ->whereRaw('MONTH(end_date)=' . $todayDate)
-                    ->get();
-            } else {
-                $currentMonthEvent = Event::select('id', 'start_date', 'end_date', 'title', 'created_by', 'color', 'user')
-                    ->where('user', 'LIKE', '%,' . $user->id . ',%')
-                    ->orWhere('user', 'LIKE', $user->id . ',%')
-                    ->orWhere('user', 'LIKE', '%,' . $user->id)
-                    ->orWhere('user', 'LIKE', '%' . $user->id . '%')
-                    ->whereRaw('MONTH(start_date)=' . $todayDate)->whereRaw('MONTH(end_date)=' . $todayDate)
-                    ->get();
+        if (\Auth::user()->can('manage-report')) {
+            if (\Auth::user()->forms_grid_view == 1) {
+                return redirect()->route('grid.form.view', 'view');
             }
+            $categories = FormCategory::where('status', 1)->pluck('name', 'id');
+            $type           = FormType::where('status', 1)->pluck('name', 'id');
+            $clusters = FormCluster::where('status', 1)->pluck('name', 'id');
+            $leaders = FormLeader::where('status', 1)->pluck('name', 'id');
 
-            $arrEvents = [];
-            foreach ($events as $event) {
-                $arr['id']        = $event['id'];
-                $arr['title']     = $event['title'];
-                $arr['start']     = $event['start_date'];
-                $arr['end']       = $event['end_date'];
-                $arr['className'] = $event['color'] . ' event-edit';
-                $arr['url']       = route('event.edit', $event['id']);
-                $arrEvents[]      = $arr;
-            }
-            $arrEvents = str_replace('"[', '[', str_replace(']"', ']', json_encode($arrEvents)));
-            return view('event.index', compact('arrEvents', 'transdate', 'events', 'currentMonthEvent'));
+            $roles = Role::pluck('name', 'id');
+            $trashForm = Form::onlyTrashed()->count();
+            $form = Form::count();
+            return $dataTable->render('event.index', compact('categories', 'roles', 'trashForm', 'form', 'type', 'clusters', 'leaders'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
+    }
+
+    public function exportXlsx(Request $request)
+    {
+        $dateRange = $request->select_date ?? '';
+        if ($dateRange != '') {
+            list($startDate, $endDate) = array_map('trim', explode('to', $dateRange));
+        } else {
+            $startDate = '';
+            $endDate = '';
+        }
+        $cat_id = $request->select_category;
+        $clu_id = $request->select_cluster;
+        $lea_id = $request->select_leader;
+
+        $form1 = Form::where('forms.end_tour', '>=', $startDate)
+            ->where('forms.end_tour', '<=', $endDate)
+            ->where('forms.category_id', '=', $cat_id)
+            ->get('id', 'tour_leader_name');
+
+        $user = User::select('id', 'name')->where('name', 'LIKE', 'Super Admin')->first();
+        return Excel::download(new ReportExport($startDate, $endDate, $user, $cat_id, $clu_id, $lea_id, $form1),'Report' . '.xlsx');
     }
 
     public function getEventData(Request $request)

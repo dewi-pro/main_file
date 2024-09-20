@@ -58,13 +58,13 @@
                                 class="ti ti-home"></i></span>
                         <span class="dash-mtext custom-weight">{{ __('Dashboard') }}</span></a>
                 </li>
-                @can('manage-dashboardwidget')
+                <!-- @can('manage-dashboardwidget')
                     <li class="dash-item dash-hasmenu {{ request()->is('index-dashboard*') ? 'active' : '' }}">
                         <a href="{{ route('index.dashboard') }}" class="dash-link"><span class="dash-micon"><i
                                     class="ti ti-square"></i></span>
                             <span class="dash-mtext custom-weight">{{ __('Dashboard Widgets') }}</span></a>
                     </li>
-                @endcan
+                @endcan -->
                 @canany(['manage-user', 'manage-role'])
                     <li
                         class="dash-item dash-hasmenu {{ request()->is('users*') || request()->is('roles*') ? 'active dash-trigger' : 'collapsed' }}">
@@ -247,15 +247,15 @@
                     </li>
                 @endcanany -->
 
-                <!-- @canany(['manage-event'])
+                @canany(['manage-report'])
                     <li class="dash-item dash-hasmenu {{ request()->is('event*') ? 'active' : '' }}">
                         <a class="dash-link" href="{{ route('event.index') }}"><span class="dash-micon">
                                 <i class="ti ti-calendar"></i></span>
-                            <span class="dash-mtext">{{ __('Event Calender') }}</span>
+                            <span class="dash-mtext">{{ __('Report') }}</span>
                         </a>
                     </li>
-                @endcanany -->
-                @can('manage-announcement')
+                @endcanany
+                <!-- @can('manage-announcement')
                     @if (Auth::user()->type == 1)
                         <li class="dash-item dash-hasmenu {{ request()->is('announcement*') ? 'active' : '' }}">
                             <a href="{{ route('announcement.index') }}" class="dash-link">
@@ -278,7 +278,7 @@
                                 <span>{{ __('Show Announcement List') }}</span></a>
                         </li>
                     @endif
-                @endcan
+                @endcan -->
                 <!-- @canany(['manage-chat'])
                     @if (setting('pusher_status') == '1')
                         <li

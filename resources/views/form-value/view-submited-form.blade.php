@@ -72,11 +72,11 @@
                                 <div class="card-body">
                                     @can('manage-submitted-form')
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-6 responsive-search">
+                                            <!-- <div class="col-lg-4 col-md-6 responsive-search">
                                                 <div class="form-group d-flex justify-content-start">
                                                     {{ Form::text('user', null, ['class' => 'form-control mr-1 ', 'placeholder' => __('Search here'), 'data-kt-ecommerce-category-filter' => 'search', 'id' => 'user_search', 'onchange' => 'userExcel()']) }}
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-lg-4 col-md-6 responsive-search">
                                                 <div class="form-group row d-flex justify-content-start">
                                                     {{ Form::text('duration', null, ['class' => 'form-control mr-1 created_at', 'placeholder' => __('Select Date Range'), 'id' => 'pc-daterangepicker-1', 'onchange' => 'updateEndDate()']) }}
@@ -110,7 +110,56 @@
                                 </div>
                             </div>
                         </div>
-                      
+                        <div class="col-md-12 mt-4">
+                            <div class="card">
+                                <div class="card-body">
+                               <!-- <h2> {{$forms[0]->title }}</h2> -->
+                                <?php
+ 
+                                    $dataPoints1 = array( 
+                                        array("label" => "Q1",  "y" => $valueDetail1[0]->sum ),
+                                        array("label" => "Q2", "y" => $valueDetail2[0]->sum),
+                                        array("label" => "Q3", "y" => $valueDetail3[0]->sum ),
+                                        array("label" => "Q4",  "y" => $valueDetail4[0]->sum ),
+                                        array("label" => "Q5", "y" => $valueDetail5[0]->sum ),
+                                        array("label" => "Q6",  "y" => $valueDetail6[0]->sum ),
+                                        array("label" => "Q7",  "y" => $valueDetail7[0]->sum ),
+                                        array("label" => "Q8",  "y" => $valueDetail8[0]->sum ),
+                                        array("label" => "Q9",  "y" => $valueDetail9[0]->sum ),
+                                        array("label" => "Q10",  "y" => $valueDetail10[0]->sum )
+                                    );
+                                    
+                                    $dataPoints2 = array( 
+                                        array("label" => "Q1",  "y" => $valueDetail11[0]->sum ),
+                                        array("label" => "Q2", "y" => $valueDetail12[0]->sum),
+                                        array("label" => "Q3", "y" => $valueDetail13[0]->sum ),
+                                        array("label" => "Q4",  "y" => $valueDetail14[0]->sum ),
+                                        array("label" => "Q5", "y" => $valueDetail15[0]->sum ),
+                                        array("label" => "Q6",  "y" => $valueDetail16[0]->sum ),
+                                        array("label" => "Q7",  "y" => $valueDetail17[0]->sum ),
+                                        array("label" => "Q8",  "y" => $valueDetail18[0]->sum ),
+                                        array("label" => "Q9",  "y" => $valueDetail19[0]->sum ),
+                                        array("label" => "Q10",  "y" => $valueDetail20[0]->sum )
+                                    );
+                                    
+                                    $dataPoints3 = array( 
+                                        array("label" => "Q1",  "y" => $valueDetail21[0]->sum ),
+                                        array("label" => "Q2", "y" => $valueDetail22[0]->sum),
+                                        array("label" => "Q3", "y" => $valueDetail23[0]->sum ),
+                                        array("label" => "Q4",  "y" => $valueDetail24[0]->sum ),
+                                        array("label" => "Q5", "y" => $valueDetail25[0]->sum ),
+                                        array("label" => "Q6",  "y" => $valueDetail26[0]->sum ),
+                                        array("label" => "Q7",  "y" => $valueDetail27[0]->sum ),
+                                        array("label" => "Q8",  "y" => $valueDetail28[0]->sum ),
+                                        array("label" => "Q9",  "y" => $valueDetail29[0]->sum ),
+                                        array("label" => "Q10",  "y" => $valueDetail30[0]->sum )
+                                    );
+                                    ?>
+                                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -184,6 +233,42 @@
             console.log(user);
 
             document.querySelector('input[name="user_search_excel"]').value = user;
+        }
+    </script>
+    <script>
+        window.onload = function() {
+        
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            // title: {
+            //     text: "Social Media Engagement"
+            // },
+            toolTip: {
+                shared: true
+            },
+            axisY: {
+                title: "Percentage of Users",
+                suffix: "%"
+            },
+            data: [{
+                type: "stackedBar100",
+                name: "Top Boxes",
+                yValueFormatString: "#,##0\"%\"",
+                dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
+            },{
+                type: "stackedBar100",
+                yValueFormatString: "#,##0\"%\"",
+                name: "Neutral 2 Boxes",
+                dataPoints: <?php echo json_encode($dataPoints2, JSON_NUMERIC_CHECK); ?>
+            },{
+                type: "stackedBar100",
+                yValueFormatString: "#,##0\"%\"",
+                name: "Bottom Boxes",
+                dataPoints: <?php echo json_encode($dataPoints3, JSON_NUMERIC_CHECK); ?>
+            }]
+        });
+        chart.render();
+        
         }
     </script>
 @endpush

@@ -53,7 +53,7 @@ class FormValuesDataTable extends DataTable
                     $out = '<span class="p-2 px-3 badge rounded-pill bg-success">' . __('POSITIVE') . '</span>';
                     return $out;
                 } else {
-                    $out = '<span class="p-2 px-3 badge rounded-pill bg-danger">' . __('Failed') . '</span>';
+                    $out = '<span class="p-2 px-3 badge rounded-pill bg-danger">' . __('New Comment') . '</span>';
                     return $out;
                 }
                 // $name = '';

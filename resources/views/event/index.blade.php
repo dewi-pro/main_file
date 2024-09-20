@@ -1,332 +1,389 @@
 @extends('layouts.main')
-@section('title', __('Event'))
+@section('title', __('Forms'))
 @section('breadcrumb')
     <div class="col-md-12">
         <div class="page-header-title">
-            <h4 class="m-b-10">{{ __('Event') }}</h4>
+            <h4 class="m-b-10">{{ __('Forms') }}</h4>
         </div>
         <ul class="breadcrumb">
-            <li class="breadcrumb-item">{!! Html::link(route('home'), __('Dashboard'), ['']) !!}</li>
-            <li class="breadcrumb-item">{{ __('Event') }}</li>
+            <li class="breadcrumb-item">{!! Html::link(route('home'), __('Dashboard'), []) !!}</li>
+            <li class="breadcrumb-item active"> {{ __('Forms') }} </li>
         </ul>
-        <div class="mb-2 col-lg-12 text-end">
-            @can('create-event')
-                <a href="javascript:void(0);" data-size="lg" data-bs-placement="bottom" id="EventCalender"
-                    data-url="{{ route('event.create') }}" data-ajax-popup="true" data-kt-modal="true" data-bs-toggle="tooltip"
-                    title="{{ __('Create') }}" data-title="{{ __('Create New Event') }}" class="btn btn-sm btn-primary">
-                    <i class="ti ti-plus"></i><span>{{ __('Create Event') }}</span>
-                </a>
-            @endcan
+        <div class="float-end d-flex align-items-center">
+            <div class="me-2">
+                <button class="btn btn-primary btn-sm" id="filter_btn" data-bs-toggle="tooltip" title="{{ __('Filter') }}"
+                    data-bs-placement="bottom"><i class="fas fa-filter"></i></button>
+            </div>
+            <div>
+                <div class="d-flex align-items-center">
+                    <a href="{{ route('grid.form.view', 'view') }}" data-bs-toggle="tooltip" title="{{ __('Grid View') }}"
+                        class="btn btn-sm btn-primary" data-bs-placement="bottom">
+                        <i class="ti ti-layout-grid"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="filter">
+        <div class="card mt-3 mb-0">
+            <div class="card-header">
+                <h5>{{ __('Filter') }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-end filters">
+                    <div class="col-md-4 col-sm-12 form-group">
+                        {{ Form::label('created_at', __('date'), ['class' => 'form-label']) }}
+                        {!! Form::text('filterdate', null, [
+                            'id' => 'filterdate',
+                            'class' => 'form-control created_at',
+                            'onchange' => 'updateEndDate()'
+                        ]) !!}
+                        </div>
+                    <div class="col-md-4 col-sm-12 form-group">
+                        {{ Form::label('category', __('Category'), ['class' => 'form-label']) }}
+                        {!! Form::select('category[]', $categories, null, [
+                            'class' => 'form-control category',
+                            'multiple' => 'multiple',
+                            'data-trigger',
+                            'id' => 'category', 
+                            'onchange' => 'categoryExcel()'
+                        ]) !!}
+                    </div>
+                </div>
+                <div class="row align-items-end filters">
+                    <div class="col-md-4 col-sm-12 form-group">
+                        {{ Form::label('cluster', __('Cluster'), ['class' => 'form-label']) }}
+                        {!! Form::select('cluster[]', $clusters, null, [
+                            'class' => 'form-control cluster',
+                            'multiple' => 'multiple',
+                            'id' => 'cluster',
+                            'data-trigger',
+                            'onchange' => 'clusterExcel()'
+                        ]) !!}
+                    </div>
+                    <div class="col-md-4 col-sm-12 form-group">
+                        {{ Form::label('leader', __('Leader'), ['class' => 'form-label']) }}
+                        {!! Form::select('leader[]', $leaders, null, [
+                            'class' => 'form-control leader',
+                            'id' => 'leader',
+                            'multiple' => 'multiple',
+                            'data-trigger',
+                            'onchange' => 'leaderExcel()'
+                        ]) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ms-auto">
+                {!! Form::button(__('Apply'), ['id' => 'applyfilter', 'class' => 'btn btn-primary']) !!}
+                {!! Form::button(__('Clear'), ['id' => 'clearfilter', 'class' => 'btn btn-secondary']) !!}
+                {!! Form::open(['route' => ['download.event.values.excel'],'method' => 'post','id' => 'mass_export','class' => 'd-inline-block',]) !!}
+                {{ Form::hidden('select_date') }}
+                {{ Form::hidden('select_category') }}
+                {{ Form::hidden('select_cluster') }}
+                {{ Form::hidden('select_leader') }}
+                {{ Form::submit('Export to Excel', ['class' => 'btn btn-success']) }}
+                                                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@endsection
+@section('content')
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <!-- <div class="card-header border-bottom justify-content-between">
+                    <div class="row justify-content-between">
+                        <div class="col-12">
+                            <ul class="nav nav-pills mb-2" id="pills-tab" role="tablist">
+                                @php
+                                    $view = request()->query->get('view');
+                                @endphp
+                                <li class="nav-item">
+                                    <a class="nav-link   {{ $view != 'trash' ? 'active' : '' }}"
+                                        href="{{ route('forms.index') }}">{{ __('All') }} <span
+                                            class="badge ms-1 {{ isset($view) ? 'bg-primary text-light' : 'bg-light text-primary' }}">{{ isset($form) ? $form : 0 }}</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ $view == 'trash' ? 'active' : '' }}"
+                                        href="{{ route('forms.index', 'view=trash') }}">{{ __('Trash') }}
+                                        <span
+                                            class="badge ms-1 {{ isset($view) ? 'bg-light text-primary' : 'bg-primary text-light' }}">{{ isset($trashForm) ? $trashForm : 0 }}</span></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <select class="form-select  selectric mb-1" data-trigger>
+                                <option value="">{{ __('Action For Selected') }}</option>
+                                @php
+                                    $view = request()->query->get('view');
+                                    if ($view !== null && $view == 'trash') {
+                                        echo '<option value="restore">' . __('Restore Back') . '</option>';
+                                    } else {
+                                        echo '<option value="trash" class="show_confirm_submited_form_delete">' .
+                                            __('Move to Trash') .
+                                            '</option>';
+                                    }
+                                @endphp
+                                <option value="delete">{{ __('Delete Permanently') }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 text-end">
+                            @if ($view !== null && $view == 'trash')
+                                <a class="deleteAll btn btn-danger btn-lg text-white" tabindex="0" aria-controls="user-table"
+                                    type="button"><span><i
+                                            class="fa fa-trash me-1 text-md"></i>{{ __('Empty Trash') }}</span></a>
+                            @endif
+                        </div>
+                    </div>
+
+                </div> -->
+
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        {{ $dataTable->table(['width' => '100%']) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @push('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/datepicker-bs5.min.css') }}">
+    @include('layouts.includes.datatable-css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}" />
 @endpush
-@php
-    use App\Facades\UtilityFacades;
-@endphp
-@section('content')
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5">
-                            <h5>{{ __('Calendar') }}</h5>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    @if (Utility::getsettings('google_calendar_enable') && Utility::getsettings('google_calendar_enable') == 'on')
-                                        <select class="form-control float-end" name="calenderType" id="calenderType"
-                                            onchange="get_data()">
-                                            <option value="google_calender">{{ __('Google Calender') }}</option>
-                                            <option value="local_calender" selected="true">{{ __('Local Calender') }}
-                                            </option>
-                                        </select>
-                                    @endif
-                                </div>
-                                <div class="col-lg-6">
-                                    <input type="text" name="search_user" class="form-control search_user_event"
-                                        value="" placeholder="Search User....">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id='calendar' class='calendar'></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="mb-4">{{ __('Upcoming Events') }}</h6>
-                    <ul class="mt-3 event-cards list-group list-group-flush w-100">
-                        <li class="mb-3 list-group-item card">
-                            <div class="row align-items-center justify-content-between">
-                                <div class="align-items-center">
-                                    @if (!$events->isEmpty())
-                                        @forelse ($currentMonthEvent as $event)
-                                            <div class="mb-3 border shadow-none card">
-                                                <div class="px-3">
-                                                    <div class="row align-items-center">
-                                                        <div class="col ml-n2">
-                                                            <h5 class="mb-3 text-sm fc-event-title-container">
-                                                            @can('edit-event')
-                                                                <a href="javascript:void(0);" data-size="lg"
-                                                                    data-url="{{ route('event.edit', $event->id) }}"
-                                                                    data-ajax-popup="true" id="editEvent"
-                                                                    data-title="{{ __('Edit Event') }}"
-                                                                    class="fc-event-title text-primary">
-                                                                    {{ $event->title }}
-                                                                </a>
-                                                            @endcan
-                                                            </h5>
-                                                            <p class="card-text small text-dark">
-                                                                {{ __('Start Date : ') }}
-                                                                {{ Utility::date_format($event->start_date) }}<br>
-                                                                {{ __('End Date : ') }}
-                                                                {{ Utility::date_format($event->end_date) }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-auto text-right d-flex">
-                                                            @can('edit-event')
-                                                                <div class="action-btn bg-primary ms-2">
-                                                                    <a class="rounded btn btn-sm small btn-primary edit_form cust_btn"
-                                                                        data-url="{{ route('event.edit', $event->id) }}"
-                                                                        href="javascript:void(0);" data-bs-toggle="tooltip"
-                                                                        data-bs-placement="bottom" title=""
-                                                                        data-bs-original-title="{{ __('Edit Form') }}"
-                                                                        id="editEvent"><i class="ti ti-edit"></i></a>
-                                                                </div>
-                                                            @endcan
-                                                            @can('delete-event')
-                                                                <div class="action-btn bg-danger ms-2">
-                                                                    {!! Form::open([
-                                                                        'method' => 'DELETE',
-                                                                        'route' => ['event.destroy', $event->id],
-                                                                        'id' => 'delete-form-' . $event->id,
-                                                                        'class' => 'd-inline',
-                                                                    ]) !!}
-                                                                    <a href="#"
-                                                                        class="rounded btn btn-sm small btn-danger show_confirm"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                                        title=""
-                                                                        data-bs-original-title="{{ __('Delete') }}"
-                                                                        id="delete-form-{{ $event->id }}"><i
-                                                                            class="mr-0 ti ti-trash"></i></a>
-                                                                    {!! Form::close() !!}
-                                                                </div>
-                                                            @endcan
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @empty
-                                            <tr>
-                                                <td colspan="4">
-                                                    <div class="text-center">
-                                                        <h6>{{ __('There is no event in this month') }}</h6>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforelse
-                                    @else
-                                        <div class="text-center">
-
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
 @push('script')
-    <script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
+    @include('layouts.includes.datatable-js')
+    <script src="{{ asset('assets/js/plugins/flatpickr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/daterangepicker/daterangepicker.min.js') }}"></script>
+
     <script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
-    <script src="{{ asset('vendor/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/datepicker-full.min.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            get_data();
+
+    {{ $dataTable->scripts() }}
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).attr('data-url')).select();
+            document.execCommand("copy");
+            $temp.remove();
+            show_toastr('Great!', '{{ __('Copy Link Successfully.') }}', 'success',
+                '{{ asset('assets/images/notification/ok-48.png') }}', 4000);
+        }
+        $(function() {
+            $('body').on('click', '#share-qr-code', function() {
+                var action = $(this).data('share');
+                var modal = $('#common_modal2');
+                $.get(action, function(response) {
+                    modal.find('.modal-title').html('{{ __('QR Code') }}');
+                    modal.find('.modal-body').html(response.html);
+                    feather.replace();
+                    modal.modal('show');
+                })
+            });
         });
-        function get_data(user = '') {
-            console.log(user);
-            var calenderType = $('#calenderType :selected').val();
-            var data = $('input[name="search_user"]').val();
-            $('#calendar').removeClass('local_calender');
-            $('#calendar').removeClass('google_calender');
-            if (calenderType == undefined) {
-                calenderType = 'local_calender';
+
+
+        $(document).on('click', "#filter_btn", function() {
+            $("#filter").toggle("slow")
+        });
+
+        document.querySelector("#filterdate").flatpickr({
+            mode: "range"
+        });
+
+        var multipleCancelButton = new Choices(
+            '#choices-multiple-remove-button', {
+                removeItemButton: true,
             }
-            $('#calendar').addClass(calenderType);
-            $.ajax({
-                url: '{{ route('event.get.data') }}',
-                method: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    'calenderType': calenderType,
-                    'user': user
-                },
-                success: function(data) {
-                    (function() {
-                        var etitle;
-                        var etype;
-                        var etypeclass;
-                        var calendarElement = document.getElementById('calendar');
-                        if (calendarElement.fullCalendar) {
-                            calendarElement.fullCalendar.destroy();
-                        }
-                        var calendar = new FullCalendar.Calendar(calendarElement, {
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        );
+        document.addEventListener('DOMContentLoaded', function() {
+            var genericExamples = document.querySelectorAll('[data-trigger]');
+            for (i = 0; i < genericExamples.length; ++i) {
+                var element = genericExamples[i];
+                new Choices(element, {
+                    // placeholderValue: 'This is a placeholder set in the config',
+                    searchPlaceholderValue: 'This is a search placeholder',
+                });
+            }
+        });
+
+        $(document).ready(function() {
+
+            $(document).on('change', 'input[name="checkbox-all"]', function() {
+                var isChecked = $(this).prop('checked');
+                $('.selected-checkbox').prop('checked', isChecked).trigger('change');
+            });
+
+            $(document).on('change', '.selectric', function(e) {
+                var selected = [],
+                    action = $(this).val();
+                if (action != '') {
+                    $('input.dt-checkboxes:checked').each(function() {
+                        selected.push($(this).data('id'));
+                    });
+                    if (action == 'trash' && selected.length > 0) {
+                        var url = '{{ route('form.destroy.multiple') }}';
+                        var text =
+                            "If you trash this form, all the submitted forms will also be trashed. Do you want to continue?";
+                    } else if (action == 'delete' && selected.length > 0) {
+                        @php
+                            $view = request()->query->get('view');
+                            if ($view !== null && $view == 'trash') {
+                                $url = route('form.force.delete.Multiple', 'view=trash');
+                            } else {
+                                $url = route('form.force.delete.Multiple');
+                            }
+                        @endphp
+                        var url = '{{ $url }}';
+                        var text =
+                            "If you delete permanently this form, all the submitted forms will also be Delete Permanently. Do you want to continue?";
+                    } else if (action == 'restore' && selected.length > 0) {
+                        var url = '{{ route('form.restore.multiple') }}';
+                        var text =
+                            "If you restore this form, all the submitted forms will also be restore. Do you want to continue?"
+                    } else {
+                        show_toastr('error', '{{ __('Please select any one form') }}', {
+                            closeButton: true,
+                            tapToDismiss: false
+                        });
+                        return;
+
+                    }
+                    if (selected.length > 0) {
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                                cancelButton: 'btn btn-danger'
                             },
-                            select: function(date) {
-                                var url = $('#EventCalender').attr('data-url');
-                                var start = date.startStr;
-                                var end = date.endStr;
+                            buttonsStyling: false
+                        })
+                        swalWithBootstrapButtons.fire({
+                            title: 'Are you sure?',
+                            text: text,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
                                 $.ajax({
-                                    type: 'GET',
+                                    type: "POST",
                                     url: url,
                                     data: {
-                                        start_date: start,
-                                        end_date: end
+                                        '_token': '{{ csrf_token() }}',
+                                        'ids': selected
                                     },
                                     success: function(response) {
-                                        $("#common_modal .modal-title").html(
-                                            '{{ __('Create Event') }}');
-                                        $("#common_modal .body").html(response);
-                                        if ($('#user').length) {
-                                            var multipleCancelButton = new Choices(
-                                                '#user', {
-                                                    removeItemButton: true,
-                                                });
-                                        }
-                                        const start_date = new Datepicker(document
-                                            .querySelector(
-                                                '#start_date'), {
-                                                buttonClass: 'btn',
-                                                format: 'dd/mm/yyyy'
-                                            });
-                                        const end_date = new Datepicker(document
-                                            .querySelector(
-                                                '#end_date'), {
-                                                buttonClass: 'btn',
-                                                format: 'dd/mm/yyyy'
-                                            });
-                                        $("#common_modal").modal('show');
-                                    },
-                                    error: function(response) {}
-                                });
-                            },
-                            buttonText: {
-                                timeGridDay: "{{ __('Day') }}",
-                                timeGridWeek: "{{ __('Week') }}",
-                                dayGridMonth: "{{ __('Month') }}"
-                            },
-                            themeSystem: 'bootstrap',
-                            slotDuration: '00:10:00',
-                            navLinks: true,
-                            droppable: true,
-                            selectable: true,
-                            selectMirror: true,
-                            editable: true,
-                            dayMaxEvents: true,
-                            handleWindowResize: true,
-                            events: data,
-                        });
-                        calendar.render();
-                    })();
+                                        show_toastr('Success!', response.msg,
+                                            'success');
+                                        window.location.reload();
+                                    }
+                                })
+                            } else {
+                                $(this).val('').trigger('change');
+                            }
+                        })
+                    }
                 }
             });
-        }
 
-        $(document).on('click', '#EventCalender', function() {
-            var url = $(this).attr('data-url');
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {},
-                success: function(response) {
-                    $("#common_modal .modal-title").html('{{ __('Create Event') }}');
-                    $("#common_modal .body").html(response);
-                    if ($('#user').length) {
-                        var multipleCancelButton = new Choices(
-                            '#user', {
-                                removeItemButton: true,
-                            });
+            $(document).on('click', '.deleteAll', function(e) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "If you delete this form, all the submitted forms will also be deleted. Do you want to continue?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ route('form.force.delete.all') }}',
+                            data: {
+                                '_token': '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                show_toastr('Success!', response.msg,
+                                    'success');
+                                window.location.reload();
+                            }
+                        });
                     }
-                    const start_date = new Datepicker(document
-                        .querySelector(
-                            '#start_date'), {
-                            buttonClass: 'btn',
-                            format: 'dd/mm/yyyy'
-                        });
-                    const end_date = new Datepicker(document
-                        .querySelector(
-                            '#end_date'), {
-                            buttonClass: 'btn',
-                            format: 'dd/mm/yyyy'
-                        });
-                    $("#common_modal").modal('show');
-                },
-                error: function(response) {}
+                });
             });
+
         });
 
-        $(document).on('click', '#editEvent,.event-edit', function(e) {
-            e.preventDefault();
-            if ($(this).attr('data-url')) {
-                var url = $(this).attr('data-url');
-            } else {
-                var url = $(this).attr('href');
+        $(document).on("change", "#form_title", function() {
+            var cate_id = $(this).val();
+            $.ajax({
+                url: '{{ route('widget.chnages') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    widget: cate_id,
+                },
+                success: function(data) {
+                    var toAppend = '';
+                    $.each(data, function(i, o) {
+                        toAppend += '<option value=' + o.name + '>' + o.label + '</option>';
+                    });
+                    $('.field_name').html(
+                        '<select name="field_name" class="form-control" id="field_name" data-trigger>' +
+                        toAppend +
+                        '</select>');
+                    new Choices('#field_name', {
+                        removeItemButton: true,
+                    });
+                }
+            })
+        });
+    </script>
+     <script>
+        function updateEndDate() {
+            var duration = document.getElementById('filterdate').value;
+            var startDate = '';
+            var startDateArray = duration.split('- ');
+            if (startDateArray.length > 0) {
+                startDate = startDateArray[0];
             }
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {},
-                success: function(response) {
-                    $("#common_modal .modal-title").html('{{ __('Edit Event') }}');
-                    $("#common_modal .body").html(response);
-                    var startDate = $("#common_modal .body").find('input[name="start_date"]').val();
-                    var endDate = $("#common_modal .body").find('input[name="end_date"]').val();
-                    if ($('#user').length) {
-                        var multipleCancelButton = new Choices('#user', {
-                            removeItemButton: true,
-                        });
-                    }
-                    const start_date = new Datepicker(document
-                        .querySelector(
-                            '#start_date'), {
-                            buttonClass: 'btn',
-                            format: 'dd/mm/yyyy'
-                        });
-                    const end_date = new Datepicker(document
-                        .querySelector(
-                            '#end_date'), {
-                            buttonClass: 'btn',
-                            format: 'dd/mm/yyyy'
-                        });
-                    $("#common_modal").modal('show');
-                },
-                error: function(response) {}
-            });
-        });
+            document.querySelector('input[name="select_date"]').value = startDate;
+        }
+    </script>
+    <script>
+        function categoryExcel() {
+            var user = document.getElementById('category').value;
+            console.log(user);
 
+            document.querySelector('input[name="select_category"]').value = user;
+        }
+    </script>
+    <script>
+        function clusterExcel() {
+            var user1 = document.getElementById('cluster').value;
+            console.log(user1);
 
-        $(document).on('keyup', '.search_user_event', function() {
-            var user = $('input[name="search_user"]').val();
-            get_data(user);
-        });
+            document.querySelector('input[name="select_cluster"]').value = user1;
+        }
+    </script>
+    <script>
+        function leaderExcel() {
+            var user2 = document.getElementById('leader').value;
+            console.log(user2);
+
+            document.querySelector('input[name="select_leader"]').value = user2;
+        }
     </script>
 @endpush
