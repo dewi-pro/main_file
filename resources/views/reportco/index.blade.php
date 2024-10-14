@@ -1,13 +1,13 @@
 @extends('layouts.main')
-@section('title', __('Report Tour'))
+@section('title', __('Report Corporate & Operation'))
 @section('breadcrumb')
     <div class="col-md-12">
         <div class="page-header-title">
-            <h4 class="m-b-10">{{ __('Report Tour') }}</h4>
+            <h4 class="m-b-10">{{ __('Report Corporate & Operation') }}</h4>
         </div>
         <ul class="breadcrumb">
             <li class="breadcrumb-item">{!! Html::link(route('home'), __('Dashboard'), []) !!}</li>
-            <li class="breadcrumb-item active"> {{ __('Report Tour') }} </li>
+            <li class="breadcrumb-item active"> {{ __('Report Corporate & Operation') }} </li>
         </ul>
         <div class="float-end d-flex align-items-center">
             <div class="me-2">
@@ -32,32 +32,22 @@
                         ]) !!}
                         </div>
                     <div class="col-md-4 col-sm-12 form-group">
-                        {{ Form::label('category', __('Category'), ['class' => 'form-label']) }}
-                        <select name="category" id="category" class='form-control category' onchange=categoryExcel() data-trigger>
-                            <option value="" selected>{{ __('Select Category') }}</option>
-                            @foreach ($categories as $key => $category)
-                                <option value="{{ $key }}">{{ $category }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row align-items-end filters">
-                    <div class="col-md-4 col-sm-12 form-group">
-                        {{ Form::label('cluster', __('Cluster'), ['class' => 'form-label']) }}
-                        <select name="cluster" id="cluster" class='form-control cluster' onchange=clusterExcel() data-trigger>
-                            <option value="" selected>{{ __('Select Cluster') }}</option>
-                            @foreach ($cluster as $key => $cluster)
-                                <option value="{{ $key }}">{{ $cluster }}</option>
+                        {{ Form::label('company', __('COMPANY'), ['class' => 'form-label']) }}
+                        <select name="company" id="company" class='form-control company' onchange=companyExcel() data-trigger>
+                            <option value="" selected>{{ __('Select Company') }}</option>
+                            @foreach ($company as $id => $company_name)
+                                <option value="{{ $company_name }}">{{ $company_name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-4 col-sm-12 form-group">
-                        {{ Form::label('leader', __('Tour Leader'), ['class' => 'form-label']) }}
-                        <select name="leader" id="leader" class='form-control leader' onchange=leaderExcel() data-trigger>
-                            <option value="" selected>{{ __('Select Leader') }}</option>
-                            @foreach ($leaders as $key => $leader)
-                                <option value="{{ $key }}">{{ $leader }}</option>
-                            @endforeach
+                        {{ Form::label('rate', __('RATE'), ['class' => 'form-label']) }}
+                        <select name="rate" id="rate" class='form-control rate' onchange=rateExcel() data-trigger>
+                            <option value="" selected>{{ __('Select Rate') }}</option>
+                                <option value="Very Satisfied (Sangat Puas)">Very Satisfied (Sangat Puas)</option>
+                                <option value="Satisfied (Puas)">Satisfied (Puas)</option>
+                                <option value="Less Satisfied (Kurang Puas)">Less Satisfied (Kurang Puas)</option>
+                                <option value="Not Satisfied (Tidak Puas)">Not Satisfied (Tidak Puas)</option>
                         </select>
                     </div>
                 </div>
@@ -65,13 +55,12 @@
             <div class="card-footer ms-auto">
                 {!! Form::button(__('Apply'), ['id' => 'applyfilter', 'class' => 'btn btn-primary']) !!}
                 {!! Form::button(__('Clear'), ['id' => 'clearfilter', 'class' => 'btn btn-secondary']) !!}
-                {!! Form::open(['route' => ['download.event.values.excel'],'method' => 'post','id' => 'mass_export','class' => 'd-inline-block',]) !!}
+                {!! Form::open(['route' => ['download.reportco.values.excel'],'method' => 'post','id' => 'mass_export','class' => 'd-inline-block',]) !!}
                 {{ Form::hidden('select_date') }}
-                {{ Form::hidden('select_category') }}
-                {{ Form::hidden('select_cluster') }}
-                {{ Form::hidden('select_leader') }}
+                {{ Form::hidden('select_company') }}
+                {{ Form::hidden('select_rate') }}
                 {{ Form::submit('Export to Excel', ['class' => 'btn btn-success']) }}
-                                                {!! Form::close() !!}
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -131,7 +120,7 @@
 
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        {{ $dataTable->table(['width' => '100%']) }}
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>
@@ -352,27 +341,19 @@
         }
     </script>
     <script>
-        function categoryExcel() {
-            var user = document.getElementById('category').value;
-            console.log(user);
-
-            document.querySelector('input[name="select_category"]').value = user;
-        }
-    </script>
-    <script>
-        function clusterExcel() {
-            var user1 = document.getElementById('cluster').value;
+        function companyExcel() {
+            var user1 = document.getElementById('company').value;
             console.log(user1);
 
-            document.querySelector('input[name="select_cluster"]').value = user1;
+            document.querySelector('input[name="select_company"]').value = user1;
         }
     </script>
     <script>
-        function leaderExcel() {
-            var user2 = document.getElementById('leader').value;
+        function rateExcel() {
+            var user2 = document.getElementById('rate').value;
             console.log(user2);
 
-            document.querySelector('input[name="select_leader"]').value = user2;
+            document.querySelector('input[name="select_rate"]').value = user2;
         }
     </script>
 @endpush

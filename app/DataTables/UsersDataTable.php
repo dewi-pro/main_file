@@ -66,7 +66,10 @@ class UsersDataTable extends DataTable
 
         if (Auth::user()->type == 'Admin') {
 
-            return $model->newQuery()->where('type', '!=', 'Admin')->orderBy('id', 'ASC');
+            return $model->newQuery()->select('users.*', 'form_categories.name AS category_name')
+            ->leftJoin('roles', 'roles.name', '=', 'users.type')
+            ->leftJoin('form_categories', 'form_categories.id', '=', 'roles.category_id')
+            ->where('users.type', '!=', 'Admin')->orderBy('id', 'ASC');
         }
         else{
             return $model->newQuery()->where('created_by', Auth::user()->id)->whereNot('type','Admin')->orderBy('id', 'ASC');
@@ -202,6 +205,8 @@ class UsersDataTable extends DataTable
         return [
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('name')->title(__('Name')),
+            Column::make('type')->title(__('Role')),
+            Column::make('category_name')->title(__('Category')),
             Column::make('email')->title(__('Email')),
             // Column::make('role')->titlez(__('Role')),
             // Column::make('active_status')->title(__('Status')),

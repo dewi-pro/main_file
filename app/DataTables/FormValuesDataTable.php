@@ -32,7 +32,7 @@ class FormValuesDataTable extends DataTable
                         $field_name = json_decode($formValuez->json);
                         foreach ($field_name[13] as $val) {
                             if($val->description== 'saran'){
-                                $name = $val->value;
+                                $name = $val->value ?? '';
                             }else{
                                 $name = '';
                             }
@@ -73,7 +73,7 @@ class FormValuesDataTable extends DataTable
                         $field_name = json_decode($formValue->json);
                         foreach ($field_name[1] as $val) {
                             if ($val->label == 'Participant Name') {
-                                    $name = $val->value;
+                                    $name = $val->value?? '';
                             }
                         }
                     }

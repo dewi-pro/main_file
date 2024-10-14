@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Permission;
 use App\DataTables\RolesDataTable;
 use App\Models\Module;
 use DB;
+use App\Models\FormCategory;
+
 
 class RoleController extends Controller
 {
@@ -27,17 +29,19 @@ class RoleController extends Controller
 
     public function create()
     {
+        $categories = FormCategory::where('status', 1)->pluck('name', 'id');
         $permission     = Permission::get();
-        $view           = view('roles.create', compact('permission'));
+        $view           = view('roles.create', compact('permission', 'categories'));
         return ['html' => $view->render()];
     }
 
     public function store(Request $request)
     {
         request()->validate([
-            'name'       => 'required|unique:roles|max:20',
+            'name'       => 'required|unique:roles',
         ]);
-        $role = Role::create(['name' => $request->input('name')]);
+        $role = Role::create(['name' => $request->input('name'), 
+            'category_id' => $request->input('category')]);
         return redirect()->route('roles.index')->with('success', __('Role created successfully.'));
     }
 

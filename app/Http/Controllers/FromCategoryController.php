@@ -28,13 +28,13 @@ class FromCategoryController extends Controller
     public function create()
     {
         if (\Auth::user()->can('create-form-category')) {
-            // $types           = FormType::all();
-            // $type          = [];
-            // $type['']      = __('Select type');
-            // foreach ($types as $value) {
-            //     $type[$value->name] = $value->name;
-            // }
-            $view = view('form-category.create');
+            $types           = FormType::all();
+            $type          = [];
+            $type['']      = __('Select type');
+            foreach ($types as $value) {
+                $type[$value->name] = $value->name;
+            }
+            $view = view('form-category.create', compact('type'));
             return ['html' => $view->render()];
             
         } else {
@@ -55,7 +55,7 @@ class FromCategoryController extends Controller
             FormCategory::create([
                 'name' => $request->name,
                 'status' => 1,
-                // 'type_name' => $request->type_id
+                'type_name' => $request->type_id
             ]);
             return redirect()->route('form-category.index')->with('success', __('Category Created Successfully!'));
         } else {
@@ -78,13 +78,13 @@ class FromCategoryController extends Controller
     {
         if (\Auth::user()->can('edit-form-category')) {
             $formCategory = FormCategory::find($id);
-            // $type   = FormType::all();
-            // $types['']      = __('Select type');
-            // foreach ($type as $value) {
-            //     $types[$value->name] = $value->name;
-            // }
+            $type   = FormType::all();
+            $types['']      = __('Select type');
+            foreach ($type as $value) {
+                $types[$value->name] = $value->name;
+            }
 
-            $view = view('form-category.edit', compact('formCategory'));
+            $view = view('form-category.edit', compact('formCategory', 'types'));
             return ['html' => $view->render()];
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
@@ -103,7 +103,7 @@ class FromCategoryController extends Controller
 
             $formCategory =  FormCategory::find($id);
             $formCategory->name = $request->name;
-            // $formCategory->type_name = $request->type_name;
+            $formCategory->type_name = $request->type_id;
             $formCategory->save();
 
             return redirect()->route('form-category.index')->with('success', __('Category Updated Successfully!'));

@@ -53,7 +53,7 @@ class FormsDataTable extends DataTable
         $user_id = $usr->id;
 
 
-        if (\Auth::user()->type == 1) {
+        if (\Auth::user()->type == 'Admin') {
             $form =   $model->newQuery()
                 ->select('forms.*', 'form_categories.name as category_name')
                 ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')

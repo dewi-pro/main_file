@@ -5,7 +5,7 @@ namespace App\DataTables;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use App\Facades\UtilityFacades;
-use App\Models\Form;
+use App\Models\formValuesReportcos;
 use App\Models\FormStatus;
 use App\Models\FormValue;
 use Hashids\Hashids;
@@ -13,124 +13,55 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
-class ResultDataTable extends DataTable
+class ReportcoDataTable extends DataTable
 {
     public function dataTable($query)
     {
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
-            ->addColumn('status', function (Form $form) {
-                $st = '';
-                if ($form->is_active == 1) {
-                    $st = '<div class="form-check form-switch">
-                            <input class="form-check-input chnageStatus" checked type="checkbox" role="switch" id="' . $form->id . '" data-url="' . route('form.status', $form->id) . '">
-                            </div>';
-                } else {
-                    $st = '<div class="form-check form-switch">
-                            <input class="form-check-input chnageStatus" type="checkbox" role="switch" id="' . $form->id . '" data-url="' . route('form.status', $form->id) . '">
-                        </div>';
-                }
-                return $st;
-            })
-            ->addColumn('action', function (Form $form) {
+            ->addColumn('action', function (formValuesReportcos $form) {
                 $hashids = new Hashids();
-                $formValue = FormValue::where('form_id', $form->id)->count();
+                $formValue = FormValue::where('form_id', $form->form_id)->count();
                 return view('event.action', compact('form', 'hashids', 'formValue'));
             })
-            ->editColumn('created_at', function (Form $form) {
+            ->editColumn('created_at', function (formValuesReportcos $form) {
                 return UtilityFacades::date_time_format($form->created_at->format('Y-m-d h:i:s'));
             })
-            ->rawColumns(['status', 'location', 'action', 'form_status']);
+            ->rawColumns([ 'action']);
     }
-    public function query(Form $model, Request $request)
+    public function query(formValuesReportcos $model, Request $request)
     {
         $usr = \Auth::user();
         $role_id = $usr->roles->first()->id;
         $user_id = $usr->id;
         if (\Auth::user()->type == 'Admin') {
             $form =   $model->newQuery()
-            ->select('forms.*', 'form_categories.name as category_name')
-            ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                // ->leftJoin('form_values', 'form_values.form_id', '=', 'forms.id')
-                ->orderBy('forms.created_at', 'asc');
-
-            if ($request->query->get('view') && $request->query->get('view') == 'trash') {
-                $form =   $model->newQuery()
-                    ->select('forms.*', 'form_categories.name as category_name')
-                    ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    ->orderBy('forms.created_at', 'asc')
-                    ->onlyTrashed();
-            }
+                ->orderBy('form_values_reportcos.created_at', 'asc');
         } else {
             if (\Auth::user()->can('access-all-form')) {
                 $form = $model->newQuery()
-                    ->select('forms.*', 'form_categories.name as category_name')
-                    ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    // ->leftJoin('form_values', 'form_values.form_id', '=', 'forms.id')
-                    ->where('forms.created_by', Auth::user()->id)
-                    // ->orWhere('forms.created_by', Auth::user()->created_by)
-                    ->orderBy('forms.created_at', 'asc');
-
+                        ->orderBy('form_values_reportcos.created_at', 'asc');
 
                 if ($request->query->get('view') && $request->query->get('view') == 'trash') {
                     $form = $model->newQuery()
-                        ->select('forms.*', 'form_categories.name as category_name')
-                        ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                        ->where('forms.created_by', Auth::user()->id)
-                        // ->orWhere('forms.created_by', Auth::user()->created_by)
-                        ->orderBy('forms.created_at', 'asc')
-                        ->onlyTrashed();
+                        ->orderBy('form_values_reportcos.created_at', 'asc');
                 }
             } else {
                 $form = $model->newQuery()
-                    ->select('forms.*', 'form_categories.name AS category_name')
-                    ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    ->where('forms.created_by', Auth::user()->id)
-                    // ->where(function ($query)   use ($role_id, $user_id) {
-                    //     $query->whereIn('forms.id', function ($query) use ($role_id) {
-                    //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
-                    //     })->orWhereIn('forms.id', function ($query) use ($user_id) {
-                    //         $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
-                    //     })->orWhere('forms.assign_type', 'public');
-                    // })
-                    ->orderBy('forms.created_at', 'asc');
+                    ->orderBy('form_values_reportcos.created_at', 'asc');
 
-                if ($request->query->get('view') && $request->query->get('view') == 'trash') {
-                    $form = $model->newQuery()
-                        ->select('forms.*', 'form_categories.name AS category_name')
-                        ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                        ->where('forms.created_by', Auth::user()->id)
-                        // ->where(function ($query)   use ($role_id, $user_id) {
-                        //     $query->whereIn('forms.id', function ($query) use ($role_id) {
-                        //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
-                        //     })->orWhereIn('forms.id', function ($query) use ($user_id) {
-                        //         $query->select('form_id')->from('assign_forms_users')->where('user_id', $user_id);
-                        //     })->orWhere('forms.assign_type', 'public');
-                        // })
-                        ->orderBy('forms.created_at', 'asc')
-                        ->onlyTrashed();
-                }
             }
         }
-
         if ($request->start_date && $request->end_date) {
-            $form->whereBetween('forms.end_tour', [$request->start_date, $request->end_date]);
+            $form->whereBetween('form_values_reportcos.created_at', [$request->start_date, $request->end_date]);
         }
-        if ($request->category) {
-            $form->where('forms.category_id', $request->category);
+        if ($request->company) {
+            $form->where('form_values_reportcos.company_name', $request->company);
         }
-        if ($request->cluster) {
-            $form->where('forms.cluster_id', $request->cluster);
+        if ($request->rate) {
+            $form->where('form_values_reportcos.rate_label', $request->rate);
         }
-        if ($request->leader) {
-            $form->where('forms.leader_id', $request->leader);
-        }
-        if ($request->role) {
-            $form->Join('assign_forms_roles', 'forms.id', '=', 'assign_forms_roles.form_id')
-                ->where('assign_forms_roles.role_id', $request->role);
-        }
-
         return $form;
     }
 
@@ -146,17 +77,11 @@ class ResultDataTable extends DataTable
                     d.start_date = spilit[0];
                     d.end_date = spilit[1];
 
-                    var category = $(".category").val();
-                    d.category = category;
+                    var company = $(".company").val();
+                    d.company = company;
 
-                    var cluster = $(".cluster").val();
-                    d.cluster = cluster;
-
-                    var leader = $(".leader").val();
-                    d.leader = leader;
-
-                    var roles = $(".roles").val();
-                    d.role = roles;
+                    var rate = $(".rate").val();
+                    d.rate = rate;
                 }',
             ])
             ->orderBy(1)
@@ -184,10 +109,8 @@ class ResultDataTable extends DataTable
 
                 $("body").on("click", "#clearfilter", function() {
                     $(".created_at").val("");
-                    $(".category").val("");
-                    $(".cluster").val("");
-                    $(".leader").val("");
-                    $(".roles").val("").trigger("change");
+                    $(".company").val("");
+                    $(".rate").val("");
                     $("#forms-table").DataTable().draw();
                 });
 
@@ -321,16 +244,15 @@ class ResultDataTable extends DataTable
     {
         return [
 
-            Column::make('id')->title('<div><input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" name="checkbox-all" class="form-check-input dt-checkboxes-cell dt-checkboxes-select-all p-2"></div>')->exportable(false)->printable(false)->searchable(false)->orderable(false),
+            Column::make('id')->title('<div></div>')->exportable(false)->printable(false)->searchable(false)->orderable(false),
             Column::make('No')->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
-            Column::make('title')->title(__('Title')),
-            // Column::make('form_status')->title(__('Form Status')),
-            Column::make('category')->title(__('Category')),
-            Column::make('destination')->title(__('Destination')),
-            Column::make('tour_leader_name')->title(__('Tour Leader')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')->title(__('Action'))
-                ->addClass('text-end d-flex justify-content-end gap-1'),
+            Column::make('company_name')->title(__('Company')),
+            Column::make('full_name')->title(__('Name')),
+            Column::make('rate_label')->title(__('Rate Service'))->className('custom-width-comment text-left')->width('250px'),
+            Column::make('tour_consultant')->title(__('Tour Consultant')),
+            Column::make('created_at')->title(__('Date Submitted')),
+            // Column::computed('action')->title(__('Action'))
+            //     ->addClass('text-end d-flex justify-content-end gap-1'),
         ];
     }
 

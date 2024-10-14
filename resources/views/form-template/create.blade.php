@@ -15,7 +15,7 @@
 @section('content')
     <div class="row">
         <div class="section-body">
-            <div class="m-auto col-md-6">
+            <div class="m-auto col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h5> {{ __('Create Form Template') }}</h5>

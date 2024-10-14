@@ -43,6 +43,7 @@ use Spatie\MailTemplates\Models\MailTemplate;
 use Stevebauman\Location\Facades\Location;
 use App\Models\Poll;
 use App\Models\FormValueDetail10;
+use App\Models\formValuesReportcos;
 
 
 class FormController extends Controller
@@ -66,7 +67,7 @@ class FormController extends Controller
 
     public function addForm()
     {
-        if (\Auth::user()->type == 1) {
+        if (\Auth::user()->type == 'Admin') {
             $formTemplates = FormTemplate::where('json', '!=', null)->where('status', 1)->get();
             return view('form.add', compact('formTemplates'));
         } else {
@@ -1423,6 +1424,266 @@ class FormController extends Controller
                             $row->value  = $file;
                         }
                     }
+                }
+
+                if ($form->type != 'Tour') {
+                    $ok = [];
+                    $ok['form_id']  = $form->id;
+                    $ok['status']  = '1';
+                    foreach ($array as  &$rows) {
+                        foreach ($rows as &$row) {
+                            if ($row->type == 'checkbox-group') {
+                                foreach ($row->values as &$checkboxvalue) {
+                                    if (is_array($request->{$row->name}) && in_array($checkboxvalue->value, $request->{$row->name})) {
+                                        $checkboxvalue->selected = 1;
+                                    } else {
+                                        if (isset($checkboxvalue->selected)) {
+                                            unset($checkboxvalue->selected);
+                                        }
+                                    }
+                                }
+                            } elseif ($row->type == 'file') {
+                                if ($row->subtype == "fineuploader") {
+                                    $fileSize = number_format($row->max_file_size_mb / 1073742848, 2);
+                                    $fileLimit = $row->max_file_size_mb / 1024;
+                                    if ($fileSize < $fileLimit) {
+                                        $values = [];
+                                        $value = explode(',', $request->input($row->name));
+                                        foreach ($value as $file) {
+                                            $values[] = $file;
+                                        }
+                                        $row->value = $values;
+                                    } else {
+                                        return response()->json(['is_success' => false, 'message' => __("Please upload maximum $row->max_file_size_mb MB file size.")], 200);
+                                    }
+                                } else {
+                                    if ($row->file_extention == 'pdf') {
+                                        $allowedFileExtension = ['pdf', 'pdfa', 'fdf', 'xdp', 'xfa', 'pdx', 'pdp', 'pdfxml', 'pdxox'];
+                                    } else if ($row->file_extention == 'image') {
+                                        $allowedFileExtension = ['jpeg', 'jpg', 'png'];
+                                    } else if ($row->file_extention == 'excel') {
+                                        $allowedFileExtension = ['xlsx', 'csv', 'xlsm', 'xltx', 'xlsb', 'xltm', 'xlw'];
+                                    }
+                                    $requiredextention = implode(',', $allowedFileExtension);
+                                    $fileSize = number_format($row->max_file_size_mb / 1073742848, 2);
+                                    $fileLimit = $row->max_file_size_mb / 1024;
+                                    if ($fileSize < $fileLimit) {
+                                        if ($row->multiple) {
+                                            if ($request->hasFile($row->name)) {
+                                                $values = [];
+                                                $files = $request->file($row->name);
+                                                foreach ($files as $file) {
+                                                    $extension = $file->getClientOriginalExtension();
+                                                    $check = in_array($extension, $allowedFileExtension);
+                                                    if ($check) {
+                                                        if ($extension == 'csv') {
+                                                            $name = \Str::random(40) . '.' . $extension;
+                                                            $file->move(storage_path() . '/app/form-values/' . $form->id, $name);
+                                                            $values[] = 'form-values/' . $form->id . '/' . $name;
+                                                        } else {
+                                                            $path = Storage::path("form-values/$form->id");
+                                                            $fileName = $file->store('form-values/' . $form->id);
+                                                            if (!file_exists($path)) {
+                                                                mkdir($path, 0777, true);
+                                                                chmod($path, 0777);
+                                                            }
+                                                            if (!file_exists(Storage::path($fileName))) {
+                                                                mkdir(Storage::path($fileName), 0777, true);
+                                                                chmod(Storage::path($fileName), 0777);
+                                                            }
+                                                            $values[] = $fileName;
+                                                        }
+                                                    } else {
+                                                        if (isset($request->ajax)) {
+                                                            return response()->json(['is_success' => false, 'message' => __("Invalid file type, Please upload $requiredextention files")], 200);
+                                                        } else {
+                                                            return redirect()->back()->with('failed', __("Invalid file type, please upload $requiredextention files."));
+                                                        }
+                                                    }
+                                                }
+                                                $row->value = $values;
+                                            }
+                                        } else {
+                                            if ($request->hasFile($row->name)) {
+                                                $values = '';
+                                                $file = $request->file($row->name);
+                                                $extension = $file->getClientOriginalExtension();
+                                                $check = in_array($extension, $allowedFileExtension);
+                                                if ($check) {
+                                                    if ($extension == 'csv') {
+                                                        $name = \Str::random(40) . '.' . $extension;
+                                                        $file->move(storage_path() . '/app/form-values/' . $form->id, $name);
+                                                        $values = 'form-values/' . $form->id . '/' . $name;
+                                                        chmod("$values", 0777);
+                                                    } else {
+                                                        $path = Storage::path("form-values/$form->id");
+                                                        $fileName = $file->store('form-values/' . $form->id);
+                                                        if (!file_exists($path)) {
+                                                            mkdir($path, 0777, true);
+                                                            chmod($path, 0777);
+                                                        }
+                                                        if (!file_exists(Storage::path($fileName))) {
+                                                            mkdir(Storage::path($fileName), 0777, true);
+                                                            chmod(Storage::path($fileName), 0777);
+                                                        }
+                                                        $values = $fileName;
+                                                    }
+                                                } else {
+                                                    if (isset($request->ajax)) {
+                                                        return response()->json(['is_success' => false, 'message' => __("Invalid file type, Please upload $requiredextention files")], 200);
+                                                    } else {
+                                                        return redirect()->back()->with('failed', __("Invalid file type, please upload $requiredextention files."));
+                                                    }
+                                                }
+                                                $row->value = $values;
+                                            }
+                                        }
+                                    } else {
+                                        return response()->json(['is_success' => false, 'message' => __("Please upload maximum $row->max_file_size_mb MB file size.")], 200);
+                                    }
+                                }
+                            } elseif ($row->type == 'radio-group') {
+                                foreach ($row->values as &$radiovalue) {
+                                    if ($radiovalue->value == $request->{$row->name}) {
+                                        $radiovalue->selected = 1;
+                                            if($radiovalue->value == 100){
+                                                $formRule = new FormRule();
+                                                $formRule->rule_name  = $radiovalue->value;
+                                                $formRule->if_json  = $row->label;
+                                                $formRule->form_id  = $form->id;
+                                                $formRule->condition  = 1;
+                                                $formRule->save();
+    
+                                                $formValueDetail = new FormValueDetail10();
+                                                $formValueDetail->very_satisfied  = 1;
+                                                $formValueDetail->satisfied  = 0;
+                                                $formValueDetail->failry_satisfied  = 0;
+                                                $formValueDetail->not_satisfied  = 0;
+                                                $formValueDetail->label  = $row->label;
+                                                $formValueDetail->form_values_id  = 1;
+                                                $formValueDetail->status  = 1;
+                                                $formValueDetail->save();
+                                            }elseif($radiovalue->value == 75){
+                                                $formRule = new FormRule();
+                                                $formRule->rule_name  = $radiovalue->value;
+                                                $formRule->if_json  = $row->label;
+                                                $formRule->form_id  = $form->id;
+                                                $formRule->condition  = 1;
+                                                $formRule->save();
+    
+                                                $formValueDetail = new FormValueDetail10();
+                                                $formValueDetail->very_satisfied  = 0;
+                                                $formValueDetail->satisfied  = 1;
+                                                $formValueDetail->failry_satisfied  = 0;
+                                                $formValueDetail->not_satisfied  = 0;
+                                                $formValueDetail->label  = $row->label;
+                                                $formValueDetail->form_values_id  = 1;
+                                                $formValueDetail->status  = 1;
+                                                $formValueDetail->save();
+                                            }elseif($radiovalue->value == 50){
+                                                $formRule = new FormRule();
+                                                $formRule->rule_name  = $radiovalue->value;
+                                                $formRule->if_json  = $row->label;
+                                                $formRule->form_id  = $form->id;
+                                                $formRule->condition  = 1;
+                                                $formRule->save();
+    
+                                                $formValueDetail = new FormValueDetail10();
+                                                $formValueDetail->very_satisfied  = 0;
+                                                $formValueDetail->satisfied  = 0;
+                                                $formValueDetail->failry_satisfied  = 1;
+                                                $formValueDetail->not_satisfied  = 0;
+                                                $formValueDetail->label  = $row->label;
+                                                $formValueDetail->form_values_id  = 1;
+                                                $formValueDetail->status  = 1;
+                                                $formValueDetail->save();
+                                            }elseif($radiovalue->value == 25){
+                                                $formRule = new FormRule();
+                                                $formRule->rule_name  = $radiovalue->value;
+                                                $formRule->if_json  = $row->label;
+                                                $formRule->form_id  = $form->id;
+                                                $formRule->condition  = 1;
+                                                $formRule->save();
+    
+                                                $formValueDetail = new FormValueDetail10();
+                                                $formValueDetail->very_satisfied  = 0;
+                                                $formValueDetail->satisfied  = 0;
+                                                $formValueDetail->failry_satisfied  = 0;
+                                                $formValueDetail->not_satisfied  = 1;
+                                                $formValueDetail->label  = $row->label;
+                                                $formValueDetail->form_values_id  = 1;
+                                                $formValueDetail->status  = 1;
+                                                $formValueDetail->save();
+                                            }
+                                    } else {
+                                        if (isset($radiovalue->selected)) {
+                                            unset($radiovalue->selected);
+                                        }
+                                    }
+                                }
+                            } elseif ($row->type == 'select') {
+                                foreach ($row->values as &$radiovalue) {
+                                    if ($radiovalue->value == $request->{$row->name}) {
+                                        $radiovalue->selected = 1;
+                                            if($radiovalue->value == 100){
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+                                            }elseif($radiovalue->value == 75){
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+                                            }elseif($radiovalue->value == 50){
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+                                            }elseif($radiovalue->value == 25){
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+                                            }
+                                    } else {
+                                        if (isset($radiovalue->selected)) {
+                                            unset($radiovalue->selected);
+                                        }
+                                    }
+    
+                                }
+                            } elseif ($row->type == 'autocomplete') {
+                                if (isset($row->multiple)) {
+                                    foreach ($row->values as &$autocompletevalue) {
+                                        if (is_array($request->{$row->name}) && in_array($autocompletevalue->value, $request->{$row->name})) {
+                                            $autocompletevalue->selected = 1;
+                                        } else {
+                                            if (isset($autocompletevalue->selected)) {
+                                                unset($autocompletevalue->selected);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    foreach ($row->values as &$autocompletevalue) {
+                                        if ($autocompletevalue->value == $request->autocomplete) {
+                                            $autocompletevalue->selected = 1;
+                                        } else {
+                                            if (isset($autocompletevalue->selected)) {
+                                                unset($autocompletevalue->selected);
+                                            }
+                                            $row->value = $request->autocomplete;
+                                        }
+                                    }
+                                }
+                            } elseif ($row->label == 'Full Name') {
+                                $ok['full_name'] = $request->{$row->name};
+                            } elseif ($row->label == 'Email Address') {
+                                $ok['email'] = $request->{$row->name};
+                            } elseif ($row->label == 'Company Name') {
+                                $ok['company_name'] = $request->{$row->name};
+                            } elseif ($row->label == 'Date') {
+                                $ok['date'] = $request->{$row->name};        
+                            } elseif ($row->label == 'Please tell us your suggestions/complaint/compliment of our services') {
+                                $ok['comment'] = $request->{$row->name};
+                            } elseif ($row->label == 'Name of Travel Consultant who serves you (if you know)') {
+                                $ok['tour_consultant']  = $request->{$row->name};
+                            } 
+                        }
+                    }
+                    $oke    = formValuesReportcos::create($ok);
                 }
 
                 if ($request->form_value_id) {

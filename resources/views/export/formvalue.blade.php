@@ -121,6 +121,40 @@
             <td>{{$formValue->sum}}<td> 
             </tr> 
         @endforeach
+        <tr>
+        <td>Overall</td>
+        <td></td>
+        @foreach ($value1 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach    
+        @foreach ($value2 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value3 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value4 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value5 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value6 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach    
+        @foreach ($value7 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value8 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value9 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+        @foreach ($value10 as $key => $value)
+            <td>{{round($value->total, 0)}}</td>
+        @endforeach 
+    </tr>
     </tbody>
 </table>
 <table>

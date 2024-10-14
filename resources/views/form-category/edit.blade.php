@@ -26,6 +26,10 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
+                        {{ Form::label('type_id', __('Type'), ['class' => 'form-label']) }}
+                        {{ Form::select('type_id',$types, $formCategory->type_name,['class' => 'form-control'],) }}
+                    </div>
+                    <div class="form-group">
                         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
                         {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
                     </div>
@@ -49,10 +53,13 @@
 </div>
 <div class="modal-body">
     <div class="form-group">
+                        {{ Form::label('type_id', __('Type'), ['class' => 'form-label']) }}
+                        {{ Form::select('type_id',$types, $formCategory->type_name,['class' => 'form-control'],) }}
+    </div>
+    <div class="form-group">
         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
           {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
     </div>
-    
 </div>
 <div class="modal-footer">
     <div class="text-end">

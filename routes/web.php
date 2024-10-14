@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\FormTypeController;
 use App\Http\Controllers\FormClusterController;
 use App\Http\Controllers\FormLeaderController;
-
+use App\Http\Controllers\ReportcoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -268,6 +268,10 @@ Route::group(['middleware' => ['auth', 'xss', 'Setting', 'verified', '2fa', 'ver
     Route::resource('event', EventController::class)->except('show');
     Route::post('event/getdata', [EventController::class, 'getEventData'])->name('event.get.data');
     Route::post('event/excel', [EventController::class, 'exportXlsx'])->name('download.event.values.excel')->middleware(['auth', 'Setting', 'xss']);
+
+    //REPORTCO
+    Route::resource('reportco', ReportcoController::class)->except('show');
+    Route::post('reportco/excel', [ReportcoController::class, 'exportXlsx'])->name('download.reportco.values.excel')->middleware(['auth', 'Setting', 'xss']);
 
     // Testimonial
     Route::resource('testimonial', TestimonialController::class);

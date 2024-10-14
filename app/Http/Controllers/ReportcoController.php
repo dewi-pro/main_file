@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\GoogleCalendar\Event as GoogleEvent;
-use App\DataTables\ResultDataTable;
+use App\DataTables\ReportcoDataTable;
 use App\Models\FormCategory;
 use App\Models\FormType;
 use Spatie\Permission\Models\Role;
@@ -17,10 +17,10 @@ use App\Models\Form;
 use App\Models\FormCluster;
 use App\Models\FormLeader;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ReportExport;
+use App\Exports\ReportExportCO;
+use App\Models\formValuesReportcos;
 
-
-class EventController extends Controller
+class ReportcoController extends Controller
 {
     public static $colorCode = [
         1 => 'event-warning',
@@ -32,13 +32,13 @@ class EventController extends Controller
         7 => 'event-success',
     ];
 
-    public function index(ResultDataTable $dataTable, Request $request)
+    public function index(ReportcoDataTable $dataTable, Request $request)
     {
-        if (\Auth::user()->can('manage-report')) {
+        if (\Auth::user()->can('manage-report-co')) {
             if (\Auth::user()->forms_grid_view == 1) {
                 return redirect()->route('grid.form.view', 'view');
             }
-            $categories = FormCategory::where('status', 1)->pluck('name', 'id');
+            $company = formValuesReportcos::groupBy('company_name')->pluck('company_name');
             $type           = FormType::where('status', 1)->pluck('name', 'id');
             $cluster = FormCluster::where('status', 1)->pluck('name', 'id');
             $leaders = FormLeader::where('status', 1)->pluck('name', 'id');
@@ -46,7 +46,7 @@ class EventController extends Controller
             $roles = Role::pluck('name', 'id');
             $trashForm = Form::onlyTrashed()->count();
             $form = Form::count();
-            return $dataTable->render('event.index', compact('categories', 'roles', 'trashForm', 'form', 'type', 'cluster', 'leaders'));
+            return $dataTable->render('reportco.index', compact('company', 'roles', 'trashForm', 'form', 'type', 'cluster', 'leaders'));
         } else {
             return redirect()->back()->with('failed', __('Permission denied.'));
         }
@@ -61,19 +61,10 @@ class EventController extends Controller
             $startDate = '';
             $endDate = '';
         }
-        $cat_id = $request->select_category;
-        $clu_id = $request->select_cluster;
-        $lea_id = $request->select_leader;
+        $company = $request->select_company;
+        $rate = $request->select_rate;
 
-        $form1 = Form::where('forms.end_tour', '>=', $startDate)
-            ->where('forms.end_tour', '<=', $endDate)
-            ->where('forms.category_id', '=', $cat_id)
-            ->where('forms.cluster_id', '=', $clu_id)
-            ->where('forms.leader_id', '=', $lea_id)
-            ->get('id', 'tour_leader_name');
-
-        $user = User::select('id', 'name')->where('name', 'LIKE', 'Super Admin')->first();
-        return Excel::download(new ReportExport($startDate, $endDate, $user, $cat_id, $clu_id, $lea_id, $form1),'Report' . '.xlsx');
+        return Excel::download(new ReportExportCO($startDate, $endDate, $company, $rate),'Report Corporate Operation' . '.xlsx');
     }
 
     public function getEventData(Request $request)

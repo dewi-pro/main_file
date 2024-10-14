@@ -163,96 +163,24 @@
                         </ul>
                     </li>
                 @endcanany
-                <!-- @canany(['manage-booking', 'manage-submitted-booking', 'manage-booking-calendar'])
-                    <li
-                        class="dash-item dash-hasmenu {{ request()->is('bookings*') || request()->is('booking-values*') ? 'active dash-trigger' : 'collapsed' }}">
-                        <a class="dash-link"><span class="dash-micon"><i class="ti ti-box-model-2"></i></span><span
-                                class="dash-mtext">{{ __('Booking') }}</span><span class="dash-arrow"><i
+                @canany(['manage-report', 'manage-report-co'])
+                    <li class="dash-item dash-hasmenu {{ request()->is('event*') ? 'active' : '' }}">
+                        <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                    class="ti ti-calendar"></i></span><span
+                                class="dash-mtext">{{ __('Report') }}</span><span class="dash-arrow"><i
                                     data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
-                            @can('manage-booking')
-                                <li class="dash-item {{ request()->is('bookings*', 'bookings/design*') ? 'active' : '' }}">
-                                    <a class="dash-link" href="{{ route('bookings.index') }}">{{ __('Booking') }}</a>
+                            @can('manage-report')
+                                <li class="dash-item {{ request()->is('event*') ? 'active' : '' }}">
+                                    <a class="dash-link" href="{{ route('event.index') }}">{{ __('Tour') }}</a>
                                 </li>
                             @endcan
-                            @can('manage-booking-calendar')
-                                <li class="dash-item selection:{{ request()->is('calendar/booking*') ? 'active' : '' }}">
-                                    <a href="{{ route('booking.calendar') }}" class="dash-link">
-                                        {{ __('Booking Calendar') }}</a>
-                                </li>
-                            @endcan
-                            @can('manage-submitted-booking')
-                                <li class="dash-item">
-                                    <a class="dash-link"><span
-                                            class="dash-mtext custom-weight">{{ __('Submitted Booking') }}</span><span
-                                            class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
-                                    <ul
-                                        class="dash-submenu {{ Request::route()->getName() == 'view.booking.values' ? 'd-block' : '' }}">
-                                        @foreach ($bookings as $book)
-                                            <li class="dash-item {{ request()->is('form-values*') ? 'active' : '' }}">
-                                                <a class="dash-link {{ Request::route()->getName() == 'view.booking.values' ? 'show' : '' }}"
-                                                    href="{{ route('view.booking.values', $book->id) }}">{{ $book->business_name }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                            @can('manage-report-co')
+                                <li class="dash-item {{ request()->is('reportco*') ? 'active' : '' }}">
+                                    <a class="dash-link" href="{{ route('reportco.index') }}">{{ __('Corporate & Operation') }}</a>
                                 </li>
                             @endcan
                         </ul>
-                    </li>
-                @endcan -->
-                <!-- @canany(['manage-poll'])
-                    <li class="dash-item dash-hasmenu {{ request()->is('poll*') ? 'active' : '' }}">
-                        <a class="dash-link" href="{{ route('poll.index') }}"><span class="dash-micon">
-                                <i class="ti ti-accessible"></i></span>
-                            <span class="dash-mtext">{{ __('Polls') }}</span>
-                        </a>
-                    </li>
-                @endcanany -->
-                <!-- @can(['manage-document'])
-                    <li class="dash-item dash-hasmenu {{ request()->is('document*') ? 'active' : '' }}">
-                        <a href="{{ route('document.index') }}" class="dash-link">
-                            <span class="dash-micon">
-                                <i class="ti ti-file-text"></i>
-                            </span>
-                            <span class="dash-mtext">{{ __('Documents') }}
-                            </span>
-                        </a>
-                    </li>
-                @endcan -->
-                <!-- @canany(['manage-blog', 'manage-category'])
-                    <li
-                        class="dash-item dash-hasmenu {{ request()->is('blogs*') || request()->is('blog-category*') ? 'active dash-trigger' : 'collapsed' }}">
-                        <a href="#!" class="dash-link">
-                            <span class="dash-micon">
-                                <i class="ti ti-forms"></i>
-                            </span>
-                            <span class="dash-mtext">{{ 'Blog' }}</span>
-                            <span class="dash-arrow"><i data-feather="chevron-right"></i>
-                            </span>
-                        </a>
-                        <ul class="dash-submenu">
-                            @can('manage-blog')
-                                <li class="dash-item {{ request()->is('blogs*') ? 'active' : '' }}">
-                                    <a class="dash-link" href="{{ route('blogs.index') }}">{{ __('Blogs') }}</a>
-                                </li>
-                            @endcan
-                            @can('manage-category')
-                                <li class="dash-item {{ request()->is('blog-category*') ? 'active' : '' }}">
-                                    <a class="dash-link"
-                                        href="{{ route('blog-category.index') }}">{{ __('Categories') }}</a>
-                                </li>
-                            @endcan
-
-                        </ul>
-                    </li>
-                @endcanany -->
-
-                @canany(['manage-report'])
-                    <li class="dash-item dash-hasmenu {{ request()->is('event*') ? 'active' : '' }}">
-                        <a class="dash-link" href="{{ route('event.index') }}"><span class="dash-micon">
-                                <i class="ti ti-calendar"></i></span>
-                            <span class="dash-mtext">{{ __('Report') }}</span>
-                        </a>
                     </li>
                 @endcanany
                 <!-- @can('manage-announcement')

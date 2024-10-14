@@ -24,7 +24,9 @@ class RolesDataTable extends DataTable
 
     public function query(Role $model)
     {
-        return $model->newQuery()->where('name', '!=', 'Admin')->orderBy('id', 'ASC');
+        return $model->newQuery()->select('roles.*', 'form_categories.name AS category_name')
+        ->leftJoin('form_categories', 'form_categories.id', '=', 'roles.category_id')
+        ->where('roles.name', '!=', 'Admin')->orderBy('id', 'ASC');
     }
 
     public function html()
@@ -154,6 +156,7 @@ var select = $(table.api().table().container()).find(".dataTables_length select"
         return [
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('name')->title(__('Name')),
+            Column::make('category_name')->title(__('Category')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)

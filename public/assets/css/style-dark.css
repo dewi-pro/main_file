@@ -2006,6 +2006,7 @@ progress {
     color: var(--bs-table-color);
     vertical-align: top;
     border-color: var(--bs-table-border-color);
+    table-layout: fixed;
 }
 
 .table > :not(caption) > * > * {
@@ -2013,6 +2014,12 @@ progress {
     background-color: var(--bs-table-bg);
     border-bottom-width: 1px;
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+.custom-width-comment {
+    width: 150px;
+    white-space: nowrap; /* Mencegah pembungkus teks */
+    overflow: hidden; /* Menyembunyikan teks yang melebihi lebar */
+    text-overflow: ellipsis; /* Menambahkan elipsis untuk teks yang terpotong */
 }
 
 .table > tbody {
@@ -2026,6 +2033,7 @@ progress {
 .table-group-divider {
     border-top: 2px solid currentcolor;
 }
+
 
 .caption-top {
     caption-side: top;
@@ -29256,6 +29264,7 @@ table.dataTable tbody > tr > .selected table.dataTable tbody > tr > .selected td
   table.dataTable tbody > tr.selected table.dataTable tbody > tr.selected.select-checkbox:after,
   table.dataTable tbody > tr.selected th.select-checkbox:after {
     text-shadow: 1px 1px #e4f2fe, -1px -1px #e4f2fe, 1px -1px #e4f2fe, -1px 1px #e4f2fe;
+    
 }
 
 div.dataTables_wrapper div.dataTables_length select {

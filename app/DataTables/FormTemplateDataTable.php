@@ -68,9 +68,9 @@ class FormTemplateDataTable extends DataTable
      */
     public function query(FormTemplate $model): QueryBuilder
     {
-        if (\Auth::user()->type == 'Super Admin') {
-            return $model->newQuery()->where('created_by', \Auth::user()->id)->orderBy('created_at', 'asc');
-            ;
+        if (\Auth::user()->type == 'Admin') {
+            return $model->newQuery()->orderBy('created_at', 'asc');
+            
         } else {
             return $model->newQuery()->where('created_by', \Auth::user()->id)->orderBy('created_at', 'asc');
         }

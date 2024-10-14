@@ -29,14 +29,10 @@
                         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
                         {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
                     </div>
-                    <!-- <div class="form-group">
-                        {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
-                        <select name="status" class="custom_select form-select" id="status" data-trigger>
-                            <option value="" disabled>{{ __('Select Type Status') }}</option>
-                            <option value="1" @select('1' == $formType)>{{ __('Active') }}</option>
-                            <option value="2" @select('2' == $formType)>{{ __('Deactive') }}</option>
-                        </select>
-                    </div> -->
+                    <div class="col-lg-6">
+                        {{ Form::label('type_id', __('Type'), ['class' => 'form-label']) }}
+                        {{ Form::select('type_id',$type, $form->type,['class' => 'form-control'],) }}
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="text-end">

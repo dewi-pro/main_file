@@ -36,12 +36,13 @@ class ReportExport implements FromView
      */
     public function view(): View
     {
-        if (\Auth::user()->type == 1) {
+        if (\Auth::user()->type == 'Admin') {
             $formValues = FormValue::select('form_values.*','forms.tour_leader_name', 'forms.destination', 'forms.title', \DB::raw('AVG(form_rules.rule_name) AS sum'),)
                         ->join('form_rules', 'form_rules.condition', '=', 'form_values.id')
                         ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('forms.end_tour', '>=', $this->startDate)
                         ->where('forms.end_tour', '<=', $this->endDate)
+                        ->where('forms.category_id', $this->cat_id)
                         ->groupBy('form_rules.condition');
         } else {
             $formValues = FormValue::where('user_id', \Auth::user()->id);
@@ -53,6 +54,96 @@ class ReportExport implements FromView
             ->where('category_id', $this->cat_id)
             ->get('tour_leader_name', 'id');
             
+            $value1 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '1.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value2 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '2.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value3 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '3.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value4 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '4.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value5 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '5.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value6 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '6.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value7 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '7.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value8 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '8.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value9 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '9.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+            $value10 = formRule::select(\DB::raw('avg(rule_name) as total'),)
+            ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '10.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
         $valueDetail = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
                         ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
@@ -211,6 +302,6 @@ class ReportExport implements FromView
 
     return view('export.formvalue', ['formvalues' => $formValues], compact('valueDetail', 'valueDetail2', 'valueDetail3', 'valueDetail4', 'valueDetail5', 'valueDetail6',
          'valueDetail7', 'valueDetail8', 'valueDetail9', 'valueDetail10', 'valueDetail11', 'valueDetail12', 'valueDetail13', 'valueDetail14', 'valueDetail15', 'valueDetail16'
-         , 'valueDetail17', 'valueDetail18', 'valueDetail19', 'valueDetail20', 'form'));
+         , 'valueDetail17', 'valueDetail18', 'valueDetail19', 'valueDetail20', 'form', 'value1', 'value2', 'value3', 'value4', 'value5', 'value6', 'value7', 'value8', 'value9', 'value10'));
     }
 }
