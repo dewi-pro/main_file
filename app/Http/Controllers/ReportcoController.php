@@ -34,7 +34,7 @@ class ReportcoController extends Controller
 
     public function index(ReportcoDataTable $dataTable, Request $request)
     {
-        if (\Auth::user()->can('manage-report-co')) {
+        if (\Auth::user()->can('manage-dashboardwidget')) {
             if (\Auth::user()->forms_grid_view == 1) {
                 return redirect()->route('grid.form.view', 'view');
             }

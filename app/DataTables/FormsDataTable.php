@@ -71,7 +71,9 @@ class FormsDataTable extends DataTable
                 $form = $model->newQuery()
                     ->select('forms.*', 'form_categories.name as category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    ->where('forms.created_by', Auth::user()->id)
+                    ->leftJoin('roles', 'roles.category_id', '=', 'form_categories.id')
+                    ->leftJoin('users', 'users.type', '=', 'roles.name')
+                    ->where('users.id', Auth::user()->id)
                     // ->orWhere('forms.created_by', Auth::user()->created_by)
                     ->orderBy('forms.created_at', 'asc');
 
@@ -80,8 +82,9 @@ class FormsDataTable extends DataTable
                     $form = $model->newQuery()
                         ->select('forms.*', 'form_categories.name as category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                        ->where('forms.created_by', Auth::user()->id)
-                        // ->orWhere('forms.created_by', Auth::user()->created_by)
+                        ->leftJoin('roles', 'roles.category_id', '=', 'form_categories.id')
+                        ->leftJoin('users', 'users.type', '=', 'roles.name')
+                        ->where('users.id', Auth::user()->id)                        // ->orWhere('forms.created_by', Auth::user()->created_by)
                         ->orderBy('forms.created_at', 'asc')
                         ->onlyTrashed();
                 }
@@ -89,7 +92,9 @@ class FormsDataTable extends DataTable
                 $form = $model->newQuery()
                     ->select('forms.*', 'form_categories.name AS category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    ->where('forms.created_by', Auth::user()->id)
+                    ->leftJoin('roles', 'roles.category_id', '=', 'form_categories.id')
+                    ->leftJoin('users', 'users.type', '=', 'roles.name')
+                    ->where('users.id', Auth::user()->id)
                     // ->where(function ($query)   use ($role_id, $user_id) {
                     //     $query->whereIn('forms.id', function ($query) use ($role_id) {
                     //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);
@@ -103,7 +108,9 @@ class FormsDataTable extends DataTable
                     $form = $model->newQuery()
                         ->select('forms.*', 'form_categories.name AS category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                        ->where('forms.created_by', Auth::user()->id)
+                        ->leftJoin('roles', 'roles.category_id', '=', 'form_categories.id')
+                        ->leftJoin('users', 'users.type', '=', 'roles.name')
+                        ->where('users.id', Auth::user()->id)
                         // ->where(function ($query)   use ($role_id, $user_id) {
                         //     $query->whereIn('forms.id', function ($query) use ($role_id) {
                         //         $query->select('form_id')->from('assign_forms_roles')->where('role_id', $role_id);

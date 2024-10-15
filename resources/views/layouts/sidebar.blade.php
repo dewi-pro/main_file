@@ -163,7 +163,7 @@
                         </ul>
                     </li>
                 @endcanany
-                @canany(['manage-report', 'manage-report-co'])
+                @canany(['manage-report', 'manage-dashboardwidget'])
                     <li class="dash-item dash-hasmenu {{ request()->is('event*') ? 'active' : '' }}">
                         <a href="#!" class="dash-link"><span class="dash-micon"><i
                                     class="ti ti-calendar"></i></span><span
@@ -175,7 +175,7 @@
                                     <a class="dash-link" href="{{ route('event.index') }}">{{ __('Tour') }}</a>
                                 </li>
                             @endcan
-                            @can('manage-report-co')
+                            @can('manage-dashboardwidget')
                                 <li class="dash-item {{ request()->is('reportco*') ? 'active' : '' }}">
                                     <a class="dash-link" href="{{ route('reportco.index') }}">{{ __('Corporate & Operation') }}</a>
                                 </li>
