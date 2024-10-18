@@ -52,8 +52,13 @@ class ReportExport implements FromView
         $form = Form::where('forms.end_tour', '>=', $this->startDate)
             ->where('forms.end_tour', '<=', $this->endDate)
             ->where('category_id', $this->cat_id)
-            ->get('tour_leader_name', 'id');
+            ->get('tour_leader_name', 'id', 'destination');
             
+            $destination = Form::where('forms.end_tour', '>=', $this->startDate)
+            ->where('forms.end_tour', '<=', $this->endDate)
+            ->where('category_id', $this->cat_id)
+            ->get('destination', 'id');
+
             $value1 = formRule::select(\DB::raw('avg(rule_name) as total'),)
             ->join('form_values', 'form_values.id', '=', 'form_rules.condition')
             ->join('forms', 'forms.id', '=', 'form_values.form_id')
@@ -144,6 +149,100 @@ class ReportExport implements FromView
             ->where('category_id', $this->cat_id)
             ->get();
 
+        $value11 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '1.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex2 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '2.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex3 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '3.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex4 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '4.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+            
+        $valueindex5 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '5.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+            
+        $valueindex6 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '6.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex7 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '7.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex8 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '8.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex9 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '9.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $valueindex10 = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('if_json', 'like', '10.%')
+            ->where('category_id', $this->cat_id)
+            ->get();
+
+        $overall = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('category_id', $this->cat_id)
+            ->get();   
+
+        $overallindex = formRule::join('form_values', 'form_values.id', '=', 'form_rules.condition')
+            ->join('forms', 'forms.id', '=', 'form_values.form_id')
+            ->where('end_tour', '>=', $this->startDate)
+            ->where('end_tour', '<=', $this->endDate)
+            ->where('category_id', $this->cat_id)
+            ->get();
+
         $valueDetail = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
                         ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
@@ -151,7 +250,7 @@ class ReportExport implements FromView
                         ->where('label', 'like', '1.%')
                         ->where('category_id', $this->cat_id)
                         ->get();
-       
+    
         $valueDetail2 = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
                         ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
@@ -161,7 +260,7 @@ class ReportExport implements FromView
                         ->get();
 
         $valueDetail3 = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
-        ->join('forms', 'forms.id', '=', 'form_values.form_id')
+                        ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
                         ->where('end_tour', '<=', $this->endDate)
                         ->where('label', 'like', '3.%')
@@ -169,14 +268,14 @@ class ReportExport implements FromView
                         ->get();
 
         $valueDetail4 = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
-        ->join('forms', 'forms.id', '=', 'form_values.form_id')
+                        ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
                         ->where('end_tour', '<=', $this->endDate)
                         ->where('label', 'like', '4.%')
                         ->where('category_id', $this->cat_id)
                         ->get();
         $valueDetail5 = FormValueDetail10::join('form_values', 'form_values.id', '=', 'form_value_detail10s.form_values_id')
-        ->join('forms', 'forms.id', '=', 'form_values.form_id')
+                        ->join('forms', 'forms.id', '=', 'form_values.form_id')
                         ->where('end_tour', '>=', $this->startDate)
                         ->where('end_tour', '<=', $this->endDate)
                         ->where('label', 'like', '5.%')
@@ -302,6 +401,8 @@ class ReportExport implements FromView
 
     return view('export.formvalue', ['formvalues' => $formValues], compact('valueDetail', 'valueDetail2', 'valueDetail3', 'valueDetail4', 'valueDetail5', 'valueDetail6',
          'valueDetail7', 'valueDetail8', 'valueDetail9', 'valueDetail10', 'valueDetail11', 'valueDetail12', 'valueDetail13', 'valueDetail14', 'valueDetail15', 'valueDetail16'
-         , 'valueDetail17', 'valueDetail18', 'valueDetail19', 'valueDetail20', 'form', 'value1', 'value2', 'value3', 'value4', 'value5', 'value6', 'value7', 'value8', 'value9', 'value10'));
+         , 'valueDetail17', 'valueDetail18', 'valueDetail19', 'valueDetail20', 'form', 'value1', 'value11','value2', 'value3', 'value4', 'value5', 'value6', 'value7', 'value8',
+          'value9', 'value10', 'valueindex2', 'valueindex3', 'valueindex4', 'valueindex5', 'valueindex6', 'valueindex7', 'valueindex8', 'valueindex9', 'valueindex10', 'overall', 
+          'overallindex', 'destination'));
     }
 }

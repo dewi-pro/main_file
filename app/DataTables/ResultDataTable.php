@@ -52,13 +52,14 @@ class ResultDataTable extends DataTable
             $form =   $model->newQuery()
             ->select('forms.*', 'form_categories.name as category_name')
             ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                // ->leftJoin('form_values', 'form_values.form_id', '=', 'forms.id')
+                ->where('type', '=', 'Tour')
                 ->orderBy('forms.created_at', 'asc');
 
             if ($request->query->get('view') && $request->query->get('view') == 'trash') {
                 $form =   $model->newQuery()
                     ->select('forms.*', 'form_categories.name as category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
+                    ->where('type', '=', 'Tour')
                     ->orderBy('forms.created_at', 'asc')
                     ->onlyTrashed();
             }
@@ -67,7 +68,7 @@ class ResultDataTable extends DataTable
                 $form = $model->newQuery()
                     ->select('forms.*', 'form_categories.name as category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
-                    // ->leftJoin('form_values', 'form_values.form_id', '=', 'forms.id')
+                    ->where('type', '=', 'Tour')
                     ->where('forms.created_by', Auth::user()->id)
                     // ->orWhere('forms.created_by', Auth::user()->created_by)
                     ->orderBy('forms.created_at', 'asc');
@@ -77,8 +78,8 @@ class ResultDataTable extends DataTable
                     $form = $model->newQuery()
                         ->select('forms.*', 'form_categories.name as category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
+                        ->where('type', '=', 'Tour')
                         ->where('forms.created_by', Auth::user()->id)
-                        // ->orWhere('forms.created_by', Auth::user()->created_by)
                         ->orderBy('forms.created_at', 'asc')
                         ->onlyTrashed();
                 }
@@ -86,6 +87,7 @@ class ResultDataTable extends DataTable
                 $form = $model->newQuery()
                     ->select('forms.*', 'form_categories.name AS category_name')
                     ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
+                    ->where('type', '=', 'Tour')
                     ->where('forms.created_by', Auth::user()->id)
                     // ->where(function ($query)   use ($role_id, $user_id) {
                     //     $query->whereIn('forms.id', function ($query) use ($role_id) {
@@ -100,6 +102,7 @@ class ResultDataTable extends DataTable
                     $form = $model->newQuery()
                         ->select('forms.*', 'form_categories.name AS category_name')
                         ->leftJoin('form_categories', 'form_categories.id', '=', 'forms.category_id')
+                        ->where('type', '=', 'Tour')
                         ->where('forms.created_by', Auth::user()->id)
                         // ->where(function ($query)   use ($role_id, $user_id) {
                         //     $query->whereIn('forms.id', function ($query) use ($role_id) {
