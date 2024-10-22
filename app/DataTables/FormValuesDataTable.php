@@ -82,11 +82,11 @@ class FormValuesDataTable extends DataTable
             ->editColumn('created_at', function (FormValue $formValue) {
                 return UtilityFacades::date_time_format($formValue->created_at);
             })
-            ->editColumn('user', function (FormValue $formValue) {
-                $username =  User::where('id', $formValue->user_id)->first();
-                $user = ($formValue->user_id) ? $username->name : 'Guest';
-                return $user;
-            })
+            // ->editColumn('user', function (FormValue $formValue) {
+            //     $username =  User::where('id', $formValue->user_id)->first();
+            //     $user = ($formValue->user_id) ? $username->name : 'Guest';
+            //     return $user;
+            // })
             ->addColumn('form_status', function (FormValue $formValue) {
                 $formStatus = FormStatus::find($formValue->form_status);
                 $status = '';
