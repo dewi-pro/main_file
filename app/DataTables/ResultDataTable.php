@@ -288,22 +288,22 @@ class ResultDataTable extends DataTable
                     return new bootstrap.Toast(toastEl);
                   });
             }',
-            'columnDefs' => [
-                [
-                    'targets' => 0,
-                    'render' => 'function(data, type, row, meta){
-                            data = \'<div><input type="checkbox" data-checkboxes="mygroup" class="form-check-input selected-checkbox dt-checkboxes" id="checkbox-\'+row.id+\'" data-id="\'+row.id+\'" autocomplete="off"></div>\';
-                              return data;
-                           }',
-                    'checkboxes' => [
-                        'selectAllRender' => '<div><input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" name="checkbox-all" class="form-check-input dt-checkboxes-cell dt-checkboxes-select-all"></div>'
-                    ]
-                ],
-                [
-                    'targets' => 2,
-                    'printable' => false,
-                ]
-            ],
+            // 'columnDefs' => [
+            //     [
+            //         'targets' => 0,
+            //         'render' => 'function(data, type, row, meta){
+            //                 data = \'<div><input type="checkbox" data-checkboxes="mygroup" class="form-check-input selected-checkbox dt-checkboxes" id="checkbox-\'+row.id+\'" data-id="\'+row.id+\'" autocomplete="off"></div>\';
+            //                   return data;
+            //                }',
+            //         'checkboxes' => [
+            //             'selectAllRender' => '<div><input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" name="checkbox-all" class="form-check-input dt-checkboxes-cell dt-checkboxes-select-all"></div>'
+            //         ]
+            //     ],
+            //     [
+            //         'targets' => 2,
+            //         'printable' => false,
+            //     ]
+            // ],
             'select' => 'multi',
         ]);
         $dataTable->language([
@@ -324,7 +324,7 @@ class ResultDataTable extends DataTable
     {
         return [
 
-            Column::make('id')->title('<div><input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" name="checkbox-all" class="form-check-input dt-checkboxes-cell dt-checkboxes-select-all p-2"></div>')->exportable(false)->printable(false)->searchable(false)->orderable(false),
+            // Column::make('id')->title('<div><input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" name="checkbox-all" class="form-check-input dt-checkboxes-cell dt-checkboxes-select-all p-2"></div>')->exportable(false)->printable(false)->searchable(false)->orderable(false),
             Column::make('No')->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('title')->title(__('Title')),
             // Column::make('form_status')->title(__('Form Status')),

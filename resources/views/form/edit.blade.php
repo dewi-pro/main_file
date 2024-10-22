@@ -57,7 +57,8 @@
                                     {!! Form::hidden('type_id', null, ['id' => 'type-hidden']) !!}
                                     {{ Form::select(
                                         'type_id', $type,null,
-                                        ['class' => 'custom_select form-select', 'id' => 'type_id', 'data-trigger'],
+                                        ['class' => 'custom_select form-select', 'id' => 'type_id', 'required',
+                                        'data-trigger'],
                                     ) }}
                                     </div>
                                     <div class="col-lg-6">
@@ -65,7 +66,8 @@
                                         {!! Form::hidden('field_categories', null, ['id' => 'type-hidden']) !!}
                                         {{ Form::select(
                                             'field_categories',$cat,null,
-                                            ['class' => 'custom_select form-select', 'id' => 'field_categories', 'data-trigger'],
+                                            ['class' => 'custom_select form-select', 'id' => 'field_categories', 'required',
+                                            'data-trigger'],
                                         ) }}
                                     </div>
                                 </div>
@@ -76,11 +78,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                             {{ Form::label('field_destination', __('Cluster'), ['class' => 'form-label']) }}
-                                            {!! Form::select('field_destination', $cluster, null, ['class' => 'form-control','id' => 'field_destination', 'data-trigger']) !!}
+                                            {!! Form::select('field_destination', $cluster, null, ['class' => 'form-control','id' => 'field_destination', 'data-trigger', 'required' => 'required',]) !!}
                                     </div>
                                     <div class="col-lg-6">
                                             {{ Form::label('field_codetour', __('Code Tour'), ['class' => 'form-label']) }}
-                                            {!! Form::text('field_codetour', null, ['class' => 'form-control','id' => 'password',]) !!}                                    
+                                            {!! Form::text('field_codetour', null, ['class' => 'form-control','id' => 'password', 'required', ]) !!}                                    
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +92,11 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                             {{ Form::label('field_tourleader', __('Tour Leader'), ['class' => 'form-label']) }}
-                                            {!! Form::select('field_tourleader', $lead, null, ['class' => 'form-control','data-trigger']) !!}
+                                            {!! Form::select('field_tourleader', $lead, null, ['class' => 'form-control','data-trigger', 'required',
+                                                ]) !!}
+                                            @if ($errors->has('field_tourleader'))
+                                                <div class="text-danger mt-1">{{ $errors->first('field_tourleader') }}</div>
+                                            @endif
                                     </div>
                                     <div class="col-lg-6">
                                         {{ Form::label('numberofpart', __('Number of Participants'), ['class' => 'form-label']) }}
@@ -98,6 +104,7 @@
                                             'autofocus' => '',
                                             'autocomplete' => 'off',
                                             'class' => 'form-control',
+                                            'required',
                                         ]) !!}
                                     </div>
                                 </div>
@@ -110,13 +117,16 @@
                                         {{ Form::label('start_date', __('Start Date Tour'), ['class' => 'form-label']) }}
                                         {!! Form::text('start_date', null, ['class' => 'form-control',
                                             'id' => 'datepicker-start-date',
-                                            'placeholder' => __('Start Date'),]) !!}                  
+                                            'placeholder' => __('Start Date'), 'required',
+                                            ]) !!}                  
                                     </div>
                                     <div class="col-lg-6">
                                         {{ Form::label('end_date', __('End Date Tour'), ['class' => 'form-label']) }}
                                         {!! Form::text('end_date', null, ['class' => 'form-control',
                                             'id' => 'datepicker-end-date',
-                                            'placeholder' => __('End Date'),]) !!}                                        </div>
+                                            'placeholder' => __('End Date'), 'required',
+                                            ]) !!}                                       
+                                    </div>
                                 </div>
                             </div>
                         </div>
