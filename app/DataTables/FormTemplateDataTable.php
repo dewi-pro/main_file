@@ -31,17 +31,7 @@ class FormTemplateDataTable extends DataTable
             ->addIndexColumn()
             ->editColumn('created_at', function ($request) {
                 return UtilityFacades::date_time_format($request->created_at);
-            // })->editColumn('image', function (FormTemplate $FormTemplate) {
-            //     if ($FormTemplate->image) {
-            //         if (Storage::path($FormTemplate->image)) {
-            //             $a = '<img src="' . Storage::url($FormTemplate->image) . '" style="width:60px; ">';
-            //         } else {
-            //             $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px;  ">';
-            //         }
-            //     } else {
-            //         $a = '<img src="' . Storage::url('not-exists-data-images/350x250.png') . '" style="width:60px; ">';
-            //     }
-            //     return $a;
+            
             })->editColumn('status', function (FormTemplate $FormTemplate) {
                 if ($FormTemplate->status == 1) {
                     $a = '<div class="form-check form-switch">
@@ -69,10 +59,10 @@ class FormTemplateDataTable extends DataTable
     public function query(FormTemplate $model): QueryBuilder
     {
         if (\Auth::user()->type == 'Admin') {
-            return $model->newQuery()->orderBy('created_at', 'asc');
+            return $model->newQuery()->where('status', 1)->orderBy('created_at', 'asc');
             
         } else {
-            return $model->newQuery()->where('created_by', \Auth::user()->id)->orderBy('created_at', 'asc');
+            return $model->newQuery()->where('status', 1)->where('image', \Auth::user()->type)->orderBy('created_at', 'asc');
         }
     }
 

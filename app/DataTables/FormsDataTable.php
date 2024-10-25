@@ -12,6 +12,7 @@ use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
+use Carbon\Carbon;
 
 class FormsDataTable extends DataTable
 {
@@ -39,7 +40,9 @@ class FormsDataTable extends DataTable
                 return view('form.action', compact('form', 'hashids', 'formValue'));
             })
             ->editColumn('created_at', function (Form $form) {
-                return UtilityFacades::date_time_format($form->created_at->format('Y-m-d h:i:s'));
+                $startDate = new Carbon($form->start_tour);
+                $endDate = new Carbon($form->end_tour);
+                return $startDate->format('d/m/Y') . ' - ' . $endDate->format('d/m/Y');
             })->editColumn('category_id', function (Form $form) {
                 $category = $form->category_name;
                 return $category;
@@ -323,7 +326,7 @@ class FormsDataTable extends DataTable
             Column::make('category')->title(__('Category')),
             Column::make('destination')->title(__('Destination')),
             Column::make('tour_leader_name')->title(__('Tour Leader')),
-            // Column::make('created_at')->title(__('Created At')),
+            Column::make('created_at')->title(__('Period Tour')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

@@ -193,6 +193,8 @@ class FormLeaderDataTable extends DataTable
         return [
             Column::make('No')->title(__('No'))->data('DT_RowIndex')->name('DT_RowIndex')->searchable(false)->orderable(false),
             Column::make('name')->title(__('Name')),
+            Column::make('handphone')->title(__('Handphone')),
+            Column::make('divisi')->title(__('Divisi')),
             // Column::make('status')->title(__('Status')),
             Column::make('created_at')->title(__('Created Date')),
             Column::computed('action')->title(__('Action'))
