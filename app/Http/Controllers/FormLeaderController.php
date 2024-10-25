@@ -43,12 +43,16 @@ class FormLeaderController extends Controller
     {
         if (\Auth::user()->can('create-form-leader')) {
             $request->validate([
-                'name' => 'required',
+                'name' => 'required|unique:form_leaders',
+                'handphone' => 'required|unique:form_leaders',
+                'divisi' => 'required|unique:form_leaders'
             ]);
 
             FormLeader::create([
                 'name' => $request->name,
-                'status'=>1
+                'status'=>1,
+                'handphone'=>$request->handphone,
+                'divisi' => $request->divisi,
             ]);
             return redirect()->route('form-leader.index')->with('success', __('Leader Created Successfully!'));
         } else {
@@ -86,11 +90,15 @@ class FormLeaderController extends Controller
     {
         if (\Auth::user()->can('edit-form-leader')) {
             $request->validate([
-                'name' => 'required'
+                'name' => 'required',
+                'handphone' => 'required',
+                'divisi' => 'required'
             ]);
 
             $formLeader =  FormLeader::find($id);
             $formLeader->name = $request->name;
+            $formLeader->handphone = $request->handphone;
+            $formLeader->divisi = $request->divisi;
             $formLeader->save();
 
             return redirect()->route('form-leader.index')->with('success', __('Leader Updated Successfully!'));

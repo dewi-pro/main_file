@@ -79,6 +79,7 @@
                     <th>{{ __('Q8') }}</th>
                     <th>{{ __('Q9') }}</th>
                     <th>{{ __('Q10') }}</th>
+                    <th></th>
                     <th>{{ __('Overall') }}</th>
                 </tr>
         @foreach ($formvalues as $key => $formValue)
@@ -212,6 +213,12 @@
             <th>{{ __('Satisfied') }}</th>
             <th>{{ __('Failry Satisfied') }}</th>
             <th>{{ __('Not Satisfied') }}</th>
+            <th></th>
+            <th>{{ __('Q5 : Hotel') }}</th>
+            <th>{{ __('Very Satisfied') }}</th>
+            <th>{{ __('Satisfied') }}</th>
+            <th>{{ __('Failry Satisfied') }}</th>
+            <th>{{ __('Not Satisfied') }}</th>
         </tr> 
         @foreach ($form as $key => $forms)
         <tr>
@@ -238,9 +245,15 @@
             <td>{{ $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
             <td>{{ $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
             <td>{{ $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td></td>
+            <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td></td>
         </tr>
         @endforeach
-
     <tr>
         <td>Overall</td>
         <td>{{ $valueDetail->pluck('very_satisfied')->sum() }}</td>
@@ -265,18 +278,18 @@
         <td>{{ $valueDetail4->pluck('satisfied')->sum() }}</td>
         <td>{{ $valueDetail4->pluck('failry_satisfied')->sum() }}</td>
         <td>{{ $valueDetail4->pluck('not_satisfied')->sum() }}</td>
+        <td></td>
+        <td>Overall</td>
+        <td>{{ $valueDetail5->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail5->pluck('satisfied')->sum() }}</td>
+        <td>{{ $valueDetail5->pluck('failry_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail5->pluck('not_satisfied')->sum() }}</td>
     </tr>
     </tbody>
 </table>
 <table>
     <tbody>
         <tr>
-            <th>{{ __('Q5 : Hotel') }}</th>
-            <th>{{ __('Very Satisfied') }}</th>
-            <th>{{ __('Satisfied') }}</th>
-            <th>{{ __('Failry Satisfied') }}</th>
-            <th>{{ __('Not Satisfied') }}</th>
-            <th></th>
             <th>{{ __('Q6 : Local Guide') }}</th>
             <th>{{ __('Very Satisfied') }}</th>
             <th>{{ __('Satisfied') }}</th>
@@ -288,53 +301,7 @@
             <th>{{ __('Satisfied') }}</th>
             <th>{{ __('Failry Satisfied') }}</th>
             <th>{{ __('Not Satisfied') }}</th>
-        </tr> 
-        @foreach ($form as $key => $forms)
-        <tr>
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-            <td></td>
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-            <td></td>
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-        </tr>
-        @endforeach
-
-    <tr>
-        <td>Overall</td>
-        <td>{{ $valueDetail5->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail5->pluck('satisfied')->sum() }}</td>
-        <td>{{ $valueDetail5->pluck('failry_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail5->pluck('not_satisfied')->sum() }}</td>
-        <td></td>
-        <td>Overall</td>
-        <td>{{ $valueDetail6->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail6->pluck('satisfied')->sum() }}</td>
-        <td>{{ $valueDetail6->pluck('failry_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail6->pluck('not_satisfied')->sum() }}</td>
-        <td></td>
-        <td>Overall</td>
-        <td>{{ $valueDetail7->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail7->pluck('satisfied')->sum() }}</td>
-        <td>{{ $valueDetail7->pluck('failry_satisfied')->sum() }}</td>
-        <td>{{ $valueDetail7->pluck('not_satisfied')->sum() }}</td>
-    </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
+            <th></th>
             <th>{{ __('Q8 : TL Hospitality') }}</th>
             <th>{{ __('Very Satisfied') }}</th>
             <th>{{ __('Satisfied') }}</th>
@@ -356,6 +323,18 @@
         @foreach ($form as $key => $forms)
         <tr>
             <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td></td>
+            <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td></td>
+            <td>{{$forms->tour_leader_name}}</td>
             <td>{{ $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
             <td>{{ $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum()}}</td>
             <td>{{ $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum()}}</td>
@@ -374,7 +353,20 @@
             <td>{{ $valueDetail10->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
         </tr>
         @endforeach
+
     <tr>
+        <td>Overall</td>
+        <td>{{ $valueDetail6->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail6->pluck('satisfied')->sum() }}</td>
+        <td>{{ $valueDetail6->pluck('failry_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail6->pluck('not_satisfied')->sum() }}</td>
+        <td></td>
+        <td>Overall</td>
+        <td>{{ $valueDetail7->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail7->pluck('satisfied')->sum() }}</td>
+        <td>{{ $valueDetail7->pluck('failry_satisfied')->sum() }}</td>
+        <td>{{ $valueDetail7->pluck('not_satisfied')->sum() }}</td>
+        <td></td>
         <td>Overall</td>
         <td>{{ $valueDetail8->pluck('very_satisfied')->sum() }}</td>
         <td>{{ $valueDetail8->pluck('satisfied')->sum() }}</td>
@@ -425,6 +417,13 @@
             <th>{{ __('Bottom Boxes') }}</th>
             <th>{{ __('Index') }}</th>
             <th>{{ __('Respondent') }}</th>
+            <th></th>
+            <th>{{ __('Q5 : Hotel')}}</th>
+            <th>{{ __('Top Boxes') }}</th>
+            <th>{{ __('Neutral 2 Boxes') }}</th>
+            <th>{{ __('Bottom Boxes') }}</th>
+            <th>{{ __('Index') }}</th>
+            <th>{{ __('Respondent') }}</th>
         </tr> 
         @foreach ($form as $key => $forms)
         <tr>
@@ -437,7 +436,8 @@
             $b3 = $valueDetail3->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
             $a4 = $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
             $b4 = $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
-
+            $a5 = $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
+            $b5 = $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
             $ao1 = $valueDetail->pluck('satisfied')->sum();
             $bo1 = $valueDetail->pluck('failry_satisfied')->sum();
             $ao2 = $valueDetail2->pluck('satisfied')->sum();
@@ -446,6 +446,8 @@
             $bo3 = $valueDetail3->pluck('failry_satisfied')->sum();
             $ao4 = $valueDetail4->pluck('satisfied')->sum();
             $bo4 = $valueDetail4->pluck('failry_satisfied')->sum();
+            $ao5 = $valueDetail5->pluck('satisfied')->sum();
+            $bo5 = $valueDetail5->pluck('failry_satisfied')->sum();
             @endphp
             <td>{{$forms->tour_leader_name}}</td>
             <td>{{ $valueDetail->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
@@ -474,6 +476,13 @@
             <td>{{ $valueDetail4->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
             <td>{{ round($valueindex4->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
             <td>{{ $valueindex4->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
+            <td></td>
+            <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $a5 + $b5 }}</td>
+            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex5->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex5->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
         </tr>
         @endforeach
     <tr>
@@ -504,19 +513,19 @@
         <td>{{ $valueDetail4->pluck('not_satisfied')->sum() }}</td>
         <td>{{ round($valueindex4->pluck('rule_name')->avg(), 0)}}</td>
         <td>{{ $valueindex4->pluck('rule_name')->count()}}</td>
+        <td></td>
+        <td>Overall</td>
+        <td>{{ $valueDetail5->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $ao5 + $bo5 }}</td>
+        <td>{{ $valueDetail5->pluck('not_satisfied')->sum() }}</td>
+        <td>{{ round($valueindex5->pluck('rule_name')->avg(), 0)}}</td>
+        <td>{{ $valueindex5->pluck('rule_name')->count()}}</td>
     </tr>
     </tbody>
 </table>
 <table>
     <tbody>
     <tr>
-            <th>{{ __('Q5 : Hotel')}}</th>
-            <th>{{ __('Top Boxes') }}</th>
-            <th>{{ __('Neutral 2 Boxes') }}</th>
-            <th>{{ __('Bottom Boxes') }}</th>
-            <th>{{ __('Index') }}</th>
-            <th>{{ __('Respondent') }}</th>
-            <th></th>
             <th>{{ __('Q6 : Local Guide')}}</th>
             <th>{{ __('Top Boxes') }}</th>
             <th>{{ __('Neutral 2 Boxes') }}</th>
@@ -530,73 +539,7 @@
             <th>{{ __('Bottom Boxes') }}</th>
             <th>{{ __('Index') }}</th>
             <th>{{ __('Respondent') }}</th>
-        </tr> 
-        @foreach ($form as $key => $forms)
-        <tr>
-            @php
-                $a5 = $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
-                $b5 = $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
-                $a6 = $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
-                $b6 = $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
-                $a7 = $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
-                $b7 = $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
-
-                $ao5 = $valueDetail5->pluck('satisfied')->sum();
-                $bo5 = $valueDetail5->pluck('failry_satisfied')->sum();
-                $ao6 = $valueDetail6->pluck('satisfied')->sum();
-                $bo6 = $valueDetail6->pluck('failry_satisfied')->sum();
-                $ao7 = $valueDetail7->pluck('satisfied')->sum();
-                $bo7 = $valueDetail7->pluck('failry_satisfied')->sum();
-            @endphp
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $a5 + $b5 }}</td>
-            <td>{{ $valueDetail5->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-            <td>{{ round($valueindex5->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
-            <td>{{ $valueindex5->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
-            <td></td>
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $a6 + $b6 }}</td>
-            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-            <td>{{ round($valueindex6->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
-            <td>{{ $valueindex6->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
-            <td></td>
-            <td>{{$forms->tour_leader_name}}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
-            <td>{{ $a7 + $b7 }}</td>
-            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
-            <td>{{ round($valueindex7->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
-            <td>{{ $valueindex7->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
-        </tr>
-        @endforeach
-    <tr>
-        <td>Overall</td>
-        <td>{{ $valueDetail5->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao5 + $bo5 }}</td>
-        <td>{{ $valueDetail5->pluck('not_satisfied')->sum() }}</td>
-        <td>{{ round($valueindex5->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex5->pluck('rule_name')->count()}}</td>
-        <td></td>
-        <td>Overall</td>
-        <td>{{ $valueDetail6->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao6 + $bo6 }}</td>       
-        <td>{{ $valueDetail6->pluck('not_satisfied')->sum() }}</td>        
-        <td>{{ round($valueindex6->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex6->pluck('rule_name')->count()}}</td>
-        <td></td>
-        <td>Overall</td>
-        <td>{{ $valueDetail7->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao7 + $bo7 }}</td>              
-        <td>{{ $valueDetail7->pluck('not_satisfied')->sum() }}</td>
-        <td>{{ round($valueindex7->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex7->pluck('rule_name')->count()}}</td>
-    </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-    <tr>
+            <th></th>
             <th>{{ __('Q8 : TL Hospitality')}}</th>
             <th>{{ __('Top Boxes') }}</th>
             <th>{{ __('Neutral 2 Boxes') }}</th>
@@ -621,13 +564,21 @@
         @foreach ($form as $key => $forms)
         <tr>
             @php
+                $a6 = $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
+                $b6 = $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
+                $a7 = $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
+                $b7 = $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
                 $a8 = $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
                 $b8 = $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
                 $a9 = $valueDetail9->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
                 $b9 = $valueDetail9->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
                 $a10 = $valueDetail10->where('tour_leader_name', $forms->tour_leader_name)->pluck('satisfied')->sum();
                 $b10 = $valueDetail10->where('tour_leader_name', $forms->tour_leader_name)->pluck('failry_satisfied')->sum();
-                
+              
+                $ao6 = $valueDetail6->pluck('satisfied')->sum();
+                $bo6 = $valueDetail6->pluck('failry_satisfied')->sum();
+                $ao7 = $valueDetail7->pluck('satisfied')->sum();
+                $bo7 = $valueDetail7->pluck('failry_satisfied')->sum();
                 $ao8 = $valueDetail8->pluck('satisfied')->sum();
                 $bo8 = $valueDetail8->pluck('failry_satisfied')->sum();
                 $ao9 = $valueDetail9->pluck('satisfied')->sum();
@@ -635,6 +586,20 @@
                 $ao10 = $valueDetail10->pluck('satisfied')->sum();
                 $bo10 = $valueDetail10->pluck('failry_satisfied')->sum();
             @endphp
+            <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $a6 + $b6 }}</td>
+            <td>{{ $valueDetail6->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex6->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex6->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
+            <td></td>
+            <td>{{$forms->tour_leader_name}}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $a7 + $b7 }}</td>
+            <td>{{ $valueDetail7->where('tour_leader_name', $forms->tour_leader_name)->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex7->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex7->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
+            <td></td>
             <td>{{$forms->tour_leader_name}}</td>
             <td>{{ $valueDetail8->where('tour_leader_name', $forms->tour_leader_name)->pluck('very_satisfied')->sum() }}</td>
             <td>{{ $a8 + $b8 }}</td>
@@ -657,27 +622,41 @@
             <td>{{ $valueindex10->where('tour_leader_name', $forms->tour_leader_name)->pluck('rule_name')->count()}}</td>
         </tr>
         @endforeach
-    <tr>
+    <tr>        
         <td>Overall</td>
-        <td>{{ $valueDetail8->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao8 + $bo8 }}</td>                     
-        <td>{{ $valueDetail8->pluck('not_satisfied')->sum() }}</td>
-        <td>{{ round($valueindex8->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex8->pluck('rule_name')->count()}}</td>
+        <td>{{ $valueDetail6->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $ao6 + $bo6 }}</td>       
+        <td>{{ $valueDetail6->pluck('not_satisfied')->sum() }}</td>        
+        <td>{{ round($valueindex6->pluck('rule_name')->avg(), 0)}}</td>
+        <td>{{ $valueindex6->pluck('rule_name')->count()}}</td>
         <td></td>
         <td>Overall</td>
-        <td>{{ $valueDetail9->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao9 + $bo9 }}</td>                     
-        <td>{{ $valueDetail9->pluck('not_satisfied')->sum() }}</td>
-        <td>{{ round($valueindex9->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex9->pluck('rule_name')->count()}}</td>
+        <td>{{ $valueDetail7->pluck('very_satisfied')->sum() }}</td>
+        <td>{{ $ao7 + $bo7 }}</td>              
+        <td>{{ $valueDetail7->pluck('not_satisfied')->sum() }}</td>
+        <td>{{ round($valueindex7->pluck('rule_name')->avg(), 0)}}</td>
+        <td>{{ $valueindex7->pluck('rule_name')->count()}}</td>
         <td></td>
         <td>Overall</td>
-        <td>{{ $valueDetail10->pluck('very_satisfied')->sum() }}</td>
-        <td>{{ $ao10 + $bo10 }}</td>              
-        <td>{{ $valueDetail10->pluck('not_satisfied')->sum() }}</td>
-        <td>{{ round($valueindex10->pluck('rule_name')->avg(), 0)}}</td>
-        <td>{{ $valueindex10->pluck('rule_name')->count()}}</td>
+            <td>{{ $valueDetail8->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $ao8 + $bo8 }}</td>                     
+            <td>{{ $valueDetail8->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex8->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex8->pluck('rule_name')->count()}}</td>
+            <td></td>
+            <td>Overall</td>
+            <td>{{ $valueDetail9->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $ao9 + $bo9 }}</td>                     
+            <td>{{ $valueDetail9->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex9->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex9->pluck('rule_name')->count()}}</td>
+            <td></td>
+            <td>Overall</td>
+            <td>{{ $valueDetail10->pluck('very_satisfied')->sum() }}</td>
+            <td>{{ $ao10 + $bo10 }}</td>              
+            <td>{{ $valueDetail10->pluck('not_satisfied')->sum() }}</td>
+            <td>{{ round($valueindex10->pluck('rule_name')->avg(), 0)}}</td>
+            <td>{{ $valueindex10->pluck('rule_name')->count()}}</td>  
     </tr>
     </tbody>
 </table>

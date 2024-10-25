@@ -12,6 +12,7 @@ use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
+use Carbon\Carbon;
 
 class ResultDataTable extends DataTable
 {
@@ -39,7 +40,8 @@ class ResultDataTable extends DataTable
                 return view('event.action', compact('form', 'hashids', 'formValue'));
             })
             ->editColumn('created_at', function (Form $form) {
-                return UtilityFacades::date_time_format($form->created_at->format('Y-m-d h:i:s'));
+                $endDate = new Carbon($form->end_tour);
+                return $endDate->format('d/m/Y');
             })
             ->rawColumns(['status', 'location', 'action', 'form_status']);
     }
@@ -331,7 +333,7 @@ class ResultDataTable extends DataTable
             Column::make('category')->title(__('Category')),
             Column::make('destination')->title(__('Destination')),
             Column::make('tour_leader_name')->title(__('Tour Leader')),
-            Column::make('created_at')->title(__('Created At')),
+            Column::make('created_at')->title(__('End Tour')),
             Column::computed('action')->title(__('Action'))
                 ->addClass('text-end d-flex justify-content-end gap-1'),
         ];

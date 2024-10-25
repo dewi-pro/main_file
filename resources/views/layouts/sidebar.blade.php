@@ -97,7 +97,7 @@
                             @canany(['manage-submitted-form'])
                                 <li class="dash-item">
                                     <a href="#!" class="dash-link"><span
-                                            class="dash-mtext custom-weight">{{ __('Component') }}</span><span
+                                            class="dash-mtext custom-weight">{{ __('Master Data') }}</span><span
                                             class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                     <ul
                                         class="dash-submenu {{ Request::route()->getName() == 'view.form.values' ? 'd-block' : '' }}">
@@ -177,7 +177,7 @@
                             @endcan
                             @can('manage-dashboardwidget')
                                 <li class="dash-item {{ request()->is('reportco*') ? 'active' : '' }}">
-                                    <a class="dash-link" href="{{ route('reportco.index') }}">{{ __('Corporate & Operation') }}</a>
+                                    <a class="dash-link" href="{{ route('reportco.index') }}">{{ __('Sales & Operation') }}</a>
                                 </li>
                             @endcan
                         </ul>

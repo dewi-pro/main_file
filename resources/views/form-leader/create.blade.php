@@ -6,7 +6,15 @@
 <div class="modal-body">
     <div class="form-group">
         {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-        {!! Form::text('name', null, ['placeholder' => __('Enter name'), 'class' => 'form-control', 'required']) !!}
+        {!! Form::text('name', null, [ 'class' => 'form-control', 'required']) !!}
+    </div>
+    <div class="form-group">
+        {{ Form::label('handphone', __('Handphone'), ['class' => 'form-label']) }}
+        {!! Form::text('handphone', null, ['class' => 'form-control', 'required']) !!}
+    </div>
+    <div class="form-group">
+        {{ Form::label('divisi', __('Divisi'), ['class' => 'form-label']) }}
+        {!! Form::text('divisi', null, ['class' => 'form-control', 'required']) !!}
     </div>
 </div>
 <div class="modal-footer">

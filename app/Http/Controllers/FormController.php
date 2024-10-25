@@ -45,13 +45,12 @@ use App\Models\Poll;
 use App\Models\FormValueDetail10;
 use App\Models\formValuesReportcos;
 
-
 class FormController extends Controller
 {
     public function index(FormsDataTable $dataTable, Request $request)
     {
         if (\Auth::user()->can('manage-form')) {
-            if (\Auth::user()->forms_grid_view == 1) {
+            if (\Auth::user()->forms_grid_view == 'Admin') {
                 return redirect()->route('grid.form.view', 'view');
             }
             $categories = FormCategory::where('status', 1)->pluck('name', 'id');
@@ -96,15 +95,29 @@ class FormController extends Controller
 
     public function useFormtemplate($id)
     {
-        $formtemplate = FormTemplate::find($id);
-        $form = Form::create([
-            'title'     => $formtemplate->title,
-            'json'      => $formtemplate->json,
-            'category_id' => 2,
-            'created_by' => Auth::user()->id
+        if (\Auth::user()->type == 'Admin') {
+            $formtemplate = FormTemplate::find($id);
+            $cat_id = Role::where('name', $formtemplate->image)->get();
+            $form = Form::create([
+                'title'     => $formtemplate->title,
+                'json'      => $formtemplate->json,
+                'category_id' => $cat_id->first()->category_id,
+                'created_by' => Auth::user()->id    
+            ]);
+
+            return redirect()->route('forms.edit', $form->id)->with('success', __('Form created successfully.'));
+        } else {
+            $formtemplate = FormTemplate::find($id);
+            $cat_id = Role::where('name', Auth::user()->type)->get();
+            $form = Form::create([
+                'title'     => $formtemplate->title,
+                'json'      => $formtemplate->json,
+                'category_id' => $cat_id->first()->category_id,
+                'created_by' => Auth::user()->id    
+            ]);
             
-        ]);
-        return redirect()->route('forms.edit', $form->id)->with('success', __('Form created successfully.'));
+            return redirect()->route('forms.edit', $form->id)->with('success', __('Form created successfully.'));
+        }
     }
 
 
@@ -137,6 +150,7 @@ class FormController extends Controller
     {
         $usr                = \Auth::user();
         $userRole          = $usr->roles->first()->id;
+        $userCat          = $usr->roles->first()->category_id;
         $formallowededit    = UserForm::where('role_id', $userRole)->where('form_id', $id)->count();
         if (\Auth::user()->can('edit-form')) {
             $form           = Form::find($id);
@@ -154,11 +168,20 @@ class FormController extends Controller
             foreach ($types as $value) {
                 $type[$value->name] = $value->name;
             }
-            $categories           = FormCategory::all();
-            $cat          = [];
-            $cat['']      = __('Select categories');
-            foreach ($categories as $value) {
-                $cat[$value->name] = $value->name;
+            if(\Auth::user()->type == 'Admin'){
+                $categories           = FormCategory::where('type_name', 'Tour')->get();
+                $cat          = [];
+                $cat['']      = __('Select categories');
+                foreach ($categories as $value) {
+                    $cat[$value->name] = $value->name;
+                }
+            }else{
+                $categories           = FormCategory::where('id', $userCat)->get();
+                $cat          = [];
+                $cat['']      = __('Select categories');
+                foreach ($categories as $value) {
+                    $cat[$value->name] = $value->name;
+                }
             }
             $clusters          = FormCluster::all();
             $cluster          = [];
@@ -190,11 +213,20 @@ class FormController extends Controller
                 foreach ($types as $value) {
                     $type[$value->name] = $value->name;
                 }
-                $categories           = FormCategory::where('type_name', 'Tour')->get();
-                $cat          = [];
-                $cat['']      = __('Select categories');
-                foreach ($categories as $value) {
-                    $cat[$value->name] = $value->name;
+                if(\Auth::user()->type == 'Admin'){
+                    $categories           = FormCategory::where('type_name', 'Tour')->get();
+                    $cat          = [];
+                    $cat['']      = __('Select categories');
+                    foreach ($categories as $value) {
+                        $cat[$value->name] = $value->name;
+                    }
+                }else{
+                    $categories           = FormCategory::where('id', $userCat)->get();
+                    $cat          = [];
+                    $cat['']      = __('Select categories');
+                    foreach ($categories as $value) {
+                        $cat[$value->name] = $value->name;
+                    }
                 }
                 $clusters          = FormCluster::all();
                 $cluster          = [];
@@ -219,6 +251,7 @@ class FormController extends Controller
     {
         $usr                = \Auth::user();
         $userRole          = $usr->roles->first()->id;
+        $userCat          = $usr->roles->first()->category_id;
         $formallowededit    = UserForm::where('role_id', $userRole)->where('form_id', $id)->count();
         if (\Auth::user()->can('edit-form')) {
             $form           = Form::find($id);
@@ -236,7 +269,7 @@ class FormController extends Controller
             foreach ($types as $value) {
                 $type[$value->name] = $value->name;
             }
-            $categories           = FormCategory::all();
+            $categories           = FormCategory::where('id', $userCat)->get();
             $cat          = [];
             $cat['']      = __('Select categories');
             foreach ($categories as $value) {
@@ -274,7 +307,7 @@ class FormController extends Controller
                 foreach ($types as $value) {
                     $type[$value->name] = $value->name;
                 }
-                $categories           = FormCategory::where('type_name', 'Tour')->get();
+                $categories           = FormCategory::where('id', $userCat)->get();
                 $cat          = [];
                 $cat['']      = __('Select categories');
                 foreach ($categories as $value) {

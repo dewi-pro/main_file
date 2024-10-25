@@ -9,5 +9,5 @@ class FormLeader extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'status'];
+    protected $fillable = ['name', 'status', 'handphone', 'divisi'];
 }
