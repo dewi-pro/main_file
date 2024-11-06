@@ -44,6 +44,8 @@ use Stevebauman\Location\Facades\Location;
 use App\Models\Poll;
 use App\Models\FormValueDetail10;
 use App\Models\formValuesReportcos;
+use App\Models\FormValueDetailReportcos;
+use App\Models\TourConsultants;
 
 class FormController extends Controller
 {
@@ -592,6 +594,8 @@ class FormController extends Controller
         $id         = $hashids->decodeHex($id);
         if ($id) {
             $form       = Form::find($id);
+            $tc           = TourConsultants::all();
+
             $todayDate = Carbon::now()->toDateTimeString();
             if ($form) {
                 if ($form->set_end_date != '0') {
@@ -600,7 +604,7 @@ class FormController extends Controller
                     }
                 }
                 $array = $form->getFormArray();
-                return view('form.public-fill', compact('form', 'array'));
+                return view('form.public-fill', compact('form', 'array', 'tc'));
             } else {
                 return redirect()->back()->with('failed', __('Form not found.'));
             }
@@ -1257,6 +1261,7 @@ class FormController extends Controller
                             foreach ($row->values as &$radiovalue) {
                                 if ($radiovalue->value == $request->{$row->name}) {
                                     $radiovalue->selected = 1;
+                                    if($form->type == 'Tour'){
                                         if($radiovalue->value == 100){
                                             $formRule = new FormRule();
                                             $formRule->rule_name  = $radiovalue->value;
@@ -1326,6 +1331,8 @@ class FormController extends Controller
                                             $formValueDetail->status  = 1;
                                             $formValueDetail->save();
                                         }
+                                    }
+                                        
                                 } else {
                                     if (isset($radiovalue->selected)) {
                                         unset($radiovalue->selected);
@@ -1463,6 +1470,7 @@ class FormController extends Controller
                     $ok = [];
                     $ok['form_id']  = $form->id;
                     $ok['status']  = '1';
+                    $ok['tour_consultant']  = $request->lead;
                     foreach ($array as  &$rows) {
                         foreach ($rows as &$row) {
                             if ($row->type == 'checkbox-group') {
@@ -1580,14 +1588,10 @@ class FormController extends Controller
                                     if ($radiovalue->value == $request->{$row->name}) {
                                         $radiovalue->selected = 1;
                                             if($radiovalue->value == 100){
-                                                $formRule = new FormRule();
-                                                $formRule->rule_name  = $radiovalue->value;
-                                                $formRule->if_json  = $row->label;
-                                                $formRule->form_id  = $form->id;
-                                                $formRule->condition  = 1;
-                                                $formRule->save();
-    
-                                                $formValueDetail = new FormValueDetail10();
+                                            $ok['rate_value'] = $radiovalue->value;
+                                            $ok['rate_label'] = $radiovalue->label;
+
+                                                $formValueDetail = new FormValueDetailReportcos();
                                                 $formValueDetail->very_satisfied  = 1;
                                                 $formValueDetail->satisfied  = 0;
                                                 $formValueDetail->failry_satisfied  = 0;
@@ -1595,16 +1599,13 @@ class FormController extends Controller
                                                 $formValueDetail->label  = $row->label;
                                                 $formValueDetail->form_values_id  = 1;
                                                 $formValueDetail->status  = 1;
+                                                $formValueDetail['tc']  = $request->lead;
                                                 $formValueDetail->save();
                                             }elseif($radiovalue->value == 75){
-                                                $formRule = new FormRule();
-                                                $formRule->rule_name  = $radiovalue->value;
-                                                $formRule->if_json  = $row->label;
-                                                $formRule->form_id  = $form->id;
-                                                $formRule->condition  = 1;
-                                                $formRule->save();
-    
-                                                $formValueDetail = new FormValueDetail10();
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+
+                                                $formValueDetail = new FormValueDetailReportcos();
                                                 $formValueDetail->very_satisfied  = 0;
                                                 $formValueDetail->satisfied  = 1;
                                                 $formValueDetail->failry_satisfied  = 0;
@@ -1612,16 +1613,13 @@ class FormController extends Controller
                                                 $formValueDetail->label  = $row->label;
                                                 $formValueDetail->form_values_id  = 1;
                                                 $formValueDetail->status  = 1;
+                                                $formValueDetail['tc']  = $request->lead;
                                                 $formValueDetail->save();
                                             }elseif($radiovalue->value == 50){
-                                                $formRule = new FormRule();
-                                                $formRule->rule_name  = $radiovalue->value;
-                                                $formRule->if_json  = $row->label;
-                                                $formRule->form_id  = $form->id;
-                                                $formRule->condition  = 1;
-                                                $formRule->save();
-    
-                                                $formValueDetail = new FormValueDetail10();
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+
+                                                $formValueDetail = new FormValueDetailReportcos();
                                                 $formValueDetail->very_satisfied  = 0;
                                                 $formValueDetail->satisfied  = 0;
                                                 $formValueDetail->failry_satisfied  = 1;
@@ -1629,16 +1627,13 @@ class FormController extends Controller
                                                 $formValueDetail->label  = $row->label;
                                                 $formValueDetail->form_values_id  = 1;
                                                 $formValueDetail->status  = 1;
+                                                $formValueDetail['tc']  = $request->lead;
                                                 $formValueDetail->save();
                                             }elseif($radiovalue->value == 25){
-                                                $formRule = new FormRule();
-                                                $formRule->rule_name  = $radiovalue->value;
-                                                $formRule->if_json  = $row->label;
-                                                $formRule->form_id  = $form->id;
-                                                $formRule->condition  = 1;
-                                                $formRule->save();
-    
-                                                $formValueDetail = new FormValueDetail10();
+                                                $ok['rate_value'] = $radiovalue->value;
+                                                $ok['rate_label'] = $radiovalue->label;
+
+                                                $formValueDetail = new FormValueDetailReportcos();
                                                 $formValueDetail->very_satisfied  = 0;
                                                 $formValueDetail->satisfied  = 0;
                                                 $formValueDetail->failry_satisfied  = 0;
@@ -1646,6 +1641,7 @@ class FormController extends Controller
                                                 $formValueDetail->label  = $row->label;
                                                 $formValueDetail->form_values_id  = 1;
                                                 $formValueDetail->status  = 1;
+                                                $formValueDetail['tc']  = $request->lead;
                                                 $formValueDetail->save();
                                             }
                                     } else {
@@ -1658,25 +1654,11 @@ class FormController extends Controller
                                 foreach ($row->values as &$radiovalue) {
                                     if ($radiovalue->value == $request->{$row->name}) {
                                         $radiovalue->selected = 1;
-                                            if($radiovalue->value == 100){
-                                                $ok['rate_value'] = $radiovalue->value;
-                                                $ok['rate_label'] = $radiovalue->label;
-                                            }elseif($radiovalue->value == 75){
-                                                $ok['rate_value'] = $radiovalue->value;
-                                                $ok['rate_label'] = $radiovalue->label;
-                                            }elseif($radiovalue->value == 50){
-                                                $ok['rate_value'] = $radiovalue->value;
-                                                $ok['rate_label'] = $radiovalue->label;
-                                            }elseif($radiovalue->value == 25){
-                                                $ok['rate_value'] = $radiovalue->value;
-                                                $ok['rate_label'] = $radiovalue->label;
-                                            }
                                     } else {
                                         if (isset($radiovalue->selected)) {
                                             unset($radiovalue->selected);
                                         }
                                     }
-    
                                 }
                             } elseif ($row->type == 'autocomplete') {
                                 if (isset($row->multiple)) {
@@ -1711,12 +1693,12 @@ class FormController extends Controller
                                 $ok['date'] = $request->{$row->name};        
                             } elseif ($row->label == 'Please tell us your suggestions/complaint/compliment of our services') {
                                 $ok['comment'] = $request->{$row->name};
-                            } elseif ($row->label == 'Name of Travel Consultant who serves you (if you know)') {
-                                $ok['tour_consultant']  = $request->{$row->name};
                             } 
                         }
                     }
                     $oke    = formValuesReportcos::create($ok);
+                    $valueDetailUpdateReportcos = FormValueDetailReportcos::where("form_values_id", 1)->update(["form_values_id" => $oke->id]);
+
                 }
 
                 if ($request->form_value_id) {

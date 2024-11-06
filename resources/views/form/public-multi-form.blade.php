@@ -280,79 +280,14 @@
                                                         @endif
                                                     </div>
                                                 @elseif($row->type == 'select')
-                                                    <div class="form-group {{ $col }}"
-                                                        data-name={{ $row->name }}>
-                                                        @php
-                                                            $attr = [
-                                                                'class' => 'form-select w-100',
-                                                                'id' => 'sschoices-multiple-remove-button',
-                                                                'data-trigger',
-                                                            ];
-                                                            if ($row->required) {
-                                                                $attr['required'] = 'required';
-                                                                $attr['class'] = $attr['class'] . ' required';
-                                                            }
-                                                            if (isset($row->multiple) && !empty($row->multiple)) {
-                                                                $attr['multiple'] = 'true';
-                                                                $attr['name'] = $row->name . '[]';
-                                                            }
-                                                            if (
-                                                                isset($row->className) &&
-                                                                $row->className == 'calculate'
-                                                            ) {
-                                                                $attr['class'] =
-                                                                    $attr['class'] . ' ' . $row->className;
-                                                            }
-                                                            if ($row->label == 'Registration') {
-                                                                $attr['class'] = $attr['class'] . ' registration';
-                                                            }
-                                                            if (
-                                                                isset($row->is_parent) &&
-                                                                $row->is_parent == 'true'
-                                                            ) {
-                                                                $attr['class'] = $attr['class'] . ' parent';
-                                                                $attr['data-number-of-control'] = isset(
-                                                                    $row->number_of_control,
-                                                                )
-                                                                    ? $row->number_of_control
-                                                                    : 1;
-                                                            }
-                                                            $values = [];
-                                                            $selected = [];
-                                                            foreach ($row->values as $options) {
-                                                                $values[$options->value] = $options->label;
-                                                                if (
-                                                                    isset($options->selected) &&
-                                                                    $options->selected
-                                                                ) {
-                                                                    $selected[] = $options->value;
-                                                                }
-                                                            }
-                                                        @endphp
-                                                        @if (isset($row->is_parent) && $row->is_parent == 'true')
-                                                            {{ Form::label($row->name, $row->label) }}@if ($row->required)
-                                                                <span
-                                                                    class="text-danger align-items-center">*</span>
-                                                            @endif
-                                                            <div class="input-group">
-                                                                {{ Form::select($row->name, $values, $selected, $attr) }}
-                                                            </div>
-                                                        @else
-                                                            {{ Form::label($row->name, $row->label, ['class' => 'form-label']) }}
-                                                            @if ($row->required)
-                                                                <span
-                                                                    class="text-danger align-items-center">*</span>
-                                                            @endif
-                                                            @if (isset($row->description))
-                                                                <span type="button" class="tooltip-element"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="{{ $row->description }}">?</span>
-                                                            @endif
-                                                            {{ Form::select($row->name, $values, $selected, $attr) }}
-                                                        @endif
-                                                        @if ($row->label == 'Registration')
-                                                            <span class="text-warning registration-message"></span>
-                                                        @endif
+                                                    <div class="form-group {{ $col }}">
+                                                        {{ Form::label('lead', __('Name of Travel Consultant who serves you (if you know)'), ['class' => 'form-label']) }}
+                                                        <select name="lead" id="lead" class='form-control roles' data-trigger>
+                                                            <option value="" selected>{{ __('Select Travel Consultant') }}</option>
+                                                            @foreach ($tc as $lead)
+                                                            <option value="{{ $lead->name }}">{{ $lead->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 @elseif($row->type == 'autocomplete')
                                                     <div class="form-group {{ $col }}"

@@ -36,25 +36,22 @@ class ReportcoDataTable extends DataTable
         $role_id = $usr->roles->first()->id;
         $user_id = $usr->id;
         if (\Auth::user()->type == 'Admin') {
-            $form =   $model->newQuery()
-                ->orderBy('form_values_reportcos.created_at', 'asc');
+            $form =   $model->newQuery();
         } else {
             if (\Auth::user()->can('access-all-form')) {
-                $form = $model->newQuery()
-                        ->orderBy('form_values_reportcos.created_at', 'asc');
+                $form = $model->newQuery();
 
                 if ($request->query->get('view') && $request->query->get('view') == 'trash') {
-                    $form = $model->newQuery()
-                        ->orderBy('form_values_reportcos.created_at', 'asc');
+                    $form = $model->newQuery();
                 }
             } else {
-                $form = $model->newQuery()
-                    ->orderBy('form_values_reportcos.created_at', 'asc');
-
+                $form = $model->newQuery();
             }
         }
-        if ($request->start_date && $request->end_date) {
-            $form->whereBetween('form_values_reportcos.created_at', [$request->start_date, $request->end_date]);
+        if ($request->month && $request->weekly) {
+            $form->whereMonth('form_values_reportcos.created_at', $request->month) 
+                ->whereYear('form_values_reportcos.created_at', now()->year)
+                ->whereBetween(\DB::raw('DAY(form_values_reportcos.created_at)'), [$request->weekly]);
         }
         if ($request->company) {
             $form->where('form_values_reportcos.company_name', $request->company);
@@ -72,16 +69,23 @@ class ReportcoDataTable extends DataTable
             ->columns($this->getColumns())
             ->ajax([
                 'data' => 'function(d) {
-                    var filter = $("#filterdate").val();
-                    var spilit = filter.split(" to ");
-                    d.start_date = spilit[0];
-                    d.end_date = spilit[1];
+                    // var filter = $("#filterdate").val();
+                    // var spilit = filter.split(" to ");
+                    // d.start_date = spilit[0];
+                    // d.end_date = spilit[1];
 
                     var company = $(".company").val();
                     d.company = company;
 
                     var rate = $(".rate").val();
                     d.rate = rate;
+
+                    var filter = $(".weekly").val();
+                    var spilit = filter.split(", ");
+                    d.weekly = spilit;
+
+                    var month = $(".month").val();
+                    d.month = month;
                 }',
             ])
             ->orderBy(1)
@@ -108,9 +112,11 @@ class ReportcoDataTable extends DataTable
                 });
 
                 $("body").on("click", "#clearfilter", function() {
-                    $(".created_at").val("");
                     $(".company").val("");
                     $(".rate").val("");
+                    $(".weekly").val("");
+                    $(".month").val("");
+
                     $("#forms-table").DataTable().draw();
                 });
 

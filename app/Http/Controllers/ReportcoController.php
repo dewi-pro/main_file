@@ -54,17 +54,19 @@ class ReportcoController extends Controller
 
     public function exportXlsx(Request $request)
     {
-        $dateRange = $request->select_date ?? '';
-        if ($dateRange != '') {
-            list($startDate, $endDate) = array_map('trim', explode('to', $dateRange));
-        } else {
-            $startDate = '';
-            $endDate = '';
-        }
+        // $dateRange = $request->select_date ?? '';
+        // if ($dateRange != '') {
+        //     list($startDate, $endDate) = array_map('trim', explode('to', $dateRange));
+        // } else {
+        //     $startDate = '';
+        //     $endDate = '';
+        // }
         $company = $request->select_company;
         $rate = $request->select_rate;
+        $date = $request->select_date;
+        $month = $request->select_month;
 
-        return Excel::download(new ReportExportCO($startDate, $endDate, $company, $rate),'Report Corporate Operation' . '.xlsx');
+        return Excel::download(new ReportExportCO($company, $rate, $date, $month),'Report Corporate Operation' . '.xlsx');
     }
 
     public function getEventData(Request $request)

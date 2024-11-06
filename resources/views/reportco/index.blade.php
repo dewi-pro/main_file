@@ -24,13 +24,33 @@
             <div class="card-body">
                 <div class="row align-items-end filters">
                     <div class="col-md-4 col-sm-12 form-group">
-                        {{ Form::label('created_at', __('date'), ['class' => 'form-label']) }}
-                        {!! Form::text('filterdate', null, [
-                            'id' => 'filterdate',
-                            'class' => 'form-control created_at',
-                            'onchange' => 'updateEndDate()'
-                        ]) !!}
-                        </div>
+                        {{ Form::label('weekly', __('Weekly'), ['class' => 'form-label']) }}
+                        <select name="weekly" id="weekly" class='form-control weekly' onchange=dateExcel() data-trigger>
+                            <option value="" selected>{{ __('Select your need!') }}</option>
+                                <option value="1, 8">Week 1</option>
+                                <option value="9, 15">Week 2</option>
+                                <option value="16, 22">Week 3</option>
+                                <option value="23, 31">Week 4</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-12 form-group">
+                        {{ Form::label('month', __('Month'), ['class' => 'form-label']) }}
+                        <select name="month" id="month" class='form-control month' onchange=monthExcel() data-trigger>
+                            <option value="" selected>{{ __('Select your need!') }}</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                        </select>
+                    </div>
                     <div class="col-md-4 col-sm-12 form-group">
                         {{ Form::label('company', __('COMPANY'), ['class' => 'form-label']) }}
                         <select name="company" id="company" class='form-control company' onchange=companyExcel() data-trigger>
@@ -57,6 +77,7 @@
                 {!! Form::button(__('Clear'), ['id' => 'clearfilter', 'class' => 'btn btn-secondary']) !!}
                 {!! Form::open(['route' => ['download.reportco.values.excel'],'method' => 'post','id' => 'mass_export','class' => 'd-inline-block',]) !!}
                 {{ Form::hidden('select_date') }}
+                {{ Form::hidden('select_month') }}
                 {{ Form::hidden('select_company') }}
                 {{ Form::hidden('select_rate') }}
                 {{ Form::submit('Export to Excel', ['class' => 'btn btn-success']) }}
@@ -354,6 +375,30 @@
             console.log(user2);
 
             document.querySelector('input[name="select_rate"]').value = user2;
+        }
+    </script>
+    <script>
+        function dateExcel() {
+            var weekly = document.getElementById('weekly').value;
+            var month = document.getElementById('month').value;
+
+            if (weekly !== "" && month !== "") {
+                // Lanjutkan proses jika kedua elemen memiliki nilai
+                console.log('Weekly: ' + weekly + ', Month: ' + month);
+                // Lakukan hal lain yang diperlukan, seperti submit form atau panggil fungsi lainnya
+            } else {
+                alert('Please select both Weekly and Month options.');
+            }
+            document.querySelector('input[name="select_date"]').value = weekly;
+        }
+    </script>
+    <script>
+        function monthExcel() {
+            dateExcel();
+            var user4 = document.getElementById('month').value;
+            console.log(user4);
+
+            document.querySelector('input[name="select_month"]').value = user4;
         }
     </script>
 @endpush
