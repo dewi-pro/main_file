@@ -13,7 +13,7 @@ class FormValue extends Model
     use SoftDeletes;
 
     protected $fillable = ['form_id', 'user_id', 'json', 'transaction_id', 'currency_symbol', 'form_edit_lock_status','currency_name', 'status', 'amount', 'payment_type','transfer_slip' , 'form_status',
-    'submited_forms_ip','submited_forms_country','submited_forms_region','submited_forms_city','submited_forms_latitude','submited_forms_longitude'];
+    'submited_forms_ip','submited_forms_country','submited_forms_region','submited_forms_city','submited_forms_latitude','submited_forms_longitude', 'destinationcust'];
 
     public function Form()
     {
