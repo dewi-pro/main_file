@@ -508,32 +508,8 @@
                                                         @endif
                                                     </div>
                                                 @elseif($row->type == 'starRating')
-                                                    <div class="form-group {{ $col }}"
-                                                        data-name={{ $row->name }}>
-                                                        @php
-                                                            $value = isset($row->value) ? $row->value : 0;
-                                                            $num_of_star = isset($row->number_of_star)
-                                                                ? $row->number_of_star
-                                                                : 5;
-                                                        @endphp
-                                                        {{ Form::label($row->name, $row->label, ['class' => 'form-label']) }}
-                                                        @if ($row->required)
-                                                            <span class="text-danger align-items-center">*</span>
-                                                        @endif
-                                                        @if (isset($row->description))
-                                                            <span type="button" class="tooltip-element"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="{{ $row->description }}">
-                                                                ?
-                                                            </span>
-                                                        @endif
-                                                        <div id="{{ $row->name }}" class="starRating"
-                                                            data-value="{{ $value }}"
-                                                            data-num_of_star="{{ $num_of_star }}">
-                                                        </div>
-                                                        <input type="hidden" name="{{ $row->name }}"
-                                                            value="{{ $value }}" class="calculate"
-                                                            data-star="{{ $num_of_star }}">
+                                                    <div class="form-group {{ $col }}">
+                                                        
                                                     </div>
                                                 @elseif($row->type == 'SignaturePad')
                                                     @php
@@ -591,8 +567,21 @@
                                                         @endif -->
                                                     </div>
                                                 @elseif($row->type == 'break')
-                                                    <hr class="hr_border">
-                                                @elseif($row->type == 'location')
+                                                    <div class="form-group {{ $col }}"
+                                                        {{ Form::label('desti', __('13. What country do you plan your next holiday to (rencana liburan berikutnya negara mana) ?'), ['class' => 'form-label']) }}<br>
+                                                        @foreach($dest as $desti)
+                                                            <label>
+                                                                <input type="checkbox" name="desti" value="{{ $desti->name }}" 
+                                                                    {{ in_array($desti->name, $selectedOptions) ? 'checked' : '' }} onclick="onlyOneCheckbox(this)"> 
+                                                                {{ $desti->name }}
+                                                            </label><br>
+                                                        @endforeach
+                                                            <label>
+                                                                <input type="checkbox" name="desti" value="Other" id="other-checkbox"> Other
+                                                            </label>
+                                                            <input type="text"  class="form-control" name="other_choice" id="other-input" placeholder="Please specify" style="display: none;"><br>
+                                                    </div>                     
+                                               @elseif($row->type == 'location')
                                                     <div class="form-group {{ $col }}"
                                                         data-name={{ $row->name }}>
                                                         @include('form.js.map')
@@ -981,6 +970,27 @@
                 this.innerHTML = 'Copied ';
                 setTimeout(() => this.innerHTML = "Copy", 2000);
             });
+        }
+    });
+</script>
+<script>
+    function onlyOneCheckbox(checkbox) {
+        // Dapatkan semua checkbox dengan nama 'option[]'
+        var checkboxes = document.getElementsByName('desti');
+        
+        // Loop melalui checkbox dan matikan yang lain jika salah satu dipilih
+        checkboxes.forEach((item) => {
+            if (item !== checkbox) item.checked = false;
+        });
+    }
+</script>
+<script>
+    document.getElementById('other-checkbox').addEventListener('change', function() {
+        const otherInput = document.getElementById('other-input');
+        if (this.checked) {
+            otherInput.style.display = 'block';
+        } else {
+            otherInput.style.display = 'none';
         }
     });
 </script>

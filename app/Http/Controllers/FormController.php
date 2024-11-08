@@ -595,6 +595,8 @@ class FormController extends Controller
         if ($id) {
             $form       = Form::find($id);
             $tc           = TourConsultants::all();
+            $dest          = FormCluster::all();
+            $selectedOptions = ['dest 1', 'dest 3']; // Ini bisa dari database atau request
 
             $todayDate = Carbon::now()->toDateTimeString();
             if ($form) {
@@ -604,7 +606,7 @@ class FormController extends Controller
                     }
                 }
                 $array = $form->getFormArray();
-                return view('form.public-fill', compact('form', 'array', 'tc'));
+                return view('form.public-fill', compact('form', 'array', 'tc', 'dest', 'selectedOptions'));
             } else {
                 return redirect()->back()->with('failed', __('Form not found.'));
             }
@@ -1462,6 +1464,9 @@ class FormController extends Controller
                                 Storage::put($file, $imageBase64);
                             }
                             $row->value  = $file;
+                        } elseif($row->type == 'break'){
+                            $test = [];
+                            $test= $request->{$row->name};
                         }
                     }
                 }
@@ -1709,6 +1714,7 @@ class FormController extends Controller
                     $formValue->submited_forms_city       = $ipDataArray['city'];
                     $formValue->submited_forms_latitude   = $loc[0];
                     $formValue->submited_forms_longitude  = $loc[1];
+                    $formValue->destinationcust  = $test;
 
                     $formValue->save();
 
@@ -1827,6 +1833,7 @@ class FormController extends Controller
                     $data['submited_forms_city']       = $ipDataArray['city'];
                     $data['submited_forms_latitude']   = $loc[0];
                     $data['submited_forms_longitude']  = $loc[1];
+                    $data['destinationcust'] = $request->desti;
 
                     $formValue    = FormValue::create($data);
                     $ruleUpdate = formRule::where("condition", 1)->update(["condition" => $formValue->id]);
